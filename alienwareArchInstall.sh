@@ -80,6 +80,9 @@ arch-chroot /mnt
 # set timezone
 ln -sf /usr/share/zoneinfo/America/bigcity /etc/localtime
 hwclock --systohc
+# you may wish to synchronize
+timedatectl set-ntp true
+
 
 # localization
 # uncomment en_US.UTF-8 UTF-8
@@ -105,12 +108,12 @@ vim /etc/hosts
 # NOTE, if your system has permanent ip, use it instead of 127.0.1.1
 
 # set root password
-paswd
+passwd
 
 # add main user (with Group wheel for sudo stuff and /bin/bash shell)
-useradd -m -G wheel,power -s /bin/bash jaimerilian
-# set the user password
-passwd jaimerilian
+useradd -m -G wheel,power -s /bin/bash joebob
+# set the user password (for joebob)
+passwd joebob
 
 # set visudo such that group wheel does sudo stuff
 EDITOR=vim visudo
@@ -124,8 +127,12 @@ EDITOR=vim visudo
 # install grub and a tool used by grub for efi
 pacman -S grub efibootmgr
 grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
+# you may want to turn off quiet boot mode
+# comment out the line containing "quiet splash"
+vim /etc/default/grub
 # generate the grub config file
 grub-mkconfig -o /boot/grub/grub.cfg
+
 
 # exit the chroot session
 exit
@@ -138,6 +145,12 @@ reboot
 # Nice things
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+# fan control
+# sudo modprobe dell_smm_hwmon ignore_dmi=1
+echo -e 'dell_smm_hwmon' >> /etc/modules-load.d/fan.conf
+echo -e 'options dell_smm_hwmon ignore_dmi=1' >> /etc/modprobe.d/fan.conf
+
 # NOTE
 # to install: pacman -S
 # to uninstall: pacman -Rsun (removes any orphaned dependencies)
@@ -145,6 +158,8 @@ reboot
 # sound
 alsa-utils pulseaudio-alsa
 # for alienware m17x r4, hp needs to be unmuted
+# you may also want to turn off motherboard beeper if its bothering you
+echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
 
 # text
 noto-fonts wqy-zenhei
@@ -154,11 +169,7 @@ xorg-server xorg-xinit xterm
 # for m17x, you may need to edit xorg.conf
 i3-gaps i3status dmenu
 # change default xterm colors
-~/.Xdefaults
-# add
-xterm*background: black
-xterm*foreground: white
-XTerm*selectToClipboard: true
+echo -e 'xterm*background: black\nxterm*foreground: white\nxterm*selectToClipboard: true' >> ~/.Xdefaults
 
 # images/background
 feh
@@ -170,7 +181,10 @@ xf86-input-synaptics
 ranger w3m
 
 # browse
-firefox surf
+firefox surf tor
+
+# network
+net-tools nmap gnu-netcat ipcalc iw
 
 # pdf
 zathura zathura-pdf-poppler
@@ -179,9 +193,12 @@ zathura zathura-pdf-poppler
 sc
 
 # programming things
-# gcc and python should already be installed
-r gdb radare cuda cudnn
+# git gcc and python should already be installed (base-devel)
+r gdb radare cuda cudnn docker nodejs
+# dotnet
+dotnet-sdk mono
+# you may also want tk
 
 # games
-gnu-chess
-gnu-go
+gnuchess
+gnugo
