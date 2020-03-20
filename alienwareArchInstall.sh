@@ -62,6 +62,7 @@ wifi-menu
 # the last three are needed for wifi
 pacstrap /mnt base base-devel vim xf86-video-intel  wireless_tools wpa_supplicant dialog
 # you may not need to add display driver (xf86-video-intel, nvidia)
+sudo nvidia-xconfig --cool-bits=28
 # but even tty1 without xorg may not work correctly
 
 # now that we have the needed files setup
