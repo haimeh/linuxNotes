@@ -1,6 +1,9 @@
+#!/usr/bin/env bash
+
 #sudo pacman -S r
 #Rscript -e "install.packages('devtools',lib = '/usr/local/lib/R/site-library', repo = 'https://cran.rstudio.com')"
 
+#Rscript -e "install.packages(c('devtools','methods','DiagrammeR', 'visNetwork', 'data.table'),dependencies=T)"
 mkdir -p R-package/inst/libs
 #cp src/io/image_recordio.h R-package/src
 cp -rf lib/libmxnet.so R-package/inst/libs

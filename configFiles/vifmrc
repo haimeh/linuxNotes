@@ -344,7 +344,7 @@ filextype */
         \ {View in thunar}
         \ Thunar %f &,
 
-fileviewer */ tree %c -L 1 -C 
+fileviewer .*/,*/ tree %c -L 1 -C 
 
 " Syntax highlighting in preview
 "

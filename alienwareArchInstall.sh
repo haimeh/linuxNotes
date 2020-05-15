@@ -166,11 +166,11 @@ echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
 noto-fonts wqy-zenhei
 
 # window manager
-xorg-server xorg-xinit xterm
+xorg-server xorg-xinit st-scrollback-git
 # for m17x, you may need to edit xorg.conf
 i3-gaps i3status dmenu
 # change default xterm colors
-echo -e 'xterm*background: black\nxterm*foreground: white\nxterm*selectToClipboard: true' >> ~/.Xdefaults
+# echo -e 'xterm*background: black\nxterm*foreground: white\nxterm*selectToClipboard: true' >> ~/.Xdefaults
 
 # images/background
 feh
@@ -179,7 +179,7 @@ feh
 xf86-input-synaptics 
 
 # file manager
-ranger w3m
+vifm
 
 # browse
 firefox surf tor
@@ -191,14 +191,17 @@ net-tools nmap gnu-netcat ipcalc iw
 zathura zathura-pdf-poppler
 
 # csv
-sc
+sc-im
 
 # programming things
 # git gcc and python should already be installed (base-devel)
-r gdb radare cuda cudnn docker nodejs
+r gdb radare cuda cudnn docker nodejs npm
 # dotnet
 dotnet-sdk mono
 # you may also want tk
+
+# read things like ram
+dmidecode
 
 # games
 gnuchess
