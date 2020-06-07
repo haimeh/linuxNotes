@@ -1,0 +1,18 @@
+I just want to thank @maoshen1234 and @Papusan for posting the information on how to achieve the 2933mhz ram speed with any 3000/3200 ram kit. I just purchased a set of G.Skill F4-3200C18D-32GRS and was successfully able to use thaiphoon burner to change the product details to the A-Data info on the 2933 ram that dell ships these laptops with. For those of you that are interested, the steps for making this work was relatively easy. The things you will need are as follows:
+
+1. 3000/3200 XMP ram kit that is not write protected (I used G.Skill F4-3200C18D-32GRS)
+2. a SODIMM to DIMM adaptor (this is required since the area 51m bios does not allow memory writing).
+3. a desktop computer with DRAM writing enabled in the bios.
+4. thaiphoon burner program with pro license ($39 at the time of this posting)
+5. bios 1.8.1 or newer
+
+Once you have these things and have the ram in your desktop computer, you can rewrite the product details of the ram using thaiphoon burner. The information you need to change under the product details were graciously provided by @maoshen1234 and @Papusan a while back in this forum.
+
+When you open up typhoon burner. Navigate to the edit drop down and select product details. The area's that need to be changed are as follows:
+
+1. Manufacturer set to A-Data Technology
+2. Part Number set to AO1P32MCST2-BW4S
+3. Serial Number set to B3710100
+4. DRAM Die set to stepping to B
+
+After I made these changes and wrote the info to the ram, I popped 1 stick back in the laptop and Wala! it was running at 2933mhz. When I proceeded to add the second memory stick back into the laptop after writing the info, the speed reverted back to 2400mhz. I ended up having to re-flash the 1.9.3 bios in order to get both ram sticks working at 2933mhz. @maoshen1234 and @Papusan had previously posted the original speed file that we could have used to rewrite the XMP profile on the ram to the default A-Data XMP speed, but sadly I could not locate the speed file to try it out. However, this has not set back achieving the desired 2933mhz speed since the 3000/3200 ram kit you buy, already has it's own profile and in my case with the G.Skill ram, it is running beautifully. I wish you all luck with achieving 2933mhz ram speed and I am around if any of you have any questions. 

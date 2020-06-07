@@ -194,6 +194,7 @@ zathura zathura-pdf-poppler
 sc-im
 
 # programming things
+ctags
 # git gcc and python should already be installed (base-devel)
 r gdb radare cuda cudnn docker nodejs npm
 # dotnet
