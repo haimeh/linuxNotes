@@ -1,0 +1,16 @@
+https://wiki.archlinux.org/index.php/Dnscrypt-proxy
+https://wiki.archlinux.org/index.php/dnsmasq#Test
+https://wiki.gentoo.org/wiki/Dnsmasq
+https://wiki.installgentoo.com/index.php/DNSCrypt
+https://markbrown778.wordpress.com/2014/08/08/dns-privacy-using-opennic-and-dnscrypt/
+https://wiki.opennic.org/opennic/dnscrypt
+https://classicforum.manjaro.org/index.php?topic=20635.0
+https://unix.stackexchange.com/questions/128220/how-do-i-set-my-dns-when-resolv-conf-is-being-overwritten/163506#163506
+https://linoxide.com/tools/install-dnscrypt-unbound-archlinux/
+https://github.com/mkacik/upstart-dnscrypt-proxy
+https://github.com/Deka-O/dnscrypt-openwrt-init.d-script
+https://www.dnscrypt.org/#dnscrypt-android
+https://wiki.phoenixlzx.com/page/DNSCrypt/
+https://gist.github.com/legendtang/db7265c5f5f82c9aed70
+https://www.archlinuxuser.com/2013/01/how-to-connect-android-devices-on.html
+https://www.droidviews.com/init-d-can-android/

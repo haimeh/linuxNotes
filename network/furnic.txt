@@ -1,0 +1,9 @@
+add to /etc/resolv.conf 
+Name 			IP Address 	Type 	
+ns15.ns.ph2network.org 	178.63.145.236 	master 		
+ns12.ns.ph2network.org 	178.63.145.230 	slave 		
+ns6.ns.ph2network.org 	178.63.26.173 	sponsored 		
+ns8.ns.ph2network.org 	188.40.132.212 	sponsored 		
+
+
+http://furnic.keep-cool.org/?tpl=tos

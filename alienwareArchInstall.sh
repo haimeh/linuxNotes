@@ -48,13 +48,24 @@ mount /dev/nvme1n1p3 /mnt/home
 mkdir /mnt/efi
 mount /dev/nvme1n1p1 /mnt/efi
 
-# edit to make sure your top mirror is closest
+# edit to make sure your top mirror is closest (if you want)
 vim /etc/pacman.d/mirrorlist
 
-# connect to the internet ethernet or wifi: 
-systemctl enable dhcpcd@eth0.service
-# or
-wifi-menu
+
+# "ip link" to see network interfaces
+# wireless starts with w, ethernet with enp or etch
+# connect to the internet via wifi: 
+vim /etc/wpa_supplicant/wifiName.conf
+ctrl_interface=/run/wpa_supplicant
+update_config=1
+
+# now finishing touches
+wpa_passphrase wifiName wifiPass >> /etc/wpa_supplicant/wifiName.conf
+wpa_supplicant -B -i wInterface123 -c /etc/wpa_supplicant/wifiName.conf
+
+# connect via ethernet:
+dhcpcd enpOReth
+# this gets the ip lease and route and whatnot
 
 # now install arch
 # base is the only requirement
@@ -182,7 +193,7 @@ xf86-input-synaptics
 vifm
 
 # browse
-firefox surf tor
+firefox tor
 
 # network
 net-tools nmap gnu-netcat ipcalc iw

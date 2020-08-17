@@ -1,0 +1,60 @@
+DNSMASQ related setup
+
+pacman -S dnsmasq
+
+/etc/dnsmasq.conf
+add: listen-address=127.0.0.1
+note: if using resolvconf
+      add: no-resolv
+           conf-file=/etc/dnsmasq-conf.conf
+           resolv-file=/etc/dnsmasq-resolv.conf
+
+/etc/resolv.conf
+add: nameserver 127.0.0.1
+note: this is not necissary if using resolvconf
+
+/etc/dhcpcd.conf
+add: nohook resolv.conf
+     static domain_name_servers=8.8.8.8
+note: dhcpcd executes all scripts in /usr/lib/dhcpcd-hooks/ but each script can be disabled via "nohook scriptnamehere" OR
+      IF USING RESOLVCONF
+      notthese
+      {
+      /etc/resolv.conf.head
+      add: static domain_name_servers=8.8.8.8 8.8.4.4
+      note: in this way resolvconf preappends these to /etc/resolv.conf
+      OR
+      /etc/resolvconf/resolv.conf.d/head
+      add: nameserver 8.8.8.8
+      }
+      
+      dns servers can be added to /etc/resolvconf.conf:
+      add: name_servers="::1 127.0.0.1"
+           # Write out dnsmasq extended configuration and resolv files
+           dnsmasq_conf=/etc/dnsmasq-conf.conf
+           dnsmasq_resolv=/etc/dnsmasq-resolv.conf
+      and run resolvconv -u
+
+
+/etc/resolv.dnsmasq.conf
+add name servers (google):
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+/etc/dnsmasq.conf
+add: resolv-file=/etc/resolv.dnsmasq.conf
+
+
+DHCPCD related setup (must su)
+note: if resolfconf is available, dns info is set to it rather than /etc/resolv.conf
+echo "nameserver 127.0.0.1" > /etc/resolv.conf.head
+
+
+
+Finally we can enable dnsmasq
+
+block adds
+
+etc/dnsmasq.conf
+addn-hosts=/file/with/hosts/to/block
+or you can just append the names to /etc/hosts

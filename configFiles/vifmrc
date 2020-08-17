@@ -344,7 +344,8 @@ filextype */
         \ {View in thunar}
         \ Thunar %f &,
 
-fileviewer .*/,*/ tree %c -L 1 -C 
+"fileviewer .*/,*/ tree %c -L 1 -C 
+fileviewer .*/,*/ tree %c -L 1 -CpaD
 
 " Syntax highlighting in preview
 "
@@ -391,6 +392,7 @@ set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
 " Customize view columns a bit (enable ellipsis for truncated file names)
 "
 " set viewcolumns=-{name}..,6{}.
+set viewcolumns=*{name}..,16{mtime},7{}.
 
 " Filter-out build and temporary files
 "

@@ -1,0 +1,5 @@
+https://gaenserich.github.io/hostsblock/
+
+https://github.com/StevenBlack/hosts
+
+https://raw.githubusercontent.com/LukeSmithxyz/etc/master/ips
