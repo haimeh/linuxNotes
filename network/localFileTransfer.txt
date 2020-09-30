@@ -1,0 +1,13 @@
+
+Destination:
+$ nc -l -p 7555 > myfile.txt
+
+Source:
+$ nc 10.1.1.2 7555 < myfile.txt
+
+Debug:
+Make sure that the port is accessible:
+$ nmap -p 7555 10.1.1.2
+
+Make sure that nc is listening on destination host:
+$ netstat -ant | grep 7555

@@ -62,6 +62,7 @@ update_config=1
 # now finishing touches
 wpa_passphrase wifiName wifiPass >> /etc/wpa_supplicant/wifiName.conf
 wpa_supplicant -B -i wInterface123 -c /etc/wpa_supplicant/wifiName.conf
+# you may need to run dhcpcd after
 
 # connect via ethernet:
 dhcpcd enpOReth
@@ -71,7 +72,7 @@ dhcpcd enpOReth
 # base is the only requirement
 # I add base-devel vim wireless_tools wpa_supplicant dialog
 # the last three are needed for wifi
-pacstrap /mnt base base-devel vim xf86-video-intel  wireless_tools wpa_supplicant dialog
+pacstrap /mnt base base-devel vim xf86-video-intel  wpa_supplicant 
 # you may not need to add display driver (xf86-video-intel, nvidia)
 sudo nvidia-xconfig --cool-bits=28
 # but even tty1 without xorg may not work correctly
@@ -137,6 +138,7 @@ EDITOR=vim visudo
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 # install grub and a tool used by grub for efi
+# as a ref for no efi: i386-pc /dev/nvmeMeh
 pacman -S grub efibootmgr
 grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
 # you may want to turn off quiet boot mode
