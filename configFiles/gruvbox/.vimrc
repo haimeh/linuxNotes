@@ -13,7 +13,7 @@ filetype indent plugin on
 set omnifunc=syntaxcomplete#Complete
 "highlight search matches (/ or :%s/thing/new/g)
 set hlsearch
-hi Search ctermbg=LightGreen ctermfg=Black
+hi Search ctermfg=LightGreen ctermbg=Black
 "highlight visual selection
 hi Visual ctermfg=NONE ctermbg=Gray
 "highlight spelling mistakes (:set spell)
