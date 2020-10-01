@@ -11,20 +11,21 @@
 
 general {
         colors = true
-        color_good = "#98971a"
+        color_good = "#65991a"
         color_bad = "#cc241d"
         color_degraded = "#fabd2f"
         interval = 2
 }
 
+order += "wireless wlp70s0"
+order += "ethernet enp69s0"
 order += "battery 1"
 order += "volume master"
 order += "load"
 order += "cpu_usage"
 order += "memory"
 order += "disk /"
-order += "ethernet enp69s0"
-order += "wireless wlp70s0"
+order += "disk /home/"
 order += "tztime local"
 
 volume master {
@@ -53,12 +54,16 @@ memory {
 }
 
 disk "/" {
-        format = ":/ %avail"
+        format = "%avail :/"
+}
+
+disk "/home/" {
+        format = "%avail :/home/"
 }
 
 wireless wlp70s0 {
         format_up = "W: (%quality at %essid, %bitrate) %ip"
-        format_down = "W: down"
+        format_down = "W "
 }
 
 ethernet enp69s0 {
