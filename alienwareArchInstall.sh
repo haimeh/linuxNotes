@@ -18,7 +18,8 @@ fdisk -l
 # root will be Linux root (x86-64) amd formatted ext4 (128G)
 # home will be Linux home and formatted ext4 (remainder)
 # NOTE you may need to choose gpt as the header thing first
-# to delete old header thing (just run it for a sec):
+mklabel gpt
+# also do it by, to delete old header thing (just run it for a sec):
 dd if=/dev/zero of=/dev/nvme1n1p1 bs=512
 # fun fact, this can also be used to copy a partition
 # NOTE I do much dev stuff so my root pertition is bigger
@@ -168,6 +169,7 @@ echo -e 'options dell_smm_hwmon ignore_dmi=1' >> /etc/modprobe.d/fan.conf
 # NOTE
 # to install: pacman -S
 # to uninstall: pacman -Rsun (removes any orphaned dependencies)
+# to see where: pacman -Ql
 
 # sound
 alsa-utils pulseaudio-alsa
@@ -179,7 +181,7 @@ echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
 noto-fonts wqy-zenhei
 
 # window manager
-xorg-server xorg-xinit st-scrollback-git
+xorg-server xorg-xinit st-gruvy
 # for m17x, you may need to edit xorg.conf
 i3-gaps i3status dmenu
 # change default xterm colors
@@ -207,9 +209,10 @@ zathura zathura-pdf-poppler
 sc-im
 
 # programming things
-ctags
+ctags cscope
 # git gcc and python should already be installed (base-devel)
-r gdb radare cuda cudnn docker nodejs npm
+r gdb radare cuda cudnn docker nodejs npm 
+opencl-nvidia opencl-headers vulkan-headers vulkan-validation-layers spirv-tools
 # dotnet
 dotnet-sdk mono
 # you may also want tk

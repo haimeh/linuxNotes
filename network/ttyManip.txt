@@ -1,0 +1,49 @@
+
+# -- TABLES:
+# filter, nat, mangle, raw or security
+
+
+# -- CHAINS
+PRE-ROUTING -- rules before any routing decisions
+INPUT -- rules if this machine is target
+FORWARD -- rules if packet is not for this machine
+OUTPUT -- rules for targets starting on this machine and going out
+POST-ROUTING -- rules for forward or output for after packet leaves
+
+incoming packets:
+pre -> input
+
+forwarded packets:
+pre _> forward -> post
+
+locally generated packets:
+output -> postrouting
+
+Not all chains apply to all tables
+filter: input, forward, output
+nat: pre-routing, output
+mangle: all
+raw: pre-routing, output
+security: input, forward, output
+
+
+# -- RULES:
+three parts:
+1) chan to modify and table
+ - add, append, insert etc.
+2) matching component
+- what to match against:
+- - protocol type
+- - ip address
+- - port adress
+- - header component
+3) target component
+- action to to take
+- - DROP, RETURN, ACCEPT, REJECT etc..
+
+# -- ETC:
+iptables --table mangle --insert POSTROUTING 1 --jump TTL --ttl-set 64
+# check the phone default /proc/sys/net/ipv4/ip_default_ttl and it should be 64
+# /etc/sysctl.conf and add net.ipv4.ip_default_ttl=64
+# to view mangle table
+iptables --table mangle --list

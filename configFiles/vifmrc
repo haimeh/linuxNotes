@@ -64,7 +64,7 @@ set norunexec
 
 " Selected color scheme
 
-colorscheme Mint
+colorscheme gruvbox
 
 " Format for displaying time in file list. For example:
 " TIME_STAMP_FORMAT=%m/%d-%H:%M
@@ -222,8 +222,11 @@ filextype *.html,*.htm
         \ uzbl-browser %f %i &,
 filetype *.html,*.htm links, lynx
 
+
 " Object
-filetype *.o nm %f | less
+filetype *.a,*.o,*.so,*.so.* nm --dynamic --extern-only %f | less
+fileviewer *.a,*.o,*.so,*.so.* nm --dynamic --extern-only %f | less
+
 
 " Man page
 filetype *.[1-8] man ./%c
