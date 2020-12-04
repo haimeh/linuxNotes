@@ -211,8 +211,8 @@ sc-im
 # programming things
 ctags cscope
 # git gcc and python should already be installed (base-devel)
-r gdb radare cuda cudnn docker nodejs npm 
-opencl-nvidia opencl-headers vulkan-headers vulkan-validation-layers spirv-tools
+gdb radare cuda cudnn docker nodejs npm r
+opencl-nvidia opencl-headers ocl-icd vulkan-headers vulkan-validation-layers spirv-tools
 # dotnet
 dotnet-sdk mono
 # you may also want tk

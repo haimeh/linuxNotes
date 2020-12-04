@@ -224,8 +224,8 @@ filetype *.html,*.htm links, lynx
 
 
 " Object
-filetype *.a,*.o,*.so,*.so.* nm --dynamic --extern-only %f | less
-fileviewer *.a,*.o,*.so,*.so.* nm --dynamic --extern-only %f | less
+filetype *.a,*.o,*.so,*.so.* nm --demangle --dynamic --extern-only %f | less
+fileviewer *.a,*.o,*.so,*.so.* nm --demangle --dynamic --extern-only %f
 
 
 " Man page

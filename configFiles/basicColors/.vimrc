@@ -34,7 +34,7 @@ hi TabLineSel ctermfg=Black ctermbg=LightGreen
 "https://en.wikipedia.org/wiki/Unicode_symbols
 "set list listchars=eol:┐,tab:·\ ·,extends:⟩,precedes:⟨,nbsp:␣,trail:•
 "set list listchars=eol:┐,tab:⋅\ ┘,extends:⟩,precedes:⟨,nbsp:␣,trail:•
-set list listchars=eol:┐,tab:⎢░,extends:⟩,precedes:⟨,nbsp:▒,trail:◊
+set list listchars=eol:┐,tab:⎢░,extends:►,precedes:◄,nbsp:▒,trail:◊
 "set list listchars=eol:┐,tab:▹\ ◃,extends:⟩,precedes:⟨,nbsp:␣,trail:•
 "set list listchars=eol:┐,tab:└┈┘,extends:⟩,precedes:⟨,nbsp:␣,trail:•
  
