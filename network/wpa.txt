@@ -1,0 +1,14 @@
+vim /etc/wpa_supplicant/wpa_supplicant-$(ssid).conf
+
+ctrl_interface=/run/wpa_supplicant
+update_config=1
+
+wpa_passphrase $(ssid) $(wifi_password) >> /etc/wpa_supplicant/wpa_supplicant-$NAMEOFWIFI.conf
+# remove psk if you like
+
+get interface_name from: 
+ip link
+\
+wpa_supplicant -B -i $(interface_name) -c /etc/wpa_supplicant/wpa_supplicant.conf
+
+dhcpcd
