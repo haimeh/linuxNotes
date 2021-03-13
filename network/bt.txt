@@ -1,0 +1,20 @@
+sudo systemctl start bluetooth.service
+sudo systemctl enable bluetooth.service
+
+Created symlink /etc/systemd/system/dbus-org.bluez.service → /usr/lib/systemd/system/bluetooth.service.
+Created symlink /etc/systemd/system/bluetooth.target.wants/bluetooth.service → /usr/lib/systemd/system/bluetooth.service.
+sudo systemctl status dbus-org.bluez.service
+
+bluetoothctl
+power on
+scan on
+agent on
+devices
+# tab autocomplete works
+# if no pin, do trust
+    trust AA:BB:CC:DD:EE:FF
+pair AA:BB:CC:DD:EE:FF
+connect AA:BB:CC:DD:EE:FF
+
+dbus-send --system --type=method_call --dest=org.bluez /org/bluez/hci0/dev_AA_BB_CC_DD_EE_FF org.bluez.Network1.Connect string:'nap'
+This will create a network interface bnep0

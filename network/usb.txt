@@ -1,0 +1,5 @@
+ip link
+5: enp0s20u4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UNKNOWN mode DEFAULT group default qlen 1000
+    link/ether 56:85:28:d8:24:42 brd ff:ff:ff:ff:ff:ff
+sudo ifconfig enp0s20u4 up
+sudo dhcpcd
