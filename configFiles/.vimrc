@@ -32,8 +32,6 @@ hi TabLine ctermfg=Gray ctermbg=Black
 hi TabLineSel ctermfg=Black ctermbg=LightGreen
 
 "https://en.wikipedia.org/wiki/Unicode_symbols
-"set list listchars=eol:┐,tab:·\ ·,extends:⟩,precedes:⟨,nbsp:␣,trail:•
-"set list listchars=eol:┐,tab:⋅\ ┘,extends:⟩,precedes:⟨,nbsp:␣,trail:•
 set list listchars=eol:┐,tab:⎢░,extends:►,precedes:◄,nbsp:▒,trail:◊
 "set list listchars=eol:┐,tab:▹\ ◃,extends:⟩,precedes:⟨,nbsp:␣,trail:•
 "set list listchars=eol:┐,tab:└┈┘,extends:⟩,precedes:⟨,nbsp:␣,trail:•
@@ -58,7 +56,7 @@ set number relativenumber
 "autocomplete aka <Tab> opens menu instead of inserting
 set wildmenu
 set wildmode=list:longest,full
-inoremap <C-Tab> <C-X><C-F>
+inoremap <S-Tab> <C-X><C-F>
 
 "open term (Leader means \)
 map <Leader>tv :vert term<CR>
