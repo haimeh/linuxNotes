@@ -29,7 +29,7 @@ cfdisk /dev/sda
 cfdisk /dev/nvme1n1
 
 # once partitions are written, they must be formatted
-# efi
+# efi (dosfstools)
 mkfs.msdos -F32 /dev/nvme1n1p1
 # root and home
 mkfs.ext4 /dev/nvme1n1p2
