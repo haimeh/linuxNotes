@@ -1,0 +1,31 @@
+adb shell ls /data/data/com.android.settings/shared_perfs/com.android.settings_preferences.xml
+/var/lib/lxc/android/rootfs/system/etc/apns-conf.xml
+/var/lib/ofono/<your_imsi_number>/gprs
+
+Data settings  	Smartphones
+
+Name			NXTGENPHONE
+APN				NXTGENPHONE
+Proxy			Not set 
+Port			Not set
+Username		Not set
+Password		Not set
+Server			Not set
+MMSC			http://mmsc.mobile.att.net
+MMS proxy	 	proxy.mobile.att.net
+MMS port		80
+MCC				310
+MNC				410
+Authentication 	None
+APN type		default,mms,supl,hipri
+APN protocol	IPv4
+Bearer			Unspecified
+
+cd /usr/share/ofono/scripts
+./deactivate-context
+./create-internet-context NXTGENPHONE
+./set-context-property 0 Name NXTGENPHONE
+./list-contexts
+# now fill in the rest?
+./set-context-property 0 APN NXTGENPHONE
+./set-context-property 0 APN NXTGENPHONE

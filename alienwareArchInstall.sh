@@ -213,6 +213,7 @@ ctags cscope
 # git gcc and python should already be installed (base-devel)
 gdb radare cuda cudnn docker nodejs npm r
 opencl-nvidia opencl-headers ocl-icd vulkan-headers vulkan-validation-layers spirv-tools
+?vulkan-icd-loader 
 # dotnet
 dotnet-sdk mono
 # you may also want tk

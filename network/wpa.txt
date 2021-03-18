@@ -8,7 +8,8 @@ wpa_passphrase $(ssid) $(wifi_password) >> /etc/wpa_supplicant/wpa_supplicant-$N
 
 get interface_name from: 
 ip link
-\
+3: wlp8s0: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether 24:77:03:d8:16:00 brd ff:ff:ff:ff:ff:ff
 wpa_supplicant -B -i $(interface_name) -c /etc/wpa_supplicant/wpa_supplicant.conf
 
 dhcpcd
