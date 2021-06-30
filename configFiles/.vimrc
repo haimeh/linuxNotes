@@ -31,6 +31,8 @@ hi TabLineFill ctermfg=Black
 hi TabLine ctermfg=Gray ctermbg=Black
 hi TabLineSel ctermfg=Black ctermbg=LightGreen
 
+hi Todo term=standout  ctermbg=Red ctermfg=Black guifg=Black guibg=Yellow
+
 "https://en.wikipedia.org/wiki/Unicode_symbols
 set list listchars=eol:┐,tab:⎢░,extends:►,precedes:◄,nbsp:▒,trail:◊
 "set list listchars=eol:┐,tab:▹\ ◃,extends:⟩,precedes:⟨,nbsp:␣,trail:•
@@ -39,7 +41,7 @@ set list listchars=eol:┐,tab:⎢░,extends:►,precedes:◄,nbsp:▒,trail:�
 set tabstop=4 softtabstop=4
 "spacify file or tabbify:
 "set et
-set et!
+set expandtab!
 "ret!
 
 set wrap!
@@ -56,12 +58,10 @@ set number relativenumber
 "autocomplete aka <Tab> opens menu instead of inserting
 set wildmenu
 set wildmode=list:longest,full
+" autocomplete but not from inside buffers (like file names)
 inoremap <S-Tab> <C-X><C-F>
 
-"open term (Leader means \)
-map <Leader>tv :vert term<CR>
-map <Leader>ts :term<CR>
-
+map <Leader>rc :e +108 $MYVIMRC<CR>
 "pane reminders
 "CTRL+w, v: Opens a new vertical split
 "CTRL+w, c: Closes a window but keeps the buffer
@@ -72,15 +72,26 @@ map <Leader>ts :term<CR>
 "changeVert CTRL+w K
 "changeHori CTRL+w H
 "
-"simpler pane reorientation
-"map <Leader>th <C-w>t<C-w>H
-"map <Leader>tk <C-w>t<C-w>K
 
-"simpler window movement
-nnoremap <C-l> <C-w>l
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
+" Window Splits
+set splitbelow splitright
+" Remap splits navigation to just CTRL + hjkl
+"nnoremap <C-h> <C-w>h
+"nnoremap <C-j> <C-w>j
+"nnoremap <C-k> <C-w>k
+"nnoremap <C-l> <C-w>l
+"
+" Make adjusing split sizes a bit more friendly
+" Change 2 split windows from vert to horiz or horiz to vert
+map <Leader>th <C-w>t<C-w>H
+map <Leader>tk <C-w>t<C-w>K
+
+map <Leader>tt :vert term<CR>
+" Start terminals for R and Python sessions '\tr' or '\tp'
+map <Leader>tr :term R<CR>
+map <Leader>tp :term python3<CR>
+"command R !./%
+"term make myprogram
 
 "resize faster
 nnoremap <silent> <C-w><Left> :vertical resize +10<CR>
