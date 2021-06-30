@@ -63,35 +63,34 @@ inoremap <S-Tab> <C-X><C-F>
 
 map <Leader>rc :e +108 $MYVIMRC<CR>
 
-" vim-sendtowindow reminders
-"<space>l sends to the right window
-"<space>k sends to the top window
-"<space>j sends to the bottom window
-"<space>h sends to the left window
+" what buffer delete feels like it should do
+map <leader>bd :b#<bar>bd#<CR>
 
-"pane reminders
+" vim-sendtowindow reminders
+"<space>l|k|j|h sends highlighted to the right|top|bottom|left, window
+"
+" pane reminders
 "CTRL+w, v: Opens a new vertical split
 "CTRL+w, c: Closes a window but keeps the buffer
 "CTRL+w, o: Closes other windows, keeps the active window only
 "CTRL+w, r: Moves the current window to the right
 "CTRL+w, =: Makes all splits equal size
+"CTRL+w, h|j|k|l: Switch active window by direction
 
+"" Change 2 split windows from vert to horiz or horiz to vert
 "changeVert CTRL+w K
 "changeHori CTRL+w H
-"
+"map <Leader>th <C-w>t<C-w>H
+"map <Leader>tk <C-w>t<C-w>K
+
+":vert sb N
+"which will open a left vertical split
 
 " Window Splits
 set splitbelow splitright
-" Remap splits navigation to just CTRL + hjkl
-"nnoremap <C-h> <C-w>h
-"nnoremap <C-j> <C-w>j
-"nnoremap <C-k> <C-w>k
-"nnoremap <C-l> <C-w>l
-"
-" Make adjusing split sizes a bit more friendly
-" Change 2 split windows from vert to horiz or horiz to vert
-map <Leader>th <C-w>t<C-w>H
-map <Leader>tk <C-w>t<C-w>K
+
+"REMINDER:
+" CTRL+\, CTRL+N or CTRL+w, N: enter normal mode from terminal
 
 map <Leader>tt :vert term<CR>
 " Start terminals for R and Python sessions '\tr' or '\tp'
@@ -101,10 +100,10 @@ map <Leader>tp :term python3<CR>
 "term make myprogram
 
 "resize faster
-nnoremap <silent> <C-w><Left> :vertical resize +10<CR>
-nnoremap <silent> <C-w><Right> :vertical resize -10<CR>
-nnoremap <silent> <C-w><Up> :resize +10<CR>
-nnoremap <silent> <C-w><Down> :resize -10<CR>
+nnoremap <silent> <C-w><Left> :vertical resize +5<CR>
+nnoremap <silent> <C-w><Right> :vertical resize -5<CR>
+nnoremap <silent> <C-w><Up> :resize +5<CR>
+nnoremap <silent> <C-w><Down> :resize -5<CR>
 
 "note open file tree with :Sex
 let g:netrw_browse_split = 4
