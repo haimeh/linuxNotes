@@ -62,6 +62,13 @@ set wildmode=list:longest,full
 inoremap <S-Tab> <C-X><C-F>
 
 map <Leader>rc :e +108 $MYVIMRC<CR>
+
+" vim-sendtowindow reminders
+"<space>l sends to the right window
+"<space>k sends to the top window
+"<space>j sends to the bottom window
+"<space>h sends to the left window
+
 "pane reminders
 "CTRL+w, v: Opens a new vertical split
 "CTRL+w, c: Closes a window but keeps the buffer
