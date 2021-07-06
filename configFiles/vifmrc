@@ -48,6 +48,11 @@ set nofollowlinks
 
 set sortnumbers
 
+" Show relative line number
+set number
+set relativenumber
+set numberwidth=4
+
 " Maximum number of changes that can be undone.
 
 set undolevels=100
@@ -70,7 +75,7 @@ colorscheme gruvbox
 " TIME_STAMP_FORMAT=%m/%d-%H:%M
 " See man date or man strftime for details.
 
-set timefmt=%m/%d\ %H:%M
+set timefmt=%m/%d/%y\ %H:%M
 
 " Show list of matches on tab completion in command-line mode
 
@@ -224,7 +229,7 @@ filetype *.html,*.htm links, lynx
 
 
 " Object
-filetype *.a,*.o,*.so,*.so.* nm --demangle --dynamic --extern-only %f | less
+filextype *.a,*.o,*.so,*.so.* nm --demangle --dynamic --extern-only %f | less
 fileviewer *.a,*.o,*.so,*.so.* nm --demangle --dynamic --extern-only %f
 
 
@@ -232,12 +237,17 @@ fileviewer *.a,*.o,*.so,*.so.* nm --demangle --dynamic --extern-only %f
 filetype *.[1-8] man ./%c
 fileviewer *.[1-8] man ./%c | col -b
 
+
+" CSV
+filetype *.csv sc-im %f
+
+
 " Images
 " \ feh -FZ %d --start-at %d/%c 2>/dev/null,
 filextype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
 	\ {View in feh}
-	\ feh --image-bg black %f &,
-        \ {View in sxiv}
+	\ feh --image-bg blacki --scale-down %f &,
+        \ {View in sxiv}    
         \ sxiv %f,
         \ {View in gpicview}
         \ gpicview %c,
@@ -349,6 +359,14 @@ filextype */
 
 "fileviewer .*/,*/ tree %c -L 1 -C 
 fileviewer .*/,*/ tree %c -L 1 -CpaD
+
+" Executable
+"fileviewer .*[^.]+ hexdump %f
+"fileviewer .*[^.]* objdump -d %f
+"fileviewer .*/,[a-zA-Z] objdump -d %f
+"fileviewer */[^.] r2 %f &, xxd %f
+"filextype *[^.]* hexdump -e %f
+"filextype .*[^.] hexdump %f | less
 
 " Syntax highlighting in preview
 "
@@ -491,3 +509,5 @@ nnoremap <f8> :delete<cr>
 "     vifm --server-name "$VIFM_SERVER_NAME" --remote +"cd '$PWD'"
 "
 " let $VIFM_SERVER_NAME = v:servername
+"
+highlight LineNr cterm=bold ctermfg=Grey35

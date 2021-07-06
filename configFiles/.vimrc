@@ -66,6 +66,13 @@ map <Leader>rc :e +108 $MYVIMRC<CR>
 " what buffer delete feels like it should do
 map <leader>bd :b#<bar>bd#<CR>
 
+"REMINDER: 
+"spell check
+":setlocal spell spelllang=en_us
+" ]s: previous misspell
+" [s: previous misspell
+" z=: select correction
+
 " vim-sendtowindow reminders
 "<space>l|k|j|h sends highlighted to the right|top|bottom|left, window
 "
@@ -96,14 +103,23 @@ map <Leader>tt :vert term<CR>
 " Start terminals for R and Python sessions '\tr' or '\tp'
 map <Leader>tr :term R<CR>
 map <Leader>tp :term python3<CR>
+map <Leader>ttr :vert term R<CR>
+map <Leader>ttp :vert term python3<CR>
 "command R !./%
 "term make myprogram
 
 "resize faster
-nnoremap <silent> <C-w><Left> :vertical resize +5<CR>
-nnoremap <silent> <C-w><Right> :vertical resize -5<CR>
+"Ctrl+w _ will maximize a window vertically.
+"Ctrl+w | will maximize a window horizontally.
+nnoremap <silent> <C-w><Left> :vertical resize -5<CR>
+nnoremap <silent> <C-w><Right> :vertical resize +5<CR>
 nnoremap <silent> <C-w><Up> :resize +5<CR>
 nnoremap <silent> <C-w><Down> :resize -5<CR>
+
+" REMINDER: save and load vim sessions
+":mksession! /path/to/myproject.vimsess
+"vim -S /path/to/myproject.vimsess
+
 
 "note open file tree with :Sex
 let g:netrw_browse_split = 4
