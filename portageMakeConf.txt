@@ -16,19 +16,18 @@ ACCEPT_KEYWORDS="~amd64"
 VIDEO_CARDS="nvidia intel"
 INPUT_DEVICES="keyboard mouse wacom"
 
-# css dvd optical a52 vcd bluray -- are for cd drive
 # vorbis vpx matrioska theora -- for webm
 # cjk -- for chinese japanese korean
-# jpeg png svg tiff gif avi mp4 mp3 aac pdf sdl libcaca -- formats
+# jpeg png svg tiff gif avi mp4 mp3 aac pdf sdl libcaca fftw -- formats
+# css dvd a52 vcd  -- are for cd drive
 USE="-systemd -pulseaudio -cjk -gnome -kde -qt3 -qt4 -qt5 -ldap -berkdb -clamav \
      -aqua -coreaudio -ios -ipod \
      -ieee1394 -emacs -xemacs -gtk -motif -samba\
      -emboss -3dfx -altivec -smartcard -ibm -nls -nas \
      -neon -nntp -cups -quicktime -consolekit -policykit \
      elogind x nvidia \
-     css dvd a52 vcd \
      alsa sound cairo git bluetooth ffmpeg imagemagick encode opengl \
-     network usb gstreamer fftw xml \
+     usb gstreamer xml \
      truetype unicode ncurses vim-syntax \
      cuda openmp smp"
 #RUBY_TARGETS="ruby24 ruby25"
