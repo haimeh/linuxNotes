@@ -66,7 +66,15 @@ wpa_supplicant -B -i wInterface123 -c /etc/wpa_supplicant/wifiName.conf
 dhcpcd enpOReth
 # this gets the ip lease and route and whatnot
 
-# Unpack stage 3 Gentoo
+
+# Install stage 3 Gentoo
+# d to download q to quit
+links https://www.gentoo.org/downloads/
+cd /mnt
+# x:extract p:preserve v:verbose f:filename(is next)
+# xattrs-include:preserve all attributes
+# numeric-owner:preserve group ids
+tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 # Customize make.conf
 
