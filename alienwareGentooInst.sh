@@ -74,7 +74,7 @@ dhcpcd enpOReth
 cd /usr/src/kernel
 make menuconfig
 
-### General setup ###
+### General setup (kern ver 5ish) ###
 + set kern compression to lz4
 - disable posix message queues
 - disable process_vm* syscalls
@@ -96,12 +96,12 @@ make menuconfig
 - disable reroute for broken boot irq
 - disable amd mce
 - disable amd performance monitoring
-- disable ioperm and iopl emu
 - disable amd microcode
+- disable ioperm and iopl emu
 - disable lv5 page
 - disable numa memory allocation (maybe for threadripper..)
 - disable low memory corruption (bios junk)
-+ enable mtrr cleanup
++ enable mtrr and mttr cleanup (nvidia)
 ? disable memory protection
 ? enable efi runtime
 - disable kexec system call (for kernel swapping heathens)
@@ -140,11 +140,22 @@ make menuconfig
    + Special HID driver
     + enable wacom
  ### Graphics support ###
+ + enable vga arbitration (nvidia)
  - Max gpu 2
  + enable intel graphics
  + enable virt box graph
- 
+### Filesystem ###
++ enable ext4
+- disable misc filesystems
+? disable network file systems
+### Kernel Hacking ###
+- set RCU cpu stall timeout to 5
+### Gentoo stuff ###
+- Init systems
+ - disable systemd (enable openrc)
 
+#%%% YOU ARE DONE!! YOU ARE TRUE 1337 haxor %%%#
+make && make modules_install && make install
 
 
 
