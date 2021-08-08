@@ -84,10 +84,10 @@ make menuconfig
 - disable bsd processs acccounting
 - disable export task/process stats
  ### RCU subsystem ###
- - disable CONFIG_BLK_DEV_INITRD
-- disable initramfs/initrd (if we build in drivers to kernel make sure we use * instead of M)
-(remove UUID from fstab and replace with root/dev/sda1 or whatever)
-(we need to tell grub where to mount vim /etc/default/grub GRUB_CMDLINE_LINUX="root=/dev/sda1 rootfstype=ext4")
+  - disable CONFIG_BLK_DEV_INITRD
+  - disable initramfs/initrd (if we build in drivers to kernel make sure we use * instead of M)
+(remove UUID from /etc/fstab and replace with root=/dev/sda1 or whatever)
+(we need to tell grub where to mount vim /etc/default/grub GRUB_DISABLE_LINUX_UUID=true GRUB_CMDLINE_LINUX="root=/dev/sda1 rootfstype=ext4")
 + compiler opimize for performance (02)
 + slab allocator (slub)
 ### Processer type and features ###
@@ -132,6 +132,8 @@ make menuconfig
 ### serial ATA ###
 ? enable ata acpi Support
 ? enable SATA Power optical disk drive
+### Controllers with non-SFF ###
+? enable AHCI SATA
 + SCSI
   + enable Asynchronous SCSI (boot junk)
 - disable multiple devices driver (raid)
