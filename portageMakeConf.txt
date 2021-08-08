@@ -26,7 +26,7 @@ USE="-systemd -pulseaudio -cjk -gnome -kde -qt3 -qt4 -qt5 -ldap -berkdb -clamav 
      -emboss -3dfx -altivec -smartcard -ibm -nls -nas \
      -neon -nntp -cups -quicktime -consolekit -policykit \
      elogind x nvidia \
-     alsa sound cairo git bluetooth ffmpeg imagemagick encode opengl \
+     alsa sound cairo git ffmpeg imagemagick encode opengl \
      usb gstreamer xml \
      truetype unicode ncurses vim-syntax \
      cuda openmp smp"
