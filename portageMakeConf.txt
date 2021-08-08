@@ -18,7 +18,8 @@ INPUT_DEVICES="keyboard mouse wacom"
 
 # vorbis vpx matrioska theora -- for webm
 # cjk -- for chinese japanese korean
-# jpeg png svg tiff gif avi mp4 mp3 aac pdf sdl libcaca fftw -- formats
+# jpeg png svg tiff gif avi mp4 mp3 aac pdf sdl libcaca -- formats and such
+# gstreamer opencl zip
 # css dvd a52 vcd  -- are for cd drive
 USE="-systemd -pulseaudio -cjk -gnome -kde -qt3 -qt4 -qt5 -ldap -berkdb -clamav \
      -aqua -coreaudio -ios -ipod \
@@ -26,8 +27,8 @@ USE="-systemd -pulseaudio -cjk -gnome -kde -qt3 -qt4 -qt5 -ldap -berkdb -clamav 
      -emboss -3dfx -altivec -smartcard -ibm -nls -nas \
      -neon -nntp -cups -quicktime -consolekit -policykit \
      elogind x nvidia \
-     alsa sound cairo git ffmpeg imagemagick encode opengl \
-     usb gstreamer xml \
+     alsa sound cairo git ffmpeg imagemagick fftw encode opengl \
+     usb xml \
      truetype unicode ncurses vim-syntax \
      cuda openmp smp"
 #RUBY_TARGETS="ruby24 ruby25"
