@@ -2,7 +2,7 @@
 # built this stage.
 # Please consult /usr/share/portage/config/make.conf.example for a more
 # detailed example.
-COMMON_FLAGS="-march=native -O3 -pipe"
+COMMON_FLAGS="-march=native -O2 -pipe"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"
@@ -19,7 +19,7 @@ INPUT_DEVICES="keyboard mouse wacom"
 # vorbis vpx matrioska theora -- for webm
 # cjk -- for chinese japanese korean
 # jpeg png svg tiff gif avi mp4 mp3 aac pdf sdl libcaca -- formats and such
-# gstreamer opencl zip
+# gstreamer zip
 # css dvd a52 vcd  -- are for cd drive
 USE="-systemd -pulseaudio -cjk -gnome -kde -qt3 -qt4 -qt5 -ldap -berkdb -clamav \
      -aqua -coreaudio -ios -ipod \
@@ -28,7 +28,8 @@ USE="-systemd -pulseaudio -cjk -gnome -kde -qt3 -qt4 -qt5 -ldap -berkdb -clamav 
      -neon -nntp -cups -quicktime -consolekit -policykit \
      elogind x nvidia \
      alsa sound cairo git ffmpeg imagemagick fftw encode opengl \
-     usb xml \
+     usb xml gstreamer sdl\
+     opencl vulcan osl \
      truetype unicode ncurses vim-syntax \
      cuda openmp smp"
 #RUBY_TARGETS="ruby24 ruby25"
