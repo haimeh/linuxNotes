@@ -81,11 +81,11 @@ cp --dereference /etc/resolv.conf /mnt/etc/
 # Install config
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-mount --types proc /proc /mnt/gentoo/proc
-mount --rbind /sys /mnt/gentoo/sys
-mount --make-rslave /mnt/gentoo/sys
-mount --rbind /dev /mnt/gentoo/dev
-mount --make-rslave /mnt/gentoo/dev 
+mount --types proc /proc /mnt/proc
+mount --rbind /sys /mnt/sys
+mount --make-rslave /mnt/sys
+mount --rbind /dev /mnt/dev
+mount --make-rslave /mnt/dev 
 
 # note that /dev/shm is a symbolic link to /run/shm which wont work
 # if that is the case, do the following:
@@ -97,7 +97,6 @@ chroot /mnt /bin/bash
 source /etc/profile
 export PS1="(chroot) ${PS1}"
 
-mount /dev/sda1 /boot
 emerge-webrsync
 # make sure our profile is correct
 # hardened openrc etc..
@@ -415,7 +414,6 @@ echo -e 'options dell_smm_hwmon ignore_dmi=1' >> /etc/modprobe.d/fan.conf
 # to see where: emerge --info
 
 # sound
-alsa-utils
 # for alienware m17x r4, hp needs to be unmuted
 # you may also want to turn off motherboard beeper if its bothering you
 echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
