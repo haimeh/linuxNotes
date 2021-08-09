@@ -42,13 +42,11 @@ mkfs.ext4 /dev/nvme1n1p3
 
 # set mountpoints for each partition
 # start with root
-################ change these?? ##################
 mount /dev/nvme1n1p2 /mnt
 mkdir /mnt/home
 mount /dev/nvme1n1p3 /mnt/home
-mkdir /mnt/efi
-mount /dev/nvme1n1p1 /mnt/efi
-##############################################
+mkdir /mnt/boot
+mount /dev/nvme1n1p1 /mnt/boot
 
 
 
@@ -63,7 +61,10 @@ cd /mnt
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 # Customize make.conf or copy a premade one
-# comment out layman
+# comment out layman?
+# specify cpu gpu?
+# 3rd : intel i915
+# 9th+ : intel i965 iris
 cp wherever/you/have/your/make.conf /mnt/etc/portage
 
 # Repo config
@@ -74,35 +75,6 @@ cp --dereference /etc/resolv.conf /mnt/etc/
 
 
 
-# NETWORK STUFF
-
-# "ip link" to see network interfaces
-# wireless starts with w, ethernet with enp or etch
-# connect to the internet via wifi: 
-vim /etc/wpa_supplicant/wifiName.conf
-ctrl_interface=/run/wpa_supplicant
-update_config=1
-
-# now finishing touches
-wpa_passphrase wifiName wifiPass >> /etc/wpa_supplicant/wifiName.conf
-wpa_supplicant -B -i wInterface123 -c /etc/wpa_supplicant/wifiName.conf
-# you may need to run dhcpcd after
-
-# connect via ethernet:
-dhcpcd enpOReth
-# this gets the ip lease and route and whatnot
-
-
-
-
-sudo nvidia-xconfig --cool-bits=28
-# but even tty1 without xorg may not work correctly
-
-# now that we have the needed files setup
-# we need the mounting of these drives to be fully auto
-# genfstab -U generates the mount commands by id for /mnt
-# >> copies the output to the specified file
-genfstab -U /mnt >> /mnt/etc/fstab
 
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,9 +106,9 @@ eselect profile list
 emerge --verbose --update --deep --newuse @world
 
 # consider adding to /etc/portage/package.license/kernel
-app-arch/unrar unRAR
-sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE
-sys-firmware/intel-microcode intel-ucode
+#app-arch/unrar unRAR
+#sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE
+#sys-firmware/intel-microcode intel-ucode
 
 
 
@@ -154,10 +126,14 @@ emerge --config sys-libs/timezone-data
 vim /etc/locale.gen
 #generate localization
 locale-gen
+eselect locale list
+eselect local set (whatever number has your entry)
+env-update && source /etc/profile
 
 emerge -q --autounmask-continue sys-kernel/gentoo-sources
 emerge -q sys-apps/pciutils
 emerge -q app-arch/lzop app-arch/lz4
+emerge -q app-editors/vim
 
 
 #### Kernel ###
@@ -165,7 +141,7 @@ cd /usr/src/kernel
 make menuconfig
 
 ### General setup (kern ver 5ish) ###
-+ set kern compression to lz4
+? set kern compression to lz4
 - disable posix message queues
 - disable process_vm* syscalls
 - disable uselib syscall (we use glibc)
@@ -174,13 +150,12 @@ make menuconfig
 - disable bsd processs acccounting
 - disable export task/process stats
  ### RCU subsystem ###
-  - disable CONFIG_BLK_DEV_INITRD
   - disable initramfs/initrd (if we build in drivers to kernel make sure we use * instead of M)
-(remove UUID from /etc/fstab and replace with root=/dev/sda1 or whatever)
-(we need to tell grub where to mount vim /etc/default/grub GRUB_DISABLE_LINUX_UUID=true GRUB_CMDLINE_LINUX="root=/dev/sda1 rootfstype=ext4")
+(remove UUID from /etc/fstab and replace with root=/dev/sda2 or whatever)
+(we need to tell grub where to mount vim /etc/default/grub GRUB_DISABLE_LINUX_UUID=true GRUB_CMDLINE_LINUX="root=/dev/sda2 rootfstype=ext4")
 + compiler opimize for performance (02)
 + slab allocator (slub)
-### Processer type and features ###
+### Processer type and features (note I am using intel) ###
 - disable mps
 - disable support for extended x86
 + Processor family Core 2
@@ -232,15 +207,7 @@ make menuconfig
  ### Input device ###
  - disable ps2 mice and keyboards
  ? disable joysticks/gamepad
- - tablets/touchscreens
-   + enable wacom 
- ### Input device ###
- + HID support
-  + HID bus support
-   + Special HID driver
-    + enable wacom
  ### Graphics support ###
- + enable vga arbitration (nvidia)
  - Max gpu 2
  + enable intel graphics
  + enable virt box graph
@@ -253,38 +220,137 @@ make menuconfig
 ### Gentoo stuff ###
 - Init systems
  - disable systemd (enable openrc)
+ 
+
+### THE FOLLOWING ARE SOME EXTRAS I USE OFTEN ###
+### for WIFI ###
+[*] Networking support  --->
+    [*] Wireless  --->
+        <*>   cfg80211 - wireless configuration API
+        [*]     enable powersave by default
+        <*>   Generic IEEE 802.11 Networking Stack (mac80211)
+        [*]   Minstrel
+        [*]     Minstrel 802.11n support
+Device Drivers  --->
+    [*] Network device support  --->
+        [*] Wireless LAN  --->
+ 
+            Select the driver for your Wifi network device
+            Try lspci and find network controller (the following are 4 my m17x) 
+            <*> Intel Wireless WiFi Next Gen AGN - Wireless-N/Advanced-N/Ultimate-N (iwlwifi)
+            <*>    Intel Wireless WiFi DVM Firmware support                             
+            <*>    Intel Wireless WiFi MVM Firmware support
+-*- Cryptographic API --->
+    -*- AES cipher algorithms
+    -*- AES cipher algorithms (x86_64)
+    <*> AES cipher algorithms (AES-NI)
+### for CDROM ####
+Device Drivers --->
+   <*> Serial ATA and Parallel ATA drivers  --->
+      [*] ATA ACPI Support
+      # If the drive is connected to a SATA Port Multiplier:
+      [*] SATA Port Multiplier support
+      # Select the driver for the SATA controller, e.g.:
+      <*> AHCI SATA support (ahci)
+      # If the drive is connected to an IDE controller:
+      [*] ATA SFF support
+      [*] ATA BMDMA support
+      # Select the driver for the IDE controller, e.g.:
+        <*> Intel ESB, ICH, PIIX3, PIIX4 PATA/SATA support (ata_piix)
+   SCSI device support  ---> 
+      <*> SCSI device support
+      <*> SCSI CDROM support
+      <*> SCSI generic support
+File systems  --->
+   CD-ROM/DVD Filesystems  --->
+      <M> ISO 9660 CDROM file system support
+      [*] Microsoft Joliet CDROM extensions
+      [*] Transparent decompression extension
+      <M> UDF file system support
+### for NVIDIA ####
+[*] Enable loadable module support --->
+Processor type and features --->
+   [*] MTRR (Memory Type Range Register) support
+Device Drivers --->
+   Graphics support --->
+      [*] VGA Arbitration
+Device Drivers --->
+   Character devices --->
+      [*] IPMI top-level message handler
+   Graphics support  --->
+        < > Nouveau (nVidia) cards
+        Frame buffer Devices --->
+            <*> Support for frame buffer devices --->
+            < >   nVidia Framebuffer Support
+            < >   nVidia Riva support
+### for WACOM ### 
+Device drivers --->
+   HID support --->
+      HID bus support --->
+         Special HID drivers --->
+            <*> Wacom Intuos/Graphire tablet support (USB)
+   Input device support --->
+      [*] Tablets --->
+         <*> Wacom protocol 4 serial tablet support--->
+      [*] Touchscreens --->
+         <*> Wacom W8001 penabled serial touchscreen
+         <*> Wacom Tablet support (I2C)
 
 #%%% YOU ARE DONE!! YOU ARE TRUE 1337 hax0r %%%#
 make && make modules_install && make install
+# initramfs would happen here
 
 
 
+# Now fix your fstab, make sure mount
+nano -w /etc/fstab
+#/dev/sda1   /boot        VFAT    defaults,noatime     0 2
+/dev/sda2   /            ext4    rw,realtime              0 1
+/dev/sda3   /home        ext4    rw,realtime              0 2
+# if you dont want to use the sd*N format:
+blkid -s UUID --o value /dev/sda1
 
 
 
-# network config
+# NETWORK STUFF
+################ change these?? ##################
+# "ip link" to see network interfaces
+# wireless starts with w, ethernet with enp or etch
+
+emerge --noreplace --quiet net-misc/netifrc
+emerge net-misc/dhcpcd
+emerge net-wireless/iw net-wireless/wpa_supplicant
+vim /etc/conf.d/net
+config_enp0s0="dhcp"
+config_wlp0s0="dhcp"
+
+# note that these wont auto start without adding junk to init.d and rc-update
+# connect to the internet via wifi: 
+vim /etc/wpa_supplicant/wifiName.conf
+ctrl_interface=/run/wpa_supplicant
+update_config=1
+
+# now finishing touches
+wpa_passphrase wifiName wifiPass >> /etc/wpa_supplicant/wifiName.conf
+wpa_supplicant -B -i wInterface123 -c /etc/wpa_supplicant/wifiName.conf
+# you may need to run dhcpcd after
+
+# connect via ethernet:
+dhcpcd netwrokdevicehere
+# this gets the ip lease and route and whatnot
+##############################################
+
+
+### network config
 # decide on a network name and add via:
 vim /etc/hostname
-
 #Add matching entries to:
 vim /etc/hosts
-# should look like :
+# should look like :wifi
 127.0.0.1	localhost
 ::1		localhost
 127.0.1.1	myhostname.localdomain	myhostname
 # NOTE, if your system has permanent ip, use it instead of 127.0.1.1
-
-# set root password
-passwd
-
-# add main user (with Group wheel for sudo stuff and /bin/bash shell)
-useradd -m -G wheel,power -s /bin/bash joebob
-# set the user password (for joebob)
-passwd joebob
-
-# set visudo such that group wheel does sudo stuff
-EDITOR=vim visudo
-# uncomment %wheel ALL=(ALL) ALL
 
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -293,13 +359,29 @@ EDITOR=vim visudo
 
 # install grub and a tool used by grub for efi
 # as a ref for no efi: i386-pc /dev/nvmeMeh
-pacman -S grub efibootmgr
-grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
+emerge -q sys-boot/grub:2 sys-boot/efibootmgr
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 # you may want to turn off quiet boot mode
 # comment out the line containing "quiet splash"
 vim /etc/default/grub
 # generate the grub config file
 grub-mkconfig -o /boot/grub/grub.cfg
+
+
+
+# USER STUFF
+# set root password
+passwd
+
+emerge -q app-admin/sudo
+# add main user (with Group wheel for sudo stuff and /bin/bash shell)
+useradd -m -G wheel,power -s /bin/bash joebob
+# set the user password (for joebob)
+passwd joebob
+# set visudo such that group wheel does sudo stuff
+EDITOR=vim visudo
+# uncomment %wheel ALL=(ALL) ALL
+
 
 
 # exit the chroot session
@@ -313,19 +395,27 @@ reboot
 # Nice things
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+emerge x11-drivers/nvidia-drivers
+emerge x11-drivers/xf86-video-intel
+# sudo nvidia-xconfig --cool-bits=28
+gpasswd -a joebob video
+# but even tty1 without xorg may not work correctly
 
-# fan control
+# fan control m17x
+emerge sys-apps/lm-sensors
 # sudo modprobe dell_smm_hwmon ignore_dmi=1
 echo -e 'dell_smm_hwmon' >> /etc/modules-load.d/fan.conf
 echo -e 'options dell_smm_hwmon ignore_dmi=1' >> /etc/modprobe.d/fan.conf
 
 # NOTE
-# to install: pacman -S
-# to uninstall: pacman -Rsun (removes any orphaned dependencies)
-# to see where: pacman -Ql
+# full update : emerge -uD world
+# to find: emerge --search
+# to install: emerge -q
+# to uninstall: emerge -C --depclean
+# to see where: emerge --info
 
 # sound
-alsa-utils pulseaudio-alsa
+alsa-utils
 # for alienware m17x r4, hp needs to be unmuted
 # you may also want to turn off motherboard beeper if its bothering you
 echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
@@ -334,7 +424,8 @@ echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
 noto-fonts wqy-zenhei
 
 # window manager
-xorg-server xorg-xinit st-gruvy
+emerge x11-base/xorg-drivers x11-apps/xinit
+st-gruvy
 # for m17x, you may need to edit xorg.conf
 i3-gaps i3status dmenu
 # change default xterm colors
@@ -363,9 +454,8 @@ sc-im
 
 # programming things
 ctags cscope
-# git gcc and python should already be installed (base-devel)
-gdb radare cuda cudnn docker nodejs npm r
-opencl-nvidia opencl-headers ocl-icd clinfo vulkan-headers vulkan-validation-layers spirv-tools
+git gcc python gdb radare cuda cudnn docker nodejs npm r
+opencl-nvidia opencl-headers ocl-icd clinfo glslang vulkan-headers vulkan-validation-layers spirv-tools
 ?vulkan-icd-loader 
 # dotnet
 dotnet-sdk mono
