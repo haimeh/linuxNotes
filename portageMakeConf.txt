@@ -15,6 +15,7 @@ FEATURES="binpkg-logs buildpkg cgroup collision-protect downgrade-backup ipc-san
 ACCEPT_KEYWORDS="~amd64"
 VIDEO_CARDS="nvidia intel"
 INPUT_DEVICES="libinput keyboard synaptics wacom"
+#ACCEPT_LICENSE="-* @FREE"
 
 ### NOTE: some flags that I considered but decided no
 # vorbis vpx matrioska theora -- for webm
