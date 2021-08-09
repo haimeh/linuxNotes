@@ -42,13 +42,39 @@ mkfs.ext4 /dev/nvme1n1p3
 
 # set mountpoints for each partition
 # start with root
-# mnt is usually already there
+################ change these?? ##################
 mount /dev/nvme1n1p2 /mnt
 mkdir /mnt/home
 mount /dev/nvme1n1p3 /mnt/home
 mkdir /mnt/efi
 mount /dev/nvme1n1p1 /mnt/efi
+##############################################
 
+
+
+
+# Install stage 3 Gentoo
+# d to download q to quit
+links https://www.gentoo.org/downloads/
+cd /mnt
+# x:extract p:preserve v:verbose f:filename(is next)
+# xattrs-include:preserve all attributes
+# numeric-owner:preserve group ids
+tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
+
+# Customize make.conf or copy a premade one
+# comment out layman
+cp wherever/you/have/your/make.conf /mnt/etc/portage
+
+# Repo config
+mkdir --parents etc/portage/repos.conf
+cp user/share/portage/config/repos.conf etc/portage/repos.conf/gentoolconf
+# DNS junk
+cp --dereference /etc/resolv.conf /mnt/etc/
+
+
+
+# NETWORK STUFF
 
 # "ip link" to see network interfaces
 # wireless starts with w, ethernet with enp or etch
@@ -67,18 +93,74 @@ dhcpcd enpOReth
 # this gets the ip lease and route and whatnot
 
 
-# Install stage 3 Gentoo
-# d to download q to quit
-links https://www.gentoo.org/downloads/
-cd /mnt
-# x:extract p:preserve v:verbose f:filename(is next)
-# xattrs-include:preserve all attributes
-# numeric-owner:preserve group ids
-tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
-# Customize make.conf
 
-# Compile Kernel
+sudo nvidia-xconfig --cool-bits=28
+# but even tty1 without xorg may not work correctly
+
+# now that we have the needed files setup
+# we need the mounting of these drives to be fully auto
+# genfstab -U generates the mount commands by id for /mnt
+# >> copies the output to the specified file
+genfstab -U /mnt >> /mnt/etc/fstab
+
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# Install config
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+mount --types proc /proc /mnt/gentoo/proc
+mount --rbind /sys /mnt/gentoo/sys
+mount --make-rslave /mnt/gentoo/sys
+mount --rbind /dev /mnt/gentoo/dev
+mount --make-rslave /mnt/gentoo/dev 
+
+# note that /dev/shm is a symbolic link to /run/shm which wont work
+# if that is the case, do the following:
+test -L /dev/shm && rm /dev/shm && mkdir /dev/shm
+mount --types tmpfs --options nosuid,nodev,noexec shm /dev/shm
+chmod 1777 /dev/shm
+
+chroot /mnt /bin/bash
+source /etc/profile
+export PS1="(chroot) ${PS1}"
+
+mount /dev/sda1 /boot
+emerge-webrsync
+# make sure our profile is correct
+# hardened openrc etc..
+eselect profile list
+# update everything
+emerge --verbose --update --deep --newuse @world
+
+# consider adding to /etc/portage/package.license/kernel
+app-arch/unrar unRAR
+sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE
+sys-firmware/intel-microcode intel-ucode
+
+
+
+#ln -sf /usr/share/zoneinfo/America/bigcity /etc/localtime
+#hwclock --systohc
+## you may wish to synchronize
+#timedatectl set-ntp true
+
+## set timezone
+echo "America/Denver" > etc/timezone
+emerge --config sys-libs/timezone-data
+
+# localization
+# write in en_US.UTF-8 UTF-8
+vim /etc/locale.gen
+#generate localization
+locale-gen
+
+emerge -q --autounmask-continue sys-kernel/gentoo-sources
+emerge -q sys-apps/pciutils
+emerge -q app-arch/lzop app-arch/lz4
+
+
+#### Kernel ###
 cd /usr/src/kernel
 make menuconfig
 
@@ -122,6 +204,7 @@ make menuconfig
 - disable hybernation
 - disable power management debug
 + enable cpuidle driver intel
++ enable Symmetric multi-processing support
 ### Virtualization ###
 + enable host kernel accelerator (virtual machines) (*)
 ### Enable Loadable module ###
@@ -171,47 +254,13 @@ make menuconfig
 - Init systems
  - disable systemd (enable openrc)
 
-#%%% YOU ARE DONE!! YOU ARE TRUE 1337 haxor %%%#
+#%%% YOU ARE DONE!! YOU ARE TRUE 1337 hax0r %%%#
 make && make modules_install && make install
 
 
 
 
 
-
-sudo nvidia-xconfig --cool-bits=28
-# but even tty1 without xorg may not work correctly
-
-# now that we have the needed files setup
-# we need the mounting of these drives to be fully auto
-# genfstab -U generates the mount commands by id for /mnt
-# >> copies the output to the specified file
-genfstab -U /mnt >> /mnt/etc/fstab
-
-
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-# Install config
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-arch-chroot /mnt
-
-# set timezone
-ln -sf /usr/share/zoneinfo/America/bigcity /etc/localtime
-hwclock --systohc
-# you may wish to synchronize
-timedatectl set-ntp true
-
-
-# localization
-# uncomment en_US.UTF-8 UTF-8
-vim /etc/locale.gen
-#generate localization
-locale-gen
-
-# add LANG=en_US.UTF-8 via:
-vim /etc/locale.conf
-# or
-export LANG=en_US.UTF-8
 
 # network config
 # decide on a network name and add via:
