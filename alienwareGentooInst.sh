@@ -154,8 +154,9 @@ make menuconfig
 - disable uselib syscall (we use glibc)
 - disable auditing (unless we want selinux)
 ? Timers system (periodic timer lets us disable old idle and high rez)
-- disable bsd processs acccounting
-- disable export task/process stats
+ ### CPU/Task time & stats
+  - disable bsd processs acccounting
+  - disable export task/process stats
  ### RCU subsystem ###
   - disable initramfs/initrd (if we build in drivers to kernel make sure we use * instead of M)
 (remove UUID from /etc/fstab and replace with root=/dev/sda2 or whatever)
@@ -163,30 +164,32 @@ make menuconfig
 + compiler opimize for performance (02)
 + slab allocator (slub)
 ### Processer type and features (note I am using intel) ###
-- disable mps
+- disable mps table
 - disable support for extended x86
 + Processor family Core 2
 + Max number of CPUs 8 (or however many threads you have)
++ enable multicore scheduler
 ? disable Multi-core scheduler (maybe for threadripper..)
 - disable reroute for broken boot irq
 - disable amd mce
 - disable amd performance monitoring
+? enable Dell i8k (m17x)
 - disable amd microcode
 - disable ioperm and iopl emu
 - disable lv5 page
 - disable numa memory allocation (maybe for threadripper..)
 - disable low memory corruption (bios junk)
 + enable mtrr and mttr cleanup (nvidia)
-? disable memory protection
+? disable memory protection kyes (security)
 ? enable efi runtime
 - disable kexec system call (for kernel swapping heathens)
 - disable kernel crash dumps
 - disable relocatable kernel
+### Power Management ###
 ? enable suspend to ram
 - disable hybernation
 - disable power management debug
 + enable cpuidle driver intel
-+ enable Symmetric multi-processing support
 ### Virtualization ###
 + enable host kernel accelerator (virtual machines) (*)
 ### Enable Loadable module ###
@@ -199,7 +202,7 @@ make menuconfig
 ### Device drivers ###
 - disable pccard
 - block devices 
-- - set number of loop devices to 0
+  - set number of loop devices to 0
 ? enable nvme
 (lspci -kk and get block devices to enable)
 ### serial ATA ###
@@ -211,8 +214,9 @@ make menuconfig
   + enable Asynchronous SCSI (boot junk)
 - disable multiple devices driver (raid)
 - disable macintosh drivers
+- disable microsoft surface
  ### Input device ###
- - disable ps2 mice and keyboards
+ ? disable ps2 mice and keyboards (touch pad)
  ? disable joysticks/gamepad
  ### Graphics support ###
  - Max gpu 2
@@ -224,6 +228,7 @@ make menuconfig
 ? disable network file systems
 ### Kernel Hacking ###
 - set RCU cpu stall timeout to 5
+- disable remote firewire debug
 ### Gentoo stuff ###
 - Init systems
  - disable systemd (enable openrc)
