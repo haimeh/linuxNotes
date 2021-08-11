@@ -69,8 +69,9 @@ cp wherever/you/have/your/make.conf /mnt/etc/portage
 
 # Repo config
 mkdir --parents etc/portage/repos.conf
-cp user/share/portage/config/repos.conf etc/portage/repos.conf/gentoolconf
+cp /mnt/usr/share/portage/config/repos.conf /mnt/etc/portage/repos.conf/gentoo.conf
 # DNS junk
+# make sure we can still access the network after chroot
 cp --dereference /etc/resolv.conf /mnt/etc/
 
 
@@ -83,18 +84,17 @@ cp --dereference /etc/resolv.conf /mnt/etc/
 
 mount --types proc /proc /mnt/proc
 mount --rbind /sys /mnt/sys
-mount --make-rslave /mnt/sys
 mount --rbind /dev /mnt/dev
-mount --make-rslave /mnt/dev 
 
 # note that /dev/shm is a symbolic link to /run/shm which wont work
 # if that is the case, do the following:
-test -L /dev/shm && rm /dev/shm && mkdir /dev/shm
-mount --types tmpfs --options nosuid,nodev,noexec shm /dev/shm
-chmod 1777 /dev/shm
+#test -L /dev/shm && rm /dev/shm && mkdir /dev/shm
+#mount --types tmpfs --options nosuid,nodev,noexec shm /dev/shm
+#chmod 1777 /dev/shm
 
 chroot /mnt /bin/bash
 source /etc/profile
+# the next line is just for show
 export PS1="(chroot) ${PS1}"
 
 emerge-webrsync
@@ -102,6 +102,7 @@ emerge-webrsync
 # hardened openrc etc..
 eselect profile list
 # update everything
+emerge --sync --quiet
 emerge --verbose --update --deep --newuse @world
 
 # consider adding to /etc/portage/package.license/kernel
