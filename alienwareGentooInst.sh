@@ -113,7 +113,8 @@ env-update && source /etc/profile
 # hardened openrc etc..
 eselect profile list
 # update everything
-emerge --sync --quiet
+emerge --sync
+#emerge --oneshot --nodeps sys-libs/glibc
 emerge --verbose --update --deep --newuse @world
 
 # consider adding to /etc/portage/package.license/kernel
