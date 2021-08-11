@@ -116,6 +116,7 @@ eselect profile list
 emerge --sync
 #emerge --oneshot --nodeps sys-libs/glibc
 emerge --verbose --update --deep --newuse @world
+# NOTE: you may want to add the -collision-protect under FEATURES inside make.conf
 #emerge @preserved-rebuild
 
 # consider adding to /etc/portage/package.license/kernel
