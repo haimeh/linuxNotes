@@ -98,6 +98,17 @@ source /etc/profile
 export PS1="(chroot) ${PS1}"
 
 emerge-webrsync
+
+# localization
+# write in en_US.UTF-8 UTF-8
+vim /etc/locale.gen
+#generate localization
+locale-gen
+eselect locale list
+eselect local set (whatever number has your entry)
+env-update && source /etc/profile
+
+
 # make sure our profile is correct
 # hardened openrc etc..
 eselect profile list
@@ -121,14 +132,7 @@ emerge --verbose --update --deep --newuse @world
 echo "America/Denver" > etc/timezone
 emerge --config sys-libs/timezone-data
 
-# localization
-# write in en_US.UTF-8 UTF-8
-vim /etc/locale.gen
-#generate localization
-locale-gen
-eselect locale list
-eselect local set (whatever number has your entry)
-env-update && source /etc/profile
+
 
 emerge -q --autounmask-continue sys-kernel/gentoo-sources
 emerge -q sys-apps/pciutils
