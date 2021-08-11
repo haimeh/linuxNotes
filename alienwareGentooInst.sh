@@ -116,6 +116,7 @@ eselect profile list
 emerge --sync
 #emerge --oneshot --nodeps sys-libs/glibc
 emerge --verbose --update --deep --newuse @world
+#emerge @preserved-rebuild
 
 # consider adding to /etc/portage/package.license/kernel
 #app-arch/unrar unRAR
