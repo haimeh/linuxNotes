@@ -7,11 +7,12 @@ CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"
 FFLAGS="${COMMON_FLAGS}"
-MAKEOPTS="-j4"
+MAKEOPTS="-j2"
 EMERGE_DEFAULT_OPTS="--ask-enter-invalid --jobs=3  --load-average=3"
 PORTAGE_NICENESS=19
 PORTAGE_IONICE_COMMAND="ionice -c 3 -p \${PID}"
-FEATURES="binpkg-logs buildpkg cgroup collision-protect downgrade-backup ipc-sandbox network-sandbox parallel-fetch parallel-install sign"
+# you may wish to change collision-protect
+FEATURES="binpkg-logs buildpkg cgroup -collision-protect downgrade-backup ipc-sandbox network-sandbox parallel-fetch parallel-install sign"
 ACCEPT_KEYWORDS="~amd64"
 VIDEO_CARDS="nvidia intel"
 INPUT_DEVICES="libinput keyboard synaptics wacom"
@@ -31,9 +32,9 @@ USE="-systemd -pulseaudio -cjk -gnome -kde -qt3 -qt4 -qt5 -ldap -berkdb -clamav 
      -neon -nntp -cups -quicktime -consolekit -policykit \
      elogind X nvidia \
      alsa ffmpeg imagemagick fftw opengl \
-     opencl vulcan \
+     cuda opencl vulcan \
      ncurses vim-syntax sdl \
-     cuda openmp smp"
+     openmp smp"
 #RUBY_TARGETS="ruby24 ruby25"
 # NOTE: This stage was built with the bindist Use flag enabled
 PORTDIR="/var/db/repos/gentoo"
@@ -47,4 +48,5 @@ LANG="en_US.UTF-8"
 LC_ALL="en_US.UTF-8" 
 
 GENTOO_MIRRORS="http://www.gtlib.gatech.edu/pub/gentoo https://gentoo.ussg.indiana.edu/ https://gentoo.osuosl.org/ https://mirrors.rit.edu/gentoo/ https://mirror.sjc02.svwh.net/gentoo/ http://mirror.lug.udel.edu/pub/gentoo/"
-GRUB_PLATFORMS="efi-64"
+# delete whichever you dont use
+GRUB_PLATFORMS="efi-64 pc"
