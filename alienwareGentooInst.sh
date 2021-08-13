@@ -18,7 +18,7 @@ fdisk -l
 # root will be Linux root (x86-64) amd formatted ext4 (128G)
 # home will be Linux home and formatted ext4 (remainder)
 # NOTE you may need to choose gpt as the header thing first
-mklabel gpt
+mklabel gpt # dos for mbr
 # also do it by, to delete old header thing (just run it for a sec):
 dd if=/dev/zero of=/dev/nvme1n1p1 bs=512
 # fun fact, this can also be used to copy a partition
@@ -31,6 +31,8 @@ cfdisk /dev/nvme1n1
 # once partitions are written, they must be formatted
 # efi (dosfstools)
 mkfs.msdos -F32 /dev/nvme1n1p1
+# mbr bios boot (and thats not a zero0)
+mkfs.ext4 -L boot -O '^64bit' /dev/sda1
 # root and home
 mkfs.ext4 /dev/nvme1n1p2
 mkfs.ext4 /dev/nvme1n1p3
@@ -58,6 +60,7 @@ cd /mnt
 # x:extract p:preserve v:verbose f:filename(is next)
 # xattrs-include:preserve all attributes
 # numeric-owner:preserve group ids
+
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 # Customize make.conf or copy a premade one
