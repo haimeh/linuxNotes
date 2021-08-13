@@ -70,13 +70,24 @@ tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 # 9th+ : intel i965 iris
 cp wherever/you/have/your/make.conf /mnt/etc/portage
 
+
+
 # Repo config
 mkdir --parents etc/portage/repos.conf
 cp /mnt/usr/share/portage/config/repos.conf /mnt/etc/portage/repos.conf/gentoo.conf
-# DNS junk
-# make sure we can still access the network after chroot
-cp --dereference /etc/resolv.conf /mnt/etc/
 
+# change to git instead of rsync
+	# /etc/portage/repos.conf/gentoo.conf
+[DEFAULT]
+main-repo = gentoo
+[gentoo]
+location = /usr/portage
+sync-type = git
+sync-uri = https://github.com/gentoo-mirror/gentoo.git
+auto-sync = yes
+priority = 1000
+#sync-git-verify-commit-signature = yes
+#sync-openpgp-key-path = /usr/share/openpgp-keys/gentoo-release.asc
 
 
 
@@ -84,6 +95,10 @@ cp --dereference /etc/resolv.conf /mnt/etc/
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # Install config
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+# DNS junk
+# make sure we can still access the network after chroot
+cp --dereference /etc/resolv.conf /mnt/etc/
 
 mount --types proc /proc /mnt/proc
 mount --rbind /sys /mnt/sys
