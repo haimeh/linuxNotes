@@ -119,7 +119,7 @@ emerge-webrsync
 
 # localization
 # write in en_US.UTF-8 UTF-8
-vim /etc/locale.gen
+nano /etc/locale.gen
 #generate localization
 locale-gen
 eselect locale list
@@ -155,10 +155,10 @@ emerge --config sys-libs/timezone-data
 
 
 
-emerge -q --autounmask-continue sys-kernel/gentoo-sources
-emerge -q sys-apps/pciutils
-emerge -q app-arch/lzop app-arch/lz4
-emerge -q app-editors/vim
+emerge --autounmask-continue sys-kernel/gentoo-sources
+emerge sys-apps/pciutils
+emerge app-arch/lzop app-arch/lz4
+emerge app-editors/vim
 
 
 #### Kernel ###
@@ -333,8 +333,8 @@ make && make modules_install && make install
 
 
 # Now fix your fstab, make sure mount
-nano -w /etc/fstab
-#/dev/sda1   /boot        VFAT    defaults,noatime     0 2
+vim /etc/fstab
+#/dev/sda1   /boot        ext4    defaults,noatime     0 2
 /dev/sda2   /            ext4    rw,realtime              0 1
 /dev/sda3   /home        ext4    rw,realtime              0 2
 # if you dont want to use the sd*N format:
@@ -347,7 +347,7 @@ blkid -s UUID --o value /dev/sda1
 # "ip link" to see network interfaces
 # wireless starts with w, ethernet with enp or etch
 
-emerge --noreplace --quiet net-misc/netifrc
+emerge --noreplace net-misc/netifrc
 emerge net-misc/dhcpcd
 emerge net-wireless/iw net-wireless/wpa_supplicant
 vim /etc/conf.d/net
@@ -388,12 +388,15 @@ vim /etc/hosts
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 # install grub and a tool used by grub for efi
-# as a ref for no efi: i386-pc /dev/nvmeMeh
-emerge -q sys-boot/grub:2 sys-boot/efibootmgr
+emerge sys-boot/grub:2 sys-boot/efibootmgr
+#grub-install --target=i386-pc /dev/sdX
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 # you may want to turn off quiet boot mode
 # comment out the line containing "quiet splash"
 vim /etc/default/grub
+#we need to tell grub where to mount 
+#GRUB_DISABLE_LINUX_UUID=true 
+#GRUB_CMDLINE_LINUX="root=/dev/sda2 rootfstype=ext4")
 # generate the grub config file
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -403,9 +406,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # set root password
 passwd
 
-emerge -q app-admin/sudo
+emerge app-admin/sudo
 # add main user (with Group wheel for sudo stuff and /bin/bash shell)
-useradd -m -G wheel,power -s /bin/bash joebob
+useradd -m -G users,wheel,video,audio -s /bin/bash joebob
 # set the user password (for joebob)
 passwd joebob
 # set visudo such that group wheel does sudo stuff
