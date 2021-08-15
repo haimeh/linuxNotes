@@ -463,7 +463,7 @@ noto-fonts wqy-zenhei
 emerge x11-base/xorg-drivers x11-apps/xinit
 st-gruvy
 # for m17x, you may need to edit xorg.conf
-i3-gaps i3status dmenu
+emerge x11-wm/i3-gaps x11-misc/i3status x11-misc/dmenu
 # change default xterm colors
 # echo -e 'xterm*background: black\nxterm*foreground: white\nxterm*selectToClipboard: true' >> ~/.Xdefaults
 
@@ -471,7 +471,7 @@ i3-gaps i3status dmenu
 feh
 
 # you may need touchpad?
-xf86-input-synaptics 
+x11-drivers/xf86-input-synaptics 
 
 # file manager
 vifm
