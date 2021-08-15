@@ -328,6 +328,7 @@ Device drivers --->
 
 #%%% YOU ARE DONE!! YOU ARE TRUE 1337 hax0r %%%#
 make && make modules_install && make install
+eselect kernel set 1
 # initramfs would happen here
 
 
