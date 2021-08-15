@@ -153,9 +153,10 @@ emerge --verbose --update --deep --newuse @world
 echo "America/Denver" > etc/timezone
 emerge --config sys-libs/timezone-data
 
-
-
-emerge --autounmask-continue sys-kernel/gentoo-sources
+mkdir /etc/portage/package.license
+vim kernel
+#sys-kernel/linux-firmware linux-fw-redistributable no-source-code
+emerge --autounmask-continue sys-kernel/gentoo-sources sys-kernel/linux-firmware
 emerge sys-apps/pciutils
 emerge app-arch/lzop app-arch/lz4
 emerge app-editors/vim
@@ -165,7 +166,7 @@ emerge app-editors/vim
 cd /usr/src/kernel
 make menuconfig
 
-### General setup (kern ver 5ish) ###
+### General setup (kern ver 5+ish) ###
 ? set kern compression to lz4
 - disable posix message queues
 - disable process_vm* syscalls
@@ -186,8 +187,7 @@ make menuconfig
 - disable support for extended x86
 + Processor family Core 2
 + Max number of CPUs 8 (or however many threads you have)
-+ enable multicore scheduler
-? disable Multi-core scheduler (maybe for threadripper..)
+? enable Multi-core scheduler (maybe for threadripper..)
 - disable reroute for broken boot irq
 - disable amd mce
 - disable amd performance monitoring
