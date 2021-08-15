@@ -428,6 +428,9 @@ reboot
 # Nice things
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+vim /etc/portage/package.license/kernel
+#NVIDIA-r2
 emerge x11-drivers/nvidia-drivers
 emerge x11-drivers/xf86-video-intel
 # sudo nvidia-xconfig --cool-bits=28
