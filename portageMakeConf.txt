@@ -31,6 +31,7 @@ USE="-systemd -pulseaudio -cjk -gnome -kde -qt3 -qt4 -qt5 -ldap -berkdb -clamav 
      -emboss -3dfx -altivec -smartcard -ibm -nls -nas \
      -neon -nntp -cups -quicktime -consolekit -policykit \
      elogind X nvidia \
+     savedconfig \
      alsa ffmpeg imagemagick fftw opengl \
      cuda opencl vulcan \
      ncurses vim-syntax sdl \
