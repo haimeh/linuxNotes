@@ -86,7 +86,6 @@ inoremap [ [<c-g>u
 inoremap ( (<c-g>u
 
 
-
 map <Leader>rc :e +108 $MYVIMRC<CR>
 
 " what buffer delete feels like it should do
@@ -128,6 +127,7 @@ map <leader>bd :b#<bar>bd#<CR>
 set splitbelow splitright
 
 "OPEN INTERPRETERS:
+map <Leader>t : term<CR>
 map <Leader>tt :vert term<CR>
 " Start terminals for R and Python sessions '\tr' or '\tp'
 map <Leader>tr :term R<CR>
@@ -168,10 +168,26 @@ inoremap []  []<Left>
 "vim -S /path/to/myproject.vimsess
 
 
-" TERMINAL DEBUGGING:
+"groff preview
+au BufNewFile,BufRead *.groff set filetype=groff
+autocmd FileType groff map I :! groff -e -ms % -T pdf > preview.pdf; zathura preview.pdf & disown<CR><CR>
+
+" GO TO DEF:
+"gd
+" CTAGS:
+set tags+=tags;$HOME
+"Ctrl+] - go to def
+"Ctrl+T - go back (from def)
+"Ctrl+W Ctrl+] open def in split
+"map <Leader>] :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+":tjump - jump to definition or presents list
+":ptag - open definition in preview window
+":pc - close preview
+
+" TERMINAL C DEBUGGING:
 "Compile the code using the -g flag to include debugger information in the compiled program.
-":!gcc -g thething.c -o thething
-"(also consider):Termdebug thething
+autocmd FileType cpp map I :! gcc -g % -o debugPreview
+"(also consider):Termdebug debugPreview
 "
 "Set breakpoints in thethingfunc and on line 23
 "b thethingfunc
