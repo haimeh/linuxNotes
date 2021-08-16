@@ -32,7 +32,8 @@ cfdisk /dev/nvme1n1
 # efi (dosfstools)
 mkfs.msdos -F32 /dev/nvme1n1p1
 # mbr bios boot (and thats not a zero0)
-mkfs.ext4 -L boot -O '^64bit' /dev/sda1
+#mkfs.ext4 -L boot -O '^64bit' /dev/sda1
+
 # root and home
 mkfs.ext4 /dev/nvme1n1p2
 mkfs.ext4 /dev/nvme1n1p3
@@ -66,8 +67,7 @@ tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 # Customize make.conf or copy a premade one
 # comment out layman?
 # specify cpu gpu?
-# 3rd : intel i915
-# 9th+ : intel i965 iris
+# ivy to 9th+ : intel i965 iris
 cp wherever/you/have/your/make.conf /mnt/etc/portage
 
 
@@ -76,7 +76,7 @@ cp wherever/you/have/your/make.conf /mnt/etc/portage
 mkdir --parents etc/portage/repos.conf
 cp /mnt/usr/share/portage/config/repos.conf /mnt/etc/portage/repos.conf/gentoo.conf
 
-# change to git instead of rsync
+# you may like to change to git instead of rsync
 	# /etc/portage/repos.conf/gentoo.conf
 [DEFAULT]
 main-repo = gentoo
@@ -85,7 +85,7 @@ location = /usr/portage
 sync-type = git
 sync-uri = https://github.com/gentoo-mirror/gentoo.git
 auto-sync = yes
-priority = 1000
+#priority = 1000
 #sync-git-verify-commit-signature = yes
 #sync-openpgp-key-path = /usr/share/openpgp-keys/gentoo-release.asc
 
@@ -144,11 +144,6 @@ emerge --verbose --update --deep --newuse @world
 
 
 
-#ln -sf /usr/share/zoneinfo/America/bigcity /etc/localtime
-#hwclock --systohc
-## you may wish to synchronize
-#timedatectl set-ntp true
-
 ## set timezone
 echo "America/Denver" > etc/timezone
 emerge --config sys-libs/timezone-data
@@ -179,13 +174,13 @@ make menuconfig
  ### RCU subsystem ###
   - disable initramfs/initrd (if we build in drivers to kernel make sure we use * instead of M)
 (remove UUID from /etc/fstab and replace with root=/dev/sda2 or whatever)
-(we need to tell grub where to mount vim /etc/default/grub GRUB_DISABLE_LINUX_UUID=true GRUB_CMDLINE_LINUX="root=/dev/sda2 rootfstype=ext4")
+(we need to tell grub where to mount /etc/default/grub GRUB_DISABLE_LINUX_UUID=true GRUB_CMDLINE_LINUX="root=/dev/sda2 rootfstype=ext4")
 + compiler opimize for performance (02)
 + slab allocator (slub)
 ### Processer type and features (note I am using intel) ###
 - disable mps table
 - disable support for extended x86
-+ Processor family Core 2
++ Processor family Core 2 (intel)
 + Max number of CPUs 8 (or however many threads you have)
 ? enable Multi-core scheduler (maybe for threadripper..)
 - disable reroute for broken boot irq
@@ -270,6 +265,7 @@ Device Drivers  --->
             <*> Intel Wireless WiFi Next Gen AGN - Wireless-N/Advanced-N/Ultimate-N (iwlwifi)
             <*>    Intel Wireless WiFi DVM Firmware support                             
             <*>    Intel Wireless WiFi MVM Firmware support
+
 -*- Cryptographic API --->
     -*- AES cipher algorithms
     -*- AES cipher algorithms (x86_64)
@@ -326,18 +322,27 @@ Device drivers --->
          <*> Wacom W8001 penabled serial touchscreen
          <*> Wacom Tablet support (I2C)
 
+
+### BUILD IN FIRMWARE ###
+# this is needed since we are not doing modules
+Generic Driver Options --->
+    Firmware loader --->
+        fill in build named firmware, for example
+        (wlwifi-6000-4.ucode i915/skl_dmc_ver1_27.bin) Build named firmware blobs into the kernel binary
+        (/lib/firmware) Firmware blobs root directory
+
 #%%% YOU ARE DONE!! YOU ARE TRUE 1337 hax0r %%%#
 make && make modules_install && make install
 eselect kernel set 1
-# initramfs would happen here
+# initramfs would happen here if we didnt build in firmware
 
 
 
 # Now fix your fstab, make sure mount
 vim /etc/fstab
 #/dev/sda1   /boot        ext4    defaults,noatime     0 2
-/dev/sda2   /            ext4    rw,realtime              0 1
-/dev/sda3   /home        ext4    rw,realtime              0 2
+/dev/sda2   /            ext4    noatime              0 1
+/dev/sda3   /home        ext4    noatime              0 2
 # if you dont want to use the sd*N format:
 blkid -s UUID --o value /dev/sda1
 
@@ -363,7 +368,7 @@ update_config=1
 
 # now finishing touches
 wpa_passphrase wifiName wifiPass >> /etc/wpa_supplicant/wifiName.conf
-wpa_supplicant -B -i wInterface123 -c /etc/wpa_supplicant/wifiName.conf
+wpa_supplicant -B -i wInterfaceName -c /etc/wpa_supplicant/wifiName.conf
 # you may need to run dhcpcd after
 
 # connect via ethernet:
@@ -377,7 +382,6 @@ dhcpcd netwrokdevicehere
 vim /etc/hostname
 #Add matching entries to:
 vim /etc/hosts
-# should look like :wifi
 127.0.0.1	localhost
 ::1		localhost
 127.0.1.1	myhostname.localdomain	myhostname
@@ -395,7 +399,7 @@ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 # you may want to turn off quiet boot mode
 # comment out the line containing "quiet splash"
 vim /etc/default/grub
-#we need to tell grub where to mount 
+#we may need to tell grub where to mount
 #GRUB_DISABLE_LINUX_UUID=true 
 #GRUB_CMDLINE_LINUX="root=/dev/sda2 rootfstype=ext4")
 # generate the grub config file
@@ -430,12 +434,12 @@ reboot
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
 vim /etc/portage/package.license/kernel
 #NVIDIA-r2
 emerge x11-drivers/nvidia-drivers
-emerge x11-drivers/xf86-video-intel
+# this line is depreciated.. emerge x11-drivers/xf86-video-intel
 # sudo nvidia-xconfig --cool-bits=28
-gpasswd -a joebob video
 # but even tty1 without xorg may not work correctly
 
 # fan control m17x
@@ -445,13 +449,15 @@ echo -e 'dell_smm_hwmon' >> /etc/modules-load.d/fan.conf
 echo -e 'options dell_smm_hwmon ignore_dmi=1' >> /etc/modprobe.d/fan.conf
 
 # NOTE
-# full update : emerge -uD world
+# full update : emerge -uD @world
 # to find: emerge --search
-# to install: emerge -q
-# to uninstall: emerge -C --depclean
+# to install: emerge 
+# to uninstall: emerge --depclean
 # to see where: emerge --info
+# after changing make.conf: emerge --changed-use --deep @world
 
 # sound
+emerge media-sound/alsa-utils
 # for alienware m17x r4, hp needs to be unmuted
 # you may also want to turn off motherboard beeper if its bothering you
 echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
@@ -461,11 +467,14 @@ noto-fonts wqy-zenhei
 
 # window manager
 emerge x11-base/xorg-drivers x11-apps/xinit
+# you must run in order to launch without /dev/tty0 no permissions junk
+rc-update add elogind boot
+# You may also need to edit xorg.conf
+
+#get from git
 st-gruvy
-# for m17x, you may need to edit xorg.conf
+
 emerge x11-wm/i3-gaps x11-misc/i3status x11-misc/dmenu
-# change default xterm colors
-# echo -e 'xterm*background: black\nxterm*foreground: white\nxterm*selectToClipboard: true' >> ~/.Xdefaults
 
 # images/background
 feh

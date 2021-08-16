@@ -179,6 +179,7 @@ echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
 
 # text
 noto-fonts wqy-zenhei
+otf-latinmodern-math otf-latin-modern
 
 # window manager
 xorg-server xorg-xinit st-gruvy
