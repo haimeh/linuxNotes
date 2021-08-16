@@ -245,8 +245,24 @@ make menuconfig
 ### Gentoo stuff ###
 - Init systems
  - disable systemd (enable openrc)
- 
 
+ ### for AUDIO ###
+ # alsamixer not found
+ Device Drivers --->
+    <*> Sound card support
+        <*> Advanced Linux Sound Architecture --->
+            [*] PCI sound devices  --->
+                Select the driver for your audio controller.
+                [*] Intel/nVidia/AMD Controller
+                [*] Intel/nVidia/AMD Modem
+            HD-Audio  --->
+               Select a codec or enable all and let the generic parse choose the right one:
+               [*] Build Realtek HD-audio codec support
+               [*] ...
+               [*] Build Silicon Labs 3054 HD-modem codec support
+               [*] Enable generic HD-audio codec parser
+    [*] Pin controllers  --->
+        Select Intel or Whatever
 ### THE FOLLOWING ARE SOME EXTRAS I USE OFTEN ###
 ### for WIFI ###
 [*] Networking support  --->
