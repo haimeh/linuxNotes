@@ -467,9 +467,9 @@ noto-fonts wqy-zenhei
 
 # window manager
 emerge x11-base/xorg-drivers x11-apps/xinit
-# you must run in order to launch without /dev/tty0 no permissions junk
+# you must run in order to launch without /dev/tty0 no permissions junk (x trying to skip the logind)
 rc-update add elogind boot
-# You may also need to edit xorg.conf
+# You may also need to edit xorg.conf for touch pad and to use modsetting
 
 #get from git
 st-gruvy
