@@ -203,6 +203,8 @@ make menuconfig
 - disable hybernation
 - disable power management debug
 + enable cpuidle driver intel
++ CPU Freq scal
+  + default freq gov (performance)
 ### Virtualization ###
 + enable host kernel accelerator (virtual machines) (*)
 ### Enable Loadable module ###
@@ -246,6 +248,7 @@ make menuconfig
 - Init systems
  - disable systemd (enable openrc)
 
+### THE FOLLOWING ARE SOME EXTRAS I USE OFTEN ###
  ### for AUDIO ###
  # alsamixer not found
  Device Drivers --->
@@ -263,7 +266,6 @@ make menuconfig
                [*] Enable generic HD-audio codec parser
     [*] Pin controllers  --->
         Select Intel or Whatever
-### THE FOLLOWING ARE SOME EXTRAS I USE OFTEN ###
 ### for WIFI ###
 [*] Networking support  --->
     [*] Wireless  --->
@@ -463,9 +465,11 @@ emerge sys-apps/lm-sensors
 # sudo modprobe dell_smm_hwmon ignore_dmi=1
 echo -e 'dell_smm_hwmon' >> /etc/modules-load.d/fan.conf
 echo -e 'options dell_smm_hwmon ignore_dmi=1' >> /etc/modprobe.d/fan.conf
+app-benchmarks/i7z
 
 # NOTE
 # full update : emerge -uD @world
+# pickup where left: emerge -u
 # to find: emerge --search
 # to install: emerge 
 # to uninstall: emerge --depclean
@@ -479,7 +483,8 @@ emerge media-sound/alsa-utils
 echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
 
 # text
-noto-fonts wqy-zenhei
+#noto-fonts wqy-zenhei
+media-fonts/noto-cjk
 
 # window manager
 emerge x11-base/xorg-drivers x11-apps/xinit
@@ -487,28 +492,35 @@ emerge x11-base/xorg-drivers x11-apps/xinit
 rc-update add elogind boot
 # You may also need to edit xorg.conf for touch pad and to use modsetting 
 
+
 #get from git
 st-gruvy
 
-emerge x11-wm/i3-gaps x11-misc/i3status x11-misc/dmenu
+x11-apps/xrandr
+media-gfx/imagemagick
+x11-apps/xwininfo
+
+emerge x11-wm/i3-gaps x11-misc/i3status x11-misc/i3lock x11-misc/dmenu
 
 # images/background
-feh
+emerge media-gfx/feh
 
 # you may need touchpad?
 x11-drivers/xf86-input-synaptics 
 
 # file manager
-vifm
+app-misc/vifm
+app-text/tree
+
 
 # browse
-firefox tor
+librewolf tor
 
 # network
 net-tools nmap gnu-netcat ipcalc iw
 
 # pdf
-zathura zathura-pdf-poppler
+app-text/zathura app-text/zathura-pdf-poppler
 
 # csv
 sc-im
@@ -518,6 +530,9 @@ ctags cscope
 git gcc python gdb radare cuda cudnn docker nodejs npm r
 opencl-nvidia opencl-headers ocl-icd clinfo glslang vulkan-headers vulkan-validation-layers spirv-tools
 ?vulkan-icd-loader 
+
+dev-util/nvidia-cuda-toolkit 
+media-libs/vulkan-loader dev-utils/vulkan-tools
 # dotnet
 dotnet-sdk mono
 # you may also want tk

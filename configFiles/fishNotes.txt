@@ -1,2 +1,5 @@
-chsh -s `which fish`
+# chsh -s `which fish`
+# place this at the bottom of bashrc
+[ -x /bin/fish ] && SHELL=/bin/fish exec fish
 
+# find the bindings section in fish and change from "default" to "vi"
