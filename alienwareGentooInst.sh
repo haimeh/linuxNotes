@@ -498,9 +498,9 @@ st-gruvy
 
 x11-apps/xrandr
 media-gfx/imagemagick
-x11-apps/xwininfo
+? x11-apps/xwininfo
 
-emerge x11-wm/i3-gaps x11-misc/i3status x11-misc/i3lock x11-misc/dmenu
+emerge x11-wm/i3-gaps x11-misc/i3status x11-misc/i3lock x11-misc/dmenu x11-misc/redshift
 
 # images/background
 emerge media-gfx/feh
@@ -526,6 +526,9 @@ app-text/zathura app-text/zathura-pdf-poppler
 sc-im
 
 # programming things
+dev-python/pip
+dev-lang/R
+
 ctags cscope
 git gcc python gdb radare cuda cudnn docker nodejs npm r
 opencl-nvidia opencl-headers ocl-icd clinfo glslang vulkan-headers vulkan-validation-layers spirv-tools
