@@ -529,7 +529,7 @@ sc-im
 dev-python/pip
 dev-lang/R
 
-ctags cscope
+ctags dev-util/cscope
 git gcc python gdb radare cuda cudnn docker nodejs npm r
 opencl-nvidia opencl-headers ocl-icd clinfo glslang vulkan-headers vulkan-validation-layers spirv-tools
 ?vulkan-icd-loader 
