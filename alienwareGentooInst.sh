@@ -387,11 +387,25 @@ update_config=1
 # now finishing touches
 wpa_passphrase wifiName wifiPass >> /etc/wpa_supplicant/wifiName.conf
 wpa_supplicant -B -i wInterfaceName -c /etc/wpa_supplicant/wifiName.conf
+#-B - Fork into background
+#-c filename - Path to configuration file.
+#-i interface - Interface to listen on.
+# Also:
+#-D driver - Optionally specify the driver to be used. List drivers via wpa_supplicant -h
 # you may need to run dhcpcd after
 
 # connect via ethernet:
 dhcpcd netwrokdevicehere
-# this gets the ip lease and route and whatnot
+# this gets the ip lease and route and whatnot 
+
+### SUPPLAMENTAL
+wpa_cli scan
+wpa_cli scan_results
+add_network mynet
+set_network mynet ssid "MYSSID"
+set_network mynet psk "passphrase"
+enable_network 0
+
 ##############################################
 
 
