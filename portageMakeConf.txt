@@ -25,7 +25,7 @@ INPUT_DEVICES="libinput keyboard synaptics wacom"
 # gstreamer truetype unicode zip usb xml git cairo encode sound
 # css dvd a52 vcd bluray -- are for cd drive
 ###
-USE="-systemd -pulseaudio -cjk -gnome -kde -qt3 -qt4 -qt5 -ldap -berkdb -clamav \
+USE="-systemd -pulseaudio cjk -gnome -kde -qt3 -qt4 -qt5 -ldap -berkdb -clamav \
      -aqua -coreaudio -ios -ipod \
      -ieee1394 -emacs -xemacs -gtk -motif -samba\
      -emboss -3dfx -altivec -smartcard -ibm -nls -nas \
@@ -33,7 +33,7 @@ USE="-systemd -pulseaudio -cjk -gnome -kde -qt3 -qt4 -qt5 -ldap -berkdb -clamav 
      elogind X nvidia \
      savedconfig \
      alsa ffmpeg imagemagick fftw opengl \
-     cuda opencl vulcan \
+     cuda opencl vulkan \
      ncurses vim-syntax sdl \
      openmp smp"
 #RUBY_TARGETS="ruby24 ruby25"

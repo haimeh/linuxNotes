@@ -137,7 +137,7 @@ emerge --verbose --update --deep --newuse @world
 # NOTE: you may want to add the -collision-protect under FEATURES inside make.conf
 #emerge @preserved-rebuild
 
-# consider adding to /etc/portage/package.license/kernel
+# consider adding to /etc/portage/package.license/miscLicense
 #app-arch/unrar unRAR
 #sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE
 #sys-firmware/intel-microcode intel-ucode
@@ -149,7 +149,7 @@ echo "America/Denver" > etc/timezone
 emerge --config sys-libs/timezone-data
 
 mkdir /etc/portage/package.license
-vim kernel
+vim miscLicense
 #sys-kernel/linux-firmware linux-fw-redistributable no-source-code
 emerge --autounmask-continue sys-kernel/gentoo-sources sys-kernel/linux-firmware
 emerge sys-apps/pciutils
@@ -158,7 +158,7 @@ emerge app-editors/vim
 
 
 #### Kernel ###
-cd /usr/src/kernel
+cd /usr/src/linux-*
 make menuconfig
 
 ### General setup (kern ver 5+ish) ###
@@ -453,15 +453,15 @@ reboot
 
 
 
-vim /etc/portage/package.license/kernel
+vim /etc/portage/package.license/miscLicense
 #NVIDIA-r2
-emerge x11-drivers/nvidia-drivers
+x11-drivers/nvidia-drivers
 # this line is depreciated.. emerge x11-drivers/xf86-video-intel
 # sudo nvidia-xconfig --cool-bits=28
 # but even tty1 without xorg may not work correctly
 
 # fan control m17x
-emerge sys-apps/lm-sensors
+sys-apps/lm-sensors
 # sudo modprobe dell_smm_hwmon ignore_dmi=1
 echo -e 'dell_smm_hwmon' >> /etc/modules-load.d/fan.conf
 echo -e 'options dell_smm_hwmon ignore_dmi=1' >> /etc/modprobe.d/fan.conf
@@ -472,12 +472,12 @@ app-benchmarks/i7z
 # pickup where left: emerge -u
 # to find: emerge --search
 # to install: emerge 
-# to uninstall: emerge --depclean
+# to uninstall: emerge --depclean (pkg/here)
 # to see where: emerge --info
 # after changing make.conf: emerge --changed-use --deep @world
 
 # sound
-emerge media-sound/alsa-utils
+media-sound/alsa-utils
 # for alienware m17x r4, hp needs to be unmuted
 # you may also want to turn off motherboard beeper if its bothering you
 echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
@@ -487,13 +487,14 @@ echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
 media-fonts/noto-cjk
 
 # window manager
-emerge x11-base/xorg-drivers x11-apps/xinit
+x11-base/xorg-drivers x11-apps/xinit
 # you must run in order to launch without /dev/tty0 no permissions junk (x trying to skip the logind)
 rc-update add elogind boot
 # You may also need to edit xorg.conf for touch pad and to use modsetting 
 
 
 #get from git
+dev-vcs/git
 st-gruvy
 
 x11-apps/xrandr
@@ -513,8 +514,9 @@ app-misc/vifm
 app-text/tree
 
 
-# browse
-librewolf tor
+# browser
+www-client/librewolf 
+net-vpn/tor
 
 # network
 net-tools nmap gnu-netcat ipcalc iw
@@ -534,8 +536,13 @@ git gcc python gdb radare cuda cudnn docker nodejs npm r
 opencl-nvidia opencl-headers ocl-icd clinfo glslang vulkan-headers vulkan-validation-layers spirv-tools
 ?vulkan-icd-loader 
 
-dev-util/nvidia-cuda-toolkit 
+dev-util/nvidia-cuda-toolkit dev-libs/cudnn
 media-libs/vulkan-loader dev-utils/vulkan-tools
+dev-util/vulkan-headers
+media-libs/vulkan-layers
+dev-util/spirv-tools
+dev-util/spirv-headers
+dev-util/glslang
 # dotnet
 dotnet-sdk mono
 # you may also want tk
@@ -546,3 +553,6 @@ dmidecode
 # games
 gnuchess
 gnugo
+
+
+app-emulation/docker
