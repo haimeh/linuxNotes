@@ -66,6 +66,30 @@ function fish_mode_prompt
   set_color normal
 end
 
+set -g __fish_git_prompt_show_informative_status 1
+set -g __fish_git_prompt_hide_untrackedfiles 1
+set -g __fish_git_prompt_showstashstate 1
+
+set -g __fish_git_prompt_color_branch blue
+set -g __fish_git_prompt_showupstream "informative"
+set -g __fish_git_prompt_char_upstream_ahead "+"
+set -g __fish_git_prompt_char_upstream_behind "-"
+set -g __fish_git_prompt_char_upstream_prefix " "
+set -g __fish_git_prompt_char_stateseparator " "
+
+set -g __fish_git_prompt_char_stagedstate "#"
+set -g __fish_git_prompt_char_dirtystate "!"
+set -g __fish_git_prompt_char_untrackedfiles "--"
+set -g __fish_git_prompt_char_conflictedstate "x"
+set -g __fish_git_prompt_char_cleanstate "="
+
+set -g __fish_git_prompt_color_dirtystate f70
+set -g __fish_git_prompt_color_stagedstate yellow
+set -g __fish_git_prompt_color_invalidstate red
+set -g __fish_git_prompt_color_untrackedfiles $fish_color_normal
+set -g __fish_git_prompt_color_cleanstate green
+
 function fish_prompt
-    echo (tput setaf 6) (tput bold)'━┳━ ['(tput sgr0) (tput setaf 2) $USER (tput bold) (tput setaf 6)'] ━━ ['(tput sgr0) (tput setaf 2) $hostname (tput setaf 6) (tput bold)'] ━━ ['(tput setaf 4) (prompt_pwd) (fish_git_prompt) (tput setaf 6)']'\n'     ┗━━━━━━ '(tput sgr0)
+    echo (tput setaf 6) (tput bold)'━┳━ ['(tput setaf 2) $USER (tput bold) (tput setaf 6)'] ━━ ['(tput sgr0) (tput setaf 2) $hostname (tput setaf 6) (tput bold)'] ━━ ['(tput setaf 4) (prompt_pwd) (tput setaf 6)'] ━━ ['(tput bold) (fish_git_prompt | cut -c3- | rev | cut -c3- | rev) (tput bold) (tput setaf 6)']'\n'     ┗━━━━━ '(tput sgr0)
+    #echo (tput setaf 6) (tput bold)'━┳━ ['(tput setaf 2) $USER (tput bold) (tput setaf 6)'] ━━ ['(tput sgr0) (tput setaf 2) $hostname (tput setaf 6) (tput bold)'] ━━ ['(tput setaf 4) (prompt_pwd) (tput setaf 6)'] ━━ ['(tput bold) (fish_git_prompt "\0" ) (tput bold) (tput setaf 6)']'\n'     ┗━━━━━━ '(tput sgr0)
 end

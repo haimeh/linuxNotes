@@ -3,3 +3,6 @@
 [ -x /bin/fish ] && SHELL=/bin/fish exec fish
 
 # in config, under fish_variables find the bindings section in fish and change from "default" to "vi"
+SETUVAR fish_key_bindings:fish_vi_key_bindings
+SETUVAR fish_prompt_pwd_dir_length:3
+
