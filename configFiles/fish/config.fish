@@ -79,7 +79,7 @@ set -g __fish_git_prompt_char_stateseparator " "
 
 set -g __fish_git_prompt_char_stagedstate "#"
 set -g __fish_git_prompt_char_dirtystate "!"
-set -g __fish_git_prompt_char_untrackedfiles "--"
+set -g __fish_git_prompt_char_untrackedfiles "-"
 set -g __fish_git_prompt_char_conflictedstate "x"
 set -g __fish_git_prompt_char_cleanstate "="
 
@@ -90,6 +90,6 @@ set -g __fish_git_prompt_color_untrackedfiles $fish_color_normal
 set -g __fish_git_prompt_color_cleanstate green
 
 function fish_prompt
-    echo (tput setaf 6) (tput bold)'━┳━ ['(tput setaf 2) $USER (tput bold) (tput setaf 6)'] ━━ ['(tput sgr0) (tput setaf 2) $hostname (tput setaf 6) (tput bold)'] ━━ ['(tput setaf 4) (prompt_pwd) (tput setaf 6)'] ━━ ['(tput bold) (fish_git_prompt | cut -c3- | rev | cut -c3- | rev) (tput bold) (tput setaf 6)']'\n'     ┗━━━━━ '(tput sgr0)
-    #echo (tput setaf 6) (tput bold)'━┳━ ['(tput setaf 2) $USER (tput bold) (tput setaf 6)'] ━━ ['(tput sgr0) (tput setaf 2) $hostname (tput setaf 6) (tput bold)'] ━━ ['(tput setaf 4) (prompt_pwd) (tput setaf 6)'] ━━ ['(tput bold) (fish_git_prompt "\0" ) (tput bold) (tput setaf 6)']'\n'     ┗━━━━━━ '(tput sgr0)
+    # for some reason (fish_git_prompt "\0") doesnt work when called from echo
+    echo (tput setaf 6) (tput bold)'━┳━ ['(tput setaf 2) $USER (tput setaf 6)'] ━━ ['(tput setaf 2) $hostname (tput setaf 6)'] ━━ ['(tput setaf 4) (prompt_pwd) (tput setaf 6)'] ━━ [' (fish_git_prompt | cut -c3- | rev | cut -c3- | rev) (tput bold) (tput setaf 6)']'\n'     ┗━━━━━ '(tput sgr0)
 end
