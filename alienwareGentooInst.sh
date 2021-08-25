@@ -557,9 +557,9 @@ media-libs/vulkan-layers
 dev-util/spirv-tools
 dev-util/spirv-headers
 dev-util/glslang
+
 # dotnet
 dotnet-sdk mono
-# you may also want tk
 
 # read things like ram
 dmidecode
