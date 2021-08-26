@@ -48,20 +48,23 @@ end
 function fish_mode_prompt
   switch $fish_bind_mode
     case default
-      set_color --bold red
-      echo '[N]'
+        set_color --bold red
+        echo -n '[N]'
     case insert
-      set_color --bold green
-      echo '[I]'
+        set_color --bold green
+        echo -n '[I]'
     case replace_one
-      set_color --bold green
-      echo '[R]'
+        set_color --bold green
+        echo -n '[R]'
+    case replace
+        set_color --bold cyan
+        echo -n '[R]'
     case visual
-      set_color --bold brmagenta
-      echo '[V]'
+        set_color --bold magenta
+        echo -n '[V]'
     case '*'
-      set_color --bold red
-      echo '[?]'
+        set_color --bold red
+        echo -n '[?]'
   end
   set_color normal
 end
@@ -96,5 +99,5 @@ set -g __fish_git_prompt_color_stashstate red
 
 function fish_prompt
     # for some reason (fish_git_prompt "\0") doesnt work when called from echo
-    echo (tput setaf 6) (tput bold)'━┳━ ['(tput setaf 2) $USER (tput setaf 6)'] ━━ ['(tput setaf 2) $hostname (tput setaf 6)'] ━━ ['(tput setaf 4) (prompt_pwd) (tput setaf 6)'] ━━ [' (fish_git_prompt | cut -c3- | rev | cut -c3- | rev) (tput bold) (tput setaf 6)']'\n'     ┗━━━━━ '(tput sgr0)
+    echo -sn (tput setaf 6) (tput bold)'━┳━[ '(tput setaf 2) $USER (tput setaf 6)' @ '(tput setaf 2) $hostname (tput setaf 6)' ]━━[ '(tput setaf 4) (prompt_pwd) (tput setaf 6)' ]━━[ ' (fish_git_prompt | cut -c3- | rev | cut -c3- | rev) (tput bold) (tput setaf 6)' ]'\n'    ┗━━━━━ '(tput sgr0)
 end
