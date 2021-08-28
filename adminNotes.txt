@@ -1,0 +1,23 @@
+## BASICS ##
+# kernel and mis
+uname -a
+# service running 
+service serviceNameHere status
+systemctl status serviceNameHere
+# disk usage
+df -ah
+# size of a directory
+du -sh directoryHere
+# my addr old
+ifconfig
+# my addr new
+ip link
+ip addr show deviceThingHere
+# open ports (sudo)
+netstat -tulpn
+netstat | grep -E '(udp|tcp)'
+# cpu usage for process
+top
+ps aux | grep processName
+
+## MORE ##
