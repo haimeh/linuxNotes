@@ -204,7 +204,7 @@ make menuconfig
 - disable power management debug
 + enable cpuidle driver intel
 + CPU Freq scal
-  + default freq gov (performance)
+  + default freq gov (performance) # NOTE: please see below config for cpu_governor control
 ### Virtualization ###
 + enable host kernel accelerator (virtual machines) (*)
 ### Enable Loadable module ###
@@ -354,6 +354,11 @@ make && make modules_install && make install
 eselect kernel set 1
 # initramfs would happen here if we didnt build in firmware
 
+vim /etc/local.d/cpu_governor.start
+#!/bin/bash
+for c in $(ls -d /sys/devices/system/cpu/cpu[0-16]*); do echo conservative >$c/cpufreq/scaling_governor; done
+# set permissions on the cpu_governor
+chmod +x /etc/local.d/cpu_governor.start
 
 
 # Now fix your fstab, make sure mount
@@ -482,11 +487,13 @@ echo -e 'options dell_smm_hwmon ignore_dmi=1' >> /etc/modprobe.d/fan.conf
 app-benchmarks/i7z
 
 # NOTE
+# update repos
+# emaint --auto sync
 # full update : emerge -uD @world
 # pickup where left: emerge -u
 # to find: emerge --search
 # to install: emerge 
-# to uninstall: emerge --depclean (pkg/here)
+# to uninstall: emerge --depclean (pkg/here to remove specific pkg)
 # to see where: emerge --info
 # after changing make.conf: emerge --changed-use --deep @world
 
@@ -499,6 +506,7 @@ echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
 # text
 #noto-fonts wqy-zenhei
 media-fonts/noto-cjk
+media-fonts/fira-code
 
 # window manager
 x11-base/xorg-drivers x11-apps/xinit
@@ -528,7 +536,10 @@ app-misc/vifm
 app-text/tree
 
 
+
 # browser
+# create the /etc/portage/repos.conf/librewolf.conf and tell it the git lab addr etc
+# stuff goes here? /var/cache/edb/dep/home/usernamehere/Builds/
 www-client/librewolf 
 net-vpn/tor
 
@@ -546,9 +557,15 @@ dev-python/pip
 dev-lang/R
 
 ctags dev-util/cscope
-git gcc python gdb radare cuda cudnn docker nodejs npm r
-opencl-nvidia opencl-headers ocl-icd clinfo glslang vulkan-headers vulkan-validation-layers spirv-tools
-?vulkan-icd-loader 
+#git gcc python gdb radare cuda cudnn docker nodejs npm r
+#opencl-nvidia opencl-headers ocl-icd clinfo glslang vulkan-headers vulkan-validation-layers spirv-tools
+#?vulkan-icd-loader 
+
+# Download cuDNN from nvidia and place it in $DISTDIR
+#emerge --info | grep DISTDIR
+# should say /var/cache/distfiles
+# you will also want to soft link
+# ln -s /opt/cuda /usr/local/cuda
 
 dev-util/nvidia-cuda-toolkit dev-libs/cudnn
 media-libs/vulkan-loader dev-utils/vulkan-tools
@@ -558,15 +575,24 @@ dev-util/spirv-tools
 dev-util/spirv-headers
 dev-util/glslang
 
+# note that the gentoo openblas installs strange..
+# you may want to install it by hand
+sci-libs/openblas
+#git clone https://github.com/xianyi/OpenBLAS.git
+#make USE_THREAD=1 USE_OPENMP=1
+#make install PREFIX=/usr/local/opt/openblas
+sci-libs/clblast
+
+
 # dotnet
 dotnet-sdk mono
 
 # read things like ram
 dmidecode
 
-# games
-gnuchess
-gnugo
-
+# eclean to make packages easier
+app-portage/gentoolkit
 
 app-emulation/docker
+media-gfx/mypaint
+media-gfx/blender
