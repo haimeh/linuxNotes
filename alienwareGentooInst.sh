@@ -78,16 +78,16 @@ cp /mnt/usr/share/portage/config/repos.conf /mnt/etc/portage/repos.conf/gentoo.c
 
 # you may like to change to git instead of rsync
 	# /etc/portage/repos.conf/gentoo.conf
-[DEFAULT]
-main-repo = gentoo
-[gentoo]
-location = /usr/portage
-sync-type = git
-sync-uri = https://github.com/gentoo-mirror/gentoo.git
-auto-sync = yes
-#priority = 1000
-#sync-git-verify-commit-signature = yes
-#sync-openpgp-key-path = /usr/share/openpgp-keys/gentoo-release.asc
+#[DEFAULT]
+#main-repo = gentoo
+#[gentoo]
+#location = /usr/portage
+#sync-type = git
+#sync-uri = https://github.com/gentoo-mirror/gentoo.git
+#auto-sync = yes
+##priority = 1000
+##sync-git-verify-commit-signature = yes
+##sync-openpgp-key-path = /usr/share/openpgp-keys/gentoo-release.asc
 
 
 
@@ -173,8 +173,8 @@ make menuconfig
   - disable export task/process stats
  ### RCU subsystem ###
   - disable initramfs/initrd (if we build in drivers to kernel make sure we use * instead of M)
-(remove UUID from /etc/fstab and replace with root=/dev/sda2 or whatever)
-(we need to tell grub where to mount /etc/default/grub GRUB_DISABLE_LINUX_UUID=true GRUB_CMDLINE_LINUX="root=/dev/sda2 rootfstype=ext4")
+#(remove UUID from /etc/fstab and replace with root=/dev/sda2 or whatever)
+#(we need to tell grub where to mount /etc/default/grub GRUB_DISABLE_LINUX_UUID=true GRUB_CMDLINE_LINUX="root=/dev/sda2 rootfstype=ext4")
 + compiler opimize for performance (02)
 + slab allocator (slub)
 ### Processer type and features (note I am using intel) ###
@@ -193,7 +193,7 @@ make menuconfig
 - disable numa memory allocation (maybe for threadripper..)
 - disable low memory corruption (bios junk)
 + enable mtrr and mttr cleanup (nvidia)
-? disable memory protection kyes (security)
+? disable memory protection kyes (speed over security)
 ? enable efi runtime
 - disable kexec system call (for kernel swapping heathens)
 - disable kernel crash dumps
@@ -204,7 +204,7 @@ make menuconfig
 - disable power management debug
 + enable cpuidle driver intel
 + CPU Freq scal
-  + default freq gov (performance) # NOTE: please see below config for cpu_governor control
+  + default freq gov (user) # NOTE: please see below config for cpu_governor control
 ### Virtualization ###
 + enable host kernel accelerator (virtual machines) (*)
 ### Enable Loadable module ###
@@ -249,6 +249,15 @@ make menuconfig
  - disable systemd (enable openrc)
 
 ### THE FOLLOWING ARE SOME EXTRAS I USE OFTEN ###
+### for WEBCAM ###
+Device Drivers  --->
+  <M/*> Multimedia support  --->
+    Media device types --->
+      [*]   Cameras and video grabbers
+    Media drivers --->
+      [*]   Media USB Adapters  --->
+        <M/*>   USB Video Class (UVC)  
+        [*]     UVC input events device support (NEW)
  ### for AUDIO ###
  # alsamixer not found
  Device Drivers --->
@@ -283,11 +292,16 @@ Device Drivers  --->
             <*> Intel Wireless WiFi Next Gen AGN - Wireless-N/Advanced-N/Ultimate-N (iwlwifi)
             <*>    Intel Wireless WiFi DVM Firmware support                             
             <*>    Intel Wireless WiFi MVM Firmware support
-
 -*- Cryptographic API --->
     -*- AES cipher algorithms
     -*- AES cipher algorithms (x86_64)
     <*> AES cipher algorithms (AES-NI)
+### for ETHERNET ###
+Device Drivers  --->
+    [*] Network device support  --->
+        [*] Wired LAN  --->
+            (lots of drivers you dont need here)
+            Select the driver for your Wifi network device
 ### for CDROM ####
 Device Drivers --->
    <*> Serial ATA and Parallel ATA drivers  --->
@@ -340,7 +354,6 @@ Device drivers --->
          <*> Wacom W8001 penabled serial touchscreen
          <*> Wacom Tablet support (I2C)
 
-
 ### BUILD IN FIRMWARE ###
 # this is needed since we are not doing modules
 Generic Driver Options --->
@@ -356,7 +369,7 @@ eselect kernel set 1
 
 vim /etc/local.d/cpu_governor.start
 #!/bin/bash
-for c in $(ls -d /sys/devices/system/cpu/cpu[0-16]*); do echo conservative >$c/cpufreq/scaling_governor; done
+for c in $(ls -d /sys/devices/system/cpu/cpu[0-9]*); do echo conservative >$c/cpufreq/scaling_governor; done
 # set permissions on the cpu_governor
 chmod +x /etc/local.d/cpu_governor.start
 
@@ -448,11 +461,18 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # set root password
 passwd
 
-emerge app-admin/sudo
 # add main user (with Group wheel for sudo stuff and /bin/bash shell)
 useradd -m -G users,wheel,video,audio -s /bin/bash joebob
 # set the user password (for joebob)
 passwd joebob
+
+#DOAS WAY
+emerge app-admin/doas
+/etc/doas.conf
+permit :wheel
+
+#SUDO WAY
+emerge app-admin/sudo
 # set visudo such that group wheel does sudo stuff
 EDITOR=vim visudo
 # uncomment %wheel ALL=(ALL) ALL
@@ -499,9 +519,6 @@ app-benchmarks/i7z
 
 # sound
 media-sound/alsa-utils
-# for alienware m17x r4, hp needs to be unmuted
-# you may also want to turn off motherboard beeper if its bothering you
-echo -e 'blacklist pcspkr' >> /etc/modprobe.d/nobeep.conf
 
 # text
 #noto-fonts wqy-zenhei
@@ -517,6 +534,7 @@ rc-update add elogind boot
 
 #get from git
 dev-vcs/git
+#https://github.com/haimeh/st_gruvy
 st-gruvy
 
 x11-apps/xrandr
@@ -526,7 +544,9 @@ media-gfx/imagemagick
 emerge x11-wm/i3-gaps x11-misc/i3status x11-misc/i3lock x11-misc/dmenu x11-misc/redshift
 
 # images/background
-emerge media-gfx/feh
+media-gfx/feh
+#webcam
+media-tv/v4l-utils
 
 # you may need touchpad?
 x11-drivers/xf86-input-synaptics 
@@ -538,7 +558,7 @@ app-text/tree
 
 
 # browser
-# create the /etc/portage/repos.conf/librewolf.conf and tell it the git lab addr etc
+# create the etc/portage/repos.conf/librewolf.conf and tell it the git lab addr etc
 # stuff goes here? /var/cache/edb/dep/home/usernamehere/Builds/
 www-client/librewolf 
 net-vpn/tor
@@ -550,22 +570,25 @@ net-tools nmap gnu-netcat ipcalc iw
 app-text/zathura app-text/zathura-pdf-poppler
 
 # csv
+#https://github.com/andmarti1424/sc-im
 sc-im
 
 # programming things
-dev-python/pip
+dev-python/pip #(python and gcc are already default because of portage)
 dev-lang/R
 
 ctags dev-util/cscope
-#git gcc python gdb radare cuda cudnn docker nodejs npm r
-#opencl-nvidia opencl-headers ocl-icd clinfo glslang vulkan-headers vulkan-validation-layers spirv-tools
-#?vulkan-icd-loader 
+ctags dev-util/ctags
+
+sci-libs/clblast
+#gdb radare nodejs npm
 
 # Download cuDNN from nvidia and place it in $DISTDIR
-#emerge --info | grep DISTDIR
+# emerge --info | grep DISTDIR
 # should say /var/cache/distfiles
 # you will also want to soft link
 # ln -s /opt/cuda /usr/local/cuda
+# you may want to add the profiler use flag
 
 dev-util/nvidia-cuda-toolkit dev-libs/cudnn
 media-libs/vulkan-loader dev-utils/vulkan-tools
@@ -573,15 +596,9 @@ dev-util/vulkan-headers
 media-libs/vulkan-layers
 dev-util/spirv-tools
 dev-util/spirv-headers
+dev-util/spirv-llvm-translator
 dev-util/glslang
 
-# note that the gentoo openblas installs strange..
-# you may want to install it by hand
-sci-libs/openblas
-#git clone https://github.com/xianyi/OpenBLAS.git
-#make USE_THREAD=1 USE_OPENMP=1
-#make install PREFIX=/usr/local/opt/openblas
-sci-libs/clblast
 
 
 # dotnet
@@ -590,9 +607,29 @@ dotnet-sdk mono
 # read things like ram
 dmidecode
 
+# NICE EXTRAS MISC
 # eclean to make packages easier
 app-portage/gentoolkit
 
 app-emulation/docker
 media-gfx/mypaint
 media-gfx/blender
+
+
+# note that the gentoo openblas installs strange..
+# you may want to install it by hand
+sci-libs/openblas
+#git clone https://github.com/xianyi/OpenBLAS.git
+#make USE_THREAD=1 USE_OPENMP=1
+#make install PREFIX=/usr/local/opt/openblas
+
+doas emerge eselect-repository
+eselect repository enable mv lto-overlay
+#app-portage/cpuid2cpuflags
+cpuid2cpuflags
+
+# Add librewolf work around to the same places as firefox
+# tls-dialect.conf
+# ipa-pta.conf
+# you may want to omit librewolf in optimizations.conf
+# as well as under package.use and turn off lto graphite and pgo as librewolf is big
