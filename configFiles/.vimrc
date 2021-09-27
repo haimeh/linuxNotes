@@ -38,11 +38,6 @@ set list listchars=eol:┐,tab:⎢░,extends:►,precedes:◄,nbsp:▒,trail:�
 "set list listchars=eol:┐,tab:▹\ ◃,extends:⟩,precedes:⟨,nbsp:␣,trail:•
 "set list listchars=eol:┐,tab:└┈┘,extends:⟩,precedes:⟨,nbsp:␣,trail:•
  
-set tabstop=4 softtabstop=4
-"spacify file or tabbify:
-"set et
-set expandtab!
-"ret!
 
 set wrap!
 set noerrorbells
@@ -58,6 +53,16 @@ set wildmenu
 set wildmode=list:longest,full
 " autocomplete but not from inside buffers (like file names)
 inoremap <S-Tab> <C-X><C-F>
+
+
+
+set tabstop=4 softtabstop=4
+"spacify file or tabbify:
+set expandtab!
+"to retab the whole file
+"ret!
+set pastetoggle=<F2>
+set paste!
 
 "Make capital Y behave like capital D and C
 " also remember, big J line concat
@@ -127,8 +132,8 @@ map <leader>bd :b#<bar>bd#<CR>
 set splitbelow splitright
 
 "OPEN INTERPRETERS:
-map <Leader>t : term<CR>
-map <Leader>tt :vert term<CR>
+map <Leader>t<space> : term<CR>
+map <Leader>tt<space> :vert term<CR>
 " Start terminals for R and Python sessions '\tr' or '\tp'
 map <Leader>tr :term R<CR>
 map <Leader>tp :term python3<CR>
@@ -137,7 +142,8 @@ map <Leader>ttp :vert term python3<CR>
 "command R !./%
 "term make myprogram
 "NORMAL MODE IN TERMINAL BUFFER:
-" CTRL+\, CTRL+N or CTRL+w, N: enter normal mode from terminal
+" CTRL+\, CTRL+N or 
+" CTRL+w, N: enter normal mode from terminal
 
 "resize faster
 "Ctrl+w _ will maximize a window vertically.
@@ -170,7 +176,7 @@ inoremap []  []<Left>
 
 "groff preview
 au BufNewFile,BufRead *.groff set filetype=groff
-autocmd FileType groff map I :! groff -e -ms % -T pdf > preview.pdf; zathura preview.pdf & disown<CR><CR>
+autocmd FileType groff map E :! groff -e -ms % -T pdf > preview.pdf; zathura preview.pdf & disown<CR><CR>
 
 " GO TO DEF:
 "gd
@@ -186,7 +192,7 @@ set tags+=tags;$HOME
 
 " TERMINAL C DEBUGGING:
 "Compile the code using the -g flag to include debugger information in the compiled program.
-autocmd FileType cpp map I :! gcc -g % -o debugPreview
+autocmd FileType cpp map E :! gcc -g % -o debugPreview
 "(also consider):Termdebug debugPreview
 "
 "Set breakpoints in thethingfunc and on line 23
@@ -238,3 +244,4 @@ autocmd FileType cpp map I :! gcc -g % -o debugPreview
 "\ra ... \rz  replace text with given brush/register
 "\pa ...      like \ra ... \rz, except that blanks are considered
 "             to be transparent
+"

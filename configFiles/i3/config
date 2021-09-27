@@ -13,7 +13,8 @@ set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 6
+font pango:FyraCode 9px
+#font pango:monospace 9px
 #font pango:Terminus 8px
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
@@ -38,7 +39,7 @@ bindsym $mod+d exec dmenu_run
 
 # lock screen
 # identify -ping -format '%w %h' image.jpg
-bindsym $mod+Escape exec "import -window root JPG:- | convert - -blur 0x6 RGB:- | i3lock --raw $(xrandr | grep \* | awk '{print $1}'):rgb --ignore-empty-password --no-unlock-indicator --image /dev/stdin"
+bindsym $mod+Escape exec "import -window root BMP:- | convert - -blur 0x6 RGB:- | i3lock --raw $(xrandr | grep \* | awk '{print $1}'):rgb --ignore-empty-password --no-unlock-indicator --image /dev/stdin"
 
 # change focus
 bindsym $mod+h focus left
@@ -136,46 +137,47 @@ bindsym $mod+Shift+Escape exec "i3-nagbar -t warning -m 'This will end your X se
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
-
-        # back to normal: Enter or Escape or $mod+r
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
+	# These bindings trigger as soon as you enter the resize mode
+	
+	# Pressing left will shrink the window’s width.
+	# Pressing right will grow the window’s width.
+	# Pressing up will shrink the window’s height.
+	# Pressing down will grow the window’s height.
+	bindsym h resize shrink width 5 px or 5 ppt
+	bindsym j resize grow height 5 px or 5 ppt
+	bindsym k resize shrink height 5 px or 5 ppt
+	bindsym l resize grow width 5 px or 5 ppt
+	
+	# same bindings, but for the arrow keys
+	bindsym Left resize shrink width 5 px or 5 ppt
+	bindsym Down resize grow height 5 px or 5 ppt
+	bindsym Up resize shrink height 5 px or 5 ppt
+	bindsym Right resize grow width 5 px or 5 ppt
+	
+	# back to normal: Enter or Escape or $mod+r
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+	bindsym $mod+r mode "default"
 }
 
 bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    colors {
-	# Whole color settings
-	background #1d2021
-	statusline #ebdbb2
-	separator  #666666
-	# class		   border  backround  text
-	focused_workspace  #458588 #458588 #ebdbb2
-	active_workspace   #83a598 #83a598 #ebdbb2
-	inactive_workspace #504945 #504945 #ebdbb2
-	urgent_workspace   #cc241d #cc241d #504945
-        binding_mode       #2f343a #900000    #ffffff
-    }
-    status_command i3status -c ~/.config/i3status/gruvbox_config
+	position top
+	colors {
+		# Whole color settings
+		background #1d2021
+		statusline #ebdbb2
+		separator  #666666
+		# class	            border  backround  text
+		focused_workspace  #689d6a #689d6a #ebdbb2
+		active_workspace   #8ec07c #8ec07c #ebdbb2
+		inactive_workspace #504945 #504945 #ebdbb2
+		urgent_workspace   #cc241d #cc241d #504945
+		binding_mode       #2f343a #900000    #ffffff
+	}
+	status_command i3status -c ~/.config/i3status/gruvbox_config
 }
 
 # gaps configuration
@@ -184,9 +186,12 @@ gaps outer 3
 gaps inner 10
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #FF8C00 #FFA500 #ffffff #FFA500   #FFA500
+client.focused          #FF8C00 #FFA500 #504945 #FFA500   #FFA500
 client.focused_inactive #CD853F #CD853F #ffffff #CD853F   #CD853F
 client.unfocused        #222222 #222222 #888888 #222222   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
+#xprop | grep WM_NAME
+# next click on the window of interest
+for_window [title="Vulkan Shadertoy launcher"] floating enable
