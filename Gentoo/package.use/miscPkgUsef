@@ -17,7 +17,6 @@ sys-fs/udev -acl -kmod
 #games-emulation/dolphin -upnp -mgba gui
 games-emulation/pcsxr -sdl
 dev-qt/qtgui -libinput
-x11-drivers/nvidia-drivers -tools -static-libs
 
 # Changes the system wants
 >=media-video/ffmpeg-4.4.1-r4 xvid opus x264 theora mp3 vpx vorbis #mostly for blender
