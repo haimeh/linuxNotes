@@ -1,0 +1,35 @@
+# Changes I want
+media-video/ffmpeg bluray v4l nvenc
+dev-lang/R -perl -java png minimal 
+app-editors/vim terminal cscope
+dev-util/nvidia-cuda-toolkit profiler
+media-gfx/imagemagick jpeg xml
+media-libs/mesa -vulkan -opencl
+x11-base/xorg-server udev -suid # make sure you are in video (and input?) group then: rc-update add elogind boot
+www-client/librewolf hardened
+media-gfx/blender -sndfile -fluid -potrace -dds -oidn -opensubdiv -openvdb -pdf -tbb -embree cycles
+media-sound/fluidsynth -sndfile
+net-wireless/aircrack-ng -airdrop-ng -airgraph-ng -experimental -pcre netlink sqlite
+net-analyzer/wireshark tshark -sharkd # -filecaps -pcap
+#net-analyzer/nmap -nse
+#sys-apps/busybox mdev
+sys-fs/udev -acl -kmod
+#games-emulation/dolphin -upnp -mgba gui
+games-emulation/pcsxr -sdl
+dev-qt/qtgui -libinput
+x11-drivers/nvidia-drivers -tools -static-libs
+
+# Changes the system wants
+>=media-video/ffmpeg-4.4.1-r4 xvid opus x264 theora mp3 vpx vorbis #mostly for blender
+sys-apps/hwids udev
+net-libs/nodejs -lto
+sys-devel/gcc lto graphite pgo
+sys-devel/clang default-lld default-compiler-rt llvm-libunwind
+media-libs/opencolorio -opengl
+#media-tv/v4l-utils -bpf
+#app-contaners/docker btrfs device-mapper
+
+
+# tests
+#sys-libs/compiler-rt LLVM_TARGETS: WebAssemly
+#sys-devel/llvm LLVM_TARGETS: NVPTX

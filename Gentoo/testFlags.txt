@@ -1,0 +1,30 @@
+#testing musl lto fixes
+
+sys/develbc-1.07.1 *FLAGS-=-flto*
+dev/pythonlxml-4.9.1::gentoo *FLAGS-=-flto*
+sys/appsiproute2-5.18.0 *FLAGS-=-flto*
+sys/appsgawk-5.1.1 *FLAGS-=-flto*
+dev/libslibtasn1-4.18.0::gentoo *FLAGS-=-flto*
+net/libsgnutls-3.7.6::gentoo *FLAGS-=-flto*
+app/cryptpinentry-1.2.0 *FLAGS-=-flto*
+app/cryptgnupg-2.3.6 *FLAGS-=-flto*
+app/cryptgpgme-1.17.1 *FLAGS-=-flto*
+dev/utilcscope-15.9::gentoo *FLAGS-=-flto*
+app/editorsvim-8.2.5066 *FLAGS-=-flto*
+dev/utilninja-1.11.0::gentoo *FLAGS-=-flto*
+net/misciputils-20211215::gentoo *FLAGS-=-flto*
+dev/libsjsoncpp-1.9.5::gentoo *FLAGS-=-flto*
+app/portageeix-0.36.3::mv *FLAGS-=-flto*
+sys/appsopenrc-0.45.2::gentoo *FLAGS-=-flto*
+app/cryptlibb2-0.98.1 *FLAGS-=-flto*
+app/portageportage-utils *FLAGS-=-flto*
+dev/utilccache-4.6.1::gentoo *FLAGS-=-flto*
+dev/langpython-3.11.0_beta3_p2::gentoo *FLAGS-=-flto*
+sys/appsportage-3.0.30 *FLAGS-=-flto*
+app/textxmlto-0.0.28 *FLAGS-=-flto*
+dev/vcsgit-2.35.1::gentoo *FLAGS-=-flto*
+sys/authelogind-246.10 *FLAGS-=-flto*
+sys/processprocps-3.3.17 *FLAGS-=-flto*
+sys/appsshadow-4.11.1::gentoo *FLAGS-=-flto*
+sys/appsdbus-1.14.0 *FLAGS-=-flto*
+net/miscopenssh-9.0_p1 *FLAGS-=-flto*

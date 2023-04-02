@@ -9,7 +9,8 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod1
+#set $mod Mod1
+set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -40,6 +41,7 @@ bindsym $mod+d exec dmenu_run
 # lock screen
 # identify -ping -format '%w %h' image.jpg
 bindsym $mod+Escape exec "import -window root BMP:- | convert - -blur 0x6 RGB:- | i3lock --raw $(xrandr | grep \* | awk '{print $1}'):rgb --ignore-empty-password --no-unlock-indicator --image /dev/stdin"
+bindsym $mod+Shift+p exec "import -window root ~/Pictures/zz_screenshot.png"
 
 # change focus
 bindsym $mod+h focus left
@@ -104,6 +106,9 @@ set $ws8 "八"
 set $ws9 "九"
 set $ws10 "十"
 
+# flip workspace between last visited
+bindsym $mod+Tab workspace back_and_forth
+
 # switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
@@ -115,6 +120,12 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
+
+# Make the currently focused window a scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the first scratchpad window
+bindsym $mod+minus scratchpad show
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
@@ -134,6 +145,14 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+Escape exec "i3-nagbar -t warning -m 'This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+#CapsLock indicator
+#mode "CAPSLOCK" {
+#	bindsym Caps_Lock mode "default"
+#}
+#bindsym Caps_Lock mode "CAPSLOCK"
+
+
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -170,23 +189,29 @@ bar {
 		background #1d2021
 		statusline #ebdbb2
 		separator  #666666
-		# class	            border  backround  text
+		# class	           border  backround  text
 		focused_workspace  #689d6a #689d6a #ebdbb2
 		active_workspace   #8ec07c #8ec07c #ebdbb2
 		inactive_workspace #504945 #504945 #ebdbb2
 		urgent_workspace   #cc241d #cc241d #504945
-		binding_mode       #2f343a #900000    #ffffff
+		binding_mode       #2f343a #900000 #ffffff
 	}
 	status_command i3status -c ~/.config/i3status/gruvbox_config
 }
 
 # gaps configuration
+title_align center
 for_window [class=".*"] border pixel 2
 gaps outer 3
 gaps inner 10
 
+#border_radius 3
+
 # class                 border  backgr. text    indicator child_border
-client.focused          #FF8C00 #FFA500 #504945 #FFA500   #FFA500
+#client.focused          #FF8C00 #32302F #504945 #32302F   #32302F
+#client.focused          #FF8C00 #504945 #504945 #504945   #504945
+#client.focused          #FF8C00 #D65D0E #504945 #D65D0E   #D65D0E
+client.focused          #FF8C00 #FE8019 #504945 #FE8019   #FE8019
 client.focused_inactive #CD853F #CD853F #ffffff #CD853F   #CD853F
 client.unfocused        #222222 #222222 #888888 #222222   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000

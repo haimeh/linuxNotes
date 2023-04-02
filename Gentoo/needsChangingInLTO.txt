@@ -1,0 +1,4 @@
+/etc/portage/package.cflags/tls-dialect.conf
+/etc/portage/package.cflags/lto.conf
+/etc/portage/package.cflags/ipa-pta.conf
+/etc/portage/package.cflags/optimizations.conf

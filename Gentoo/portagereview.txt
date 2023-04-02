@@ -1,0 +1,887 @@
+
+>>> Jobs: 135 of 135 complete                       Load avg: 1.66, 1.58, 1.69
+
+ * Messages for package sys-apps/portage-3.0.30-r5:
+
+ * Unable to find kernel sources at /usr/src/linux
+ * Unable to calculate Linux Kernel version for build, attempting to use running version
+ * Unable to check for the following kernel config options due
+ * to absence of any configured kernel sources or compiled
+ * config:
+ *  - IPC_NS
+ *  - PID_NS
+ *  - NET_NS
+ *  - UTS_NS
+ * You're on your own to make sure they are set if needed.
+
+ * Messages for package dev-lang/perl-5.36.0:
+
+ * UPDATE THE PERL MODULES:
+ * After updating dev-lang/perl the installed Perl modules
+ * have to be re-installed. In most cases, this is done automatically
+ * by the package manager, but subsequent steps are still recommended
+ * to ensure system consistency.
+ *
+ * You should start with a depclean to remove any unused perl dependencies
+ * that may confuse portage in future. Regular depcleans are also encouraged
+ * as part of your regular update cycle, as that will keep perl upgrades working.
+ * Recommended: emerge --depclean -va
+ *
+ * You should then call perl-cleaner to clean up any old files and trigger any
+ * remaining rebuilds portage may have missed.
+ * Use: perl-cleaner --all
+
+ * Messages for package sys-apps/coreutils-9.1-r1:
+
+ * Make sure you run 'hash -r' in your active shells.
+ * You should also re-source your shell settings for LS_COLORS
+ *   changes, such as: source /etc/profile
+
+ * Messages for package sys-apps/sysvinit-3.04:
+
+ * The last/lastb/mesg/mountpoint/sulogin/utmpdump/wall tools have been moved to
+ * sys-apps/util-linux. The pidof tool has been moved to sys-process/procps.
+
+ * Messages for package net-firewall/iptables-1.8.7-r2:
+
+ * Unsetting ebtables symlinks before removal
+ * Unsetting arptables symlinks before removal
+
+ * Messages for package perl-core/Encode-3.120.0:
+
+ * Unable to establish //usr/bin/encguess symlink
+ * Unable to establish //usr/share/man/man1/encguess.1.bz2 symlink
+
+ * Messages for package sys-libs/pam-1.5.2-r1:
+
+ * Some software with pre-loaded PAM libraries might experience
+ * warnings or failures related to missing symbols and/or versions
+ * after any update. While unfortunate this is a limit of the
+ * implementation of PAM and the software, and it requires you to
+ * restart the software manually after the update.
+ *
+ * You can get a list of such software running a command like
+ *   lsof / | grep -E -i 'del.*libpam\.so'
+ *
+ * Alternatively, simply reboot your system.
+
+ * Messages for package sys-apps/util-linux-2.38:
+
+ * The mesg/wall/write tools have been disabled due to USE=-tty-helpers.
+
+ * Messages for package app-vim/eselect-syntax-20070506-r2:
+
+ *
+ * This plugin provides documentation via vim's help system. To
+ * view it, use:
+ *     :help eselect-syntax
+ *
+ * This plugin makes use of filetype settings. To enable these,
+ * add lines like:
+ *     filetype plugin on
+ *     filetype indent on
+ * to your ~/.vimrc file.
+ *
+
+ * Messages for package app-vim/gentoo-syntax-2:
+
+ *
+ * This plugin provides documentation via vim's help system. To
+ * view it, use:
+ *     :help gentoo-syntax
+ *
+ * This plugin makes use of filetype settings. To enable these,
+ * add lines like:
+ *     filetype plugin on
+ *     filetype indent on
+ * to your ~/.vimrc file.
+ *
+
+ * Messages for package app-misc/ca-certificates-20211016.3.80:
+
+ * Removing the following broken symlinks:
+ * /etc/ssl/certs/2e5ac55d.0 -> DST_Root_CA_X3.pem
+ * /etc/ssl/certs/4a6481c9.0 -> GlobalSign_Root_CA_-_R2.pem
+ * /etc/ssl/certs/1636090b.0 -> Hellenic_Academic_and_Research_Institutions_RootCA_2011.pem
+ * /etc/ssl/certs/76cb8f92.0 -> Cybertrust_Global_Root.pem
+
+ * Messages for package sys-apps/portage-3.0.30-r5:
+
+ * Unable to find kernel sources at /usr/src/linux
+ * Unable to calculate Linux Kernel version for build, attempting to use running version
+
+
+ * Messages for package perl-core/CPAN-2.290.0-r1:
+
+ * Removing dead symlink //usr/bin/cpan-mirrors
+ * Removing dead symlink //usr/share/man/man1/cpan-mirrors.1.bz2
+
+* Messages for package net-misc/dhcpcd-9.4.1:
+
+ *
+ * dhcpcd has zeroconf support active by default.
+ * This means it will always obtain an IP address even if no
+ * DHCP server can be contacted, which will break any existing
+ * failover support you may have configured in your net configuration.
+ * This behaviour can be controlled with the noipv4ll configuration
+ * file option or the -L command line switch.
+ * See the dhcpcd and dhcpcd.conf man pages for more details.
+ *
+ * Dhcpcd has duid enabled by default, and this may cause issues
+ * with some dhcp servers. For more information, see
+ * https://bugs.gentoo.org/show_bug.cgi?id=477356
+ *
+ * If you activate the lookup-hostname hook to look up your hostname
+ * using the dns, you need to install net-dns/bind-tools.
+
+ * Messages for package sys-auth/elogind-246.10-r2:
+
+ * Unable to find kernel sources at /usr/src/linux
+ * Unable to calculate Linux Kernel version for build, attempting to use running version
+ * Unable to check for the following kernel config options due
+ * to absence of any configured kernel sources or compiled
+ * config:
+ *  - CGROUPS
+ *  - EPOLL
+ *  - INOTIFY_USER
+ *  - SIGNALFD
+ *  - TIMERFD
+ * You're on your own to make sure they are set if needed.
+ * loginctl will not be able to perform privileged operations without
+ * USE="policykit"! That means e.g. no suspend or hibernate.
+ *
+ * elogind is currently not started from any runlevel.
+ * You may add it to the boot runlevel by:
+ * # rc-update add elogind boot
+ *
+ * Alternatively, you can leave elogind out of any
+ * runlevel. It will then be started automatically
+ * when the first service calls it via dbus, or
+ * the first user logs into the system.
+
+ * Messages for package sys-apps/dbus-1.14.0-r4:
+
+ * Unable to find kernel sources at /usr/src/linux
+ * Unable to calculate Linux Kernel version for build, attempting to use running version
+ * Unable to check for the following kernel config options due
+ * to absence of any configured kernel sources or compiled
+ * config:
+ *  - EPOLL
+ * You're on your own to make sure they are set if needed.
+ * Some applications require a session bus in addition to the system
+ * bus. Please see `man dbus-launch` for more information.
+ *
+ * (Note: Above message is only printed the first time package is
+ * installed. Please look at /usr/share/doc/dbus-1.14.0-r4/README.gentoo*
+ * for future reference)
+>>> Auto-cleaning packages...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ * Messages for package sys-devel/bc-1.07.1-r4:
+
+ * ERROR: sys-devel/bc-1.07.1-r4::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 2891:  Called econf '--with-readline' '--without-libedit'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=sys-devel/bc-1.07.1-r4::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=sys-devel/bc-1.07.1-r4::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/sys-devel/bc-1.07.1-r4/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/sys-devel/bc-1.07.1-r4/temp/environment'.
+ * Working directory: '/var/tmp/portage/sys-devel/bc-1.07.1-r4/work/bc-1.07.1'
+ * S: '/var/tmp/portage/sys-devel/bc-1.07.1-r4/work/bc-1.07.1'
+
+ * Messages for package dev-python/lxml-4.9.1:
+
+ * ERROR: dev-python/lxml-4.9.1::gentoo failed (compile phase):
+ *   (no error message)
+ *
+ * Call stack:
+ *     ebuild.sh, line  127:  Called src_compile
+ *   environment, line 4695:  Called distutils-r1_src_compile
+ *   environment, line 2823:  Called _distutils-r1_run_foreach_impl 'python_compile'
+ *   environment, line 1954:  Called python_foreach_impl 'distutils-r1_run_phase' 'python_compile'
+ *   environment, line 4364:  Called multibuild_foreach_variant '_python_multibuild_wrapper' 'distutils-r1_run_phase' 'python_compile'
+ *   environment, line 3850:  Called _multibuild_run '_python_multibuild_wrapper' 'distutils-r1_run_phase' 'python_compile'
+ *   environment, line 3848:  Called _python_multibuild_wrapper 'distutils-r1_run_phase' 'python_compile'
+ *   environment, line 2296:  Called distutils-r1_run_phase 'python_compile'
+ *   environment, line 2807:  Called python_compile
+ *   environment, line 4156:  Called distutils-r1_python_compile
+ *   environment, line 2611:  Called esetup.py 'build_ext' '-j' '2'
+ *   environment, line 3389:  Called die
+ * The specific snippet of code:
+ *       "${@}" || die -n;
+ *
+ * If you need support, post the output of `emerge --info '=dev-python/lxml-4.9.1::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=dev-python/lxml-4.9.1::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/dev-python/lxml-4.9.1/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/dev-python/lxml-4.9.1/temp/environment'.
+ * Working directory: '/var/tmp/portage/dev-python/lxml-4.9.1/work/lxml-lxml-4.9.1'
+ * S: '/var/tmp/portage/dev-python/lxml-4.9.1/work/lxml-lxml-4.9.1'
+
+
+ * Messages for package sys-apps/iproute2-5.18.0-r1:
+
+ * ERROR: sys-apps/iproute2-5.18.0-r1::gentoo failed (compile phase):
+ *   emake failed
+ *
+ * If you need support, post the output of `emerge --info '=sys-apps/iproute2-5.18.0-r1::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=sys-apps/iproute2-5.18.0-r1::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/sys-apps/iproute2-5.18.0-r1/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/sys-apps/iproute2-5.18.0-r1/temp/environment'.
+ * Working directory: '/var/tmp/portage/sys-apps/iproute2-5.18.0-r1/work/iproute2-5.18.0'
+ * S: '/var/tmp/portage/sys-apps/iproute2-5.18.0-r1/work/iproute2-5.18.0'
+
+ * Messages for package sys-apps/gawk-5.1.1-r2:
+
+ * ERROR: sys-apps/gawk-5.1.1-r2::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 1765:  Called econf '--cache-file=/var/tmp/portage/sys-apps/gawk-5.1.1-r2/work/gawk-5.1.1/config.cache' '--libexec=$(libdir)/misc' '--without-mpfr' '--disable-nls' '--with-readline'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=sys-apps/gawk-5.1.1-r2::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=sys-apps/gawk-5.1.1-r2::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/sys-apps/gawk-5.1.1-r2/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/sys-apps/gawk-5.1.1-r2/temp/environment'.
+ * Working directory: '/var/tmp/portage/sys-apps/gawk-5.1.1-r2/work/gawk-5.1.1'
+ * S: '/var/tmp/portage/sys-apps/gawk-5.1.1-r2/work/gawk-5.1.1'
+
+ * Messages for package sys-kernel/gentoo-sources-5.18.10:
+
+ * Note: Even though you have successfully unmerged
+ * your kernel package, directories in kernel source location:
+ * /usr/src/linux-5.18.10-gentoo
+ * with modified files will remain behind. By design, package managers
+ * will not remove these modified files and the directories they reside in.
+ * For more detailed kernel removal instructions, please see:
+ * https://wiki.gentoo.org/wiki/Kernel/Removal
+
+ * Messages for package sys-kernel/gentoo-sources-5.18.10:
+
+ * If you are upgrading from a previous kernel, you may be interested
+ * in the following document:
+ *   - General upgrade guide: https://wiki.gentoo.org/wiki/Kernel/Upgrade
+
+ * Messages for package dev-libs/libtasn1-4.18.0:
+
+ * ERROR: dev-libs/libtasn1-4.18.0::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 2813:  Called multilib-minimal_src_configure
+ *             environment, line 2258:  Called multilib_foreach_abi 'multilib-minimal_abi_src_configure'
+ *             environment, line 2508:  Called multibuild_foreach_variant '_multilib_multibuild_wrapper' 'multilib-minimal_abi_src_configure'
+ *             environment, line 2213:  Called _multibuild_run '_multilib_multibuild_wrapper' 'multilib-minimal_abi_src_configure'
+ *             environment, line 2211:  Called _multilib_multibuild_wrapper 'multilib-minimal_abi_src_configure'
+ *             environment, line 1575:  Called multilib-minimal_abi_src_configure
+ *             environment, line 2252:  Called multilib_src_configure
+ *             environment, line 2722:  Called econf '--disable-static' '--disable-valgrind-tests'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=dev-libs/libtasn1-4.18.0::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=dev-libs/libtasn1-4.18.0::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/dev-libs/libtasn1-4.18.0/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/dev-libs/libtasn1-4.18.0/temp/environment'.
+ * Working directory: '/var/tmp/portage/dev-libs/libtasn1-4.18.0/work/libtasn1-4.18.0-abi_x86_64.amd64'
+ * S: '/var/tmp/portage/dev-libs/libtasn1-4.18.0/work/libtasn1-4.18.0'
+
+
+ * Messages for package net-libs/gnutls-3.7.6:
+
+ * ERROR: net-libs/gnutls-3.7.6::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 2883:  Called multilib-minimal_src_configure
+ *             environment, line 2314:  Called multilib_foreach_abi 'multilib-minimal_abi_src_configure'
+ *             environment, line 2564:  Called multibuild_foreach_variant '_multilib_multibuild_wrapper' 'multilib-minimal_abi_src_configure'
+ *             environment, line 2269:  Called _multibuild_run '_multilib_multibuild_wrapper' 'multilib-minimal_abi_src_configure'
+ *             environment, line 2267:  Called _multilib_multibuild_wrapper 'multilib-minimal_abi_src_configure'
+ *             environment, line 1631:  Called multilib-minimal_abi_src_configure
+ *             environment, line 2308:  Called multilib_src_configure
+ *             environment, line 2783:  Called econf '--without-tpm' '--without-tpm2' '--enable-manpages' '--disable-gtk-doc' '--disable-doc' '--disable-guile' '--enable-seccomp-tests' '--disable-tests' '--disable-full-test-suite' '--disable-tools' '--disable-valgrind-tests' '--enable-cxx' '--disable-libdane' '--disable-nls' '--enable-openssl-compatibility' '--disable-ssl2-support' '--disable-ssl3-support' '--disable-static' '--enable-heartbeat-support' '--without-brotli' '--with-idn' '--without-p11-kit' '--with-zlib' '--without-zstd' '--disable-rpath' '--with-default-trust-store-file=/etc/ssl/certs/ca-certificates.crt' '--with-unbound-root-key-file=/etc/dnssec/root-anchors.txt' '--without-included-libtasn1' '--without-libiconv-prefix' '--without-libintl-prefix' '--without-libseccomp-prefix' '--without-libcrypto-prefix' '--without-librt-prefix' '--without-libpthread-prefix' '--without-libev-prefix' '--without-libdl-prefix' '--without-libz-prefix'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=net-libs/gnutls-3.7.6::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=net-libs/gnutls-3.7.6::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/net-libs/gnutls-3.7.6/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/net-libs/gnutls-3.7.6/temp/environment'.
+ * Working directory: '/var/tmp/portage/net-libs/gnutls-3.7.6/work/gnutls-3.7.6-abi_x86_64.amd64'
+ * S: '/var/tmp/portage/net-libs/gnutls-3.7.6/work/gnutls-3.7.6'
+
+ * Messages for package app-crypt/pinentry-1.2.0-r1:
+
+ * ERROR: app-crypt/pinentry-1.2.0-r1::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 2962:  Called econf '--disable-pinentry-efl' '--disable-pinentry-emacs' '--disable-libsecret' '--disable-pinentry-gnome3' '--enable-fallback-curses' '--enable-pinentry-curses' '--disable-pinentry-qt' '--without-libcap' '--enable-pinentry-tty' '--disable-pinentry-fltk' '--disable-pinentry-gtk2' 'MOC=/usr/lib/qt5/bin/moc' 'GPG_ERROR_CONFIG=/usr/bin/x86_64-gentoo-linux-musl-gpg-error-config' 'LIBASSUAN_CONFIG=/usr/bin/libassuan-config' '--without-libiconv-prefix'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=app-crypt/pinentry-1.2.0-r1::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=app-crypt/pinentry-1.2.0-r1::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/app-crypt/pinentry-1.2.0-r1/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/app-crypt/pinentry-1.2.0-r1/temp/environment'.
+ * Working directory: '/var/tmp/portage/app-crypt/pinentry-1.2.0-r1/work/pinentry-1.2.0'
+ * S: '/var/tmp/portage/app-crypt/pinentry-1.2.0-r1/work/pinentry-1.2.0'
+
+ * Messages for package app-crypt/gnupg-2.3.6-r1:
+
+ * ERROR: app-crypt/gnupg-2.3.6-r1::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 2969:  Called econf '--enable-bzip2' '--disable-nls' '--disable-scdaemon' '--enable-gnutls' '--disable-all-tests' '--disable-tests' '--enable-tofu' '--enable-keyboxd' '--enable-sqlite' '--disable-tpm2d' '--disable-ccid-driver' '--disable-wks-tools' '--without-ldap' '--with-readline' '--with-mailprog=/usr/libexec/sendmail' '--disable-ntbtls' '--enable-gpgsm' '--enable-large-secmem' 'CC_FOR_BUILD=x86_64-gentoo-linux-musl-gcc' 'GPG_ERROR_CONFIG=/usr/bin/x86_64-gentoo-linux-musl-gpg-error-config' 'KSBA_CONFIG=/usr/bin/ksba-config' 'LIBASSUAN_CONFIG=/usr/bin/libassuan-config' 'LIBGCRYPT_CONFIG=/usr/bin/x86_64-gentoo-linux-musl-libgcrypt-config' 'NPTH_CONFIG=/usr/bin/npth-config' '--without-libiconv-prefix' '--without-libintl-prefix'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=app-crypt/gnupg-2.3.6-r1::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=app-crypt/gnupg-2.3.6-r1::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/app-crypt/gnupg-2.3.6-r1/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/app-crypt/gnupg-2.3.6-r1/temp/environment'.
+ * Working directory: '/var/tmp/portage/app-crypt/gnupg-2.3.6-r1/work/gnupg-2.3.6'
+ * S: '/var/tmp/portage/app-crypt/gnupg-2.3.6-r1/work/gnupg-2.3.6'
+
+
+ * Messages for package app-crypt/gpgme-1.17.1-r1:
+
+ * ERROR: app-crypt/gpgme-1.17.1-r1::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 5050:  Called econf '--disable-gpgconf-test' '--disable-gpg-test' '--disable-gpgsm-test' '--disable-g13-test' '--enable-languages=cpp' '--with-libassuan-prefix=/usr' '--disable-static'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=app-crypt/gpgme-1.17.1-r1::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=app-crypt/gpgme-1.17.1-r1::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/app-crypt/gpgme-1.17.1-r1/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/app-crypt/gpgme-1.17.1-r1/temp/environment'.
+ * Working directory: '/var/tmp/portage/app-crypt/gpgme-1.17.1-r1/work/b'
+ * S: '/var/tmp/portage/app-crypt/gpgme-1.17.1-r1/work/b'
+
+ * Messages for package dev-util/cscope-15.9:
+
+ * ERROR: dev-util/cscope-15.9::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 3065:  Called econf '--with-ncurses=/usr'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=dev-util/cscope-15.9::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=dev-util/cscope-15.9::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/dev-util/cscope-15.9/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/dev-util/cscope-15.9/temp/environment'.
+ * Working directory: '/var/tmp/portage/dev-util/cscope-15.9/work/cscope-15.9'
+ * S: '/var/tmp/portage/dev-util/cscope-15.9/work/cscope-15.9'
+
+
+ * Messages for package app-editors/vim-8.2.5066-r1:
+
+ * ERROR: app-editors/vim-8.2.5066-r1::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 4827:  Called econf '--with-modified-by=Gentoo-8.2.5066-r1' '--with-features=huge' '--disable-canberra' '--enable-acl' '--enable-libsodium' '--enable-cscope' '--disable-gpm' '--disable-nls' '--disable-perlinterp' '--disable-python3interp' '--without-python3-command' '--disable-mzschemeinterp' '--disable-rubyinterp' '--disable-selinux' '--disable-tclinterp' '--enable-terminal' '--enable-gui=no' '--disable-darwin' '--without-x'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=app-editors/vim-8.2.5066-r1::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=app-editors/vim-8.2.5066-r1::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/app-editors/vim-8.2.5066-r1/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/app-editors/vim-8.2.5066-r1/temp/environment'.
+ * Working directory: '/var/tmp/portage/app-editors/vim-8.2.5066-r1/work/vim-8.2.5066'
+ * S: '/var/tmp/portage/app-editors/vim-8.2.5066-r1/work/vim-8.2.5066'
+
+ * Messages for package dev-util/ninja-1.11.0:
+
+ * ERROR: dev-util/ninja-1.11.0::gentoo failed (compile phase):
+ *   (no error message)
+ *
+ * Call stack:
+ *     ebuild.sh, line 127:  Called src_compile
+ *   environment, line 3658:  Called die
+ * The specific snippet of code:
+ *       run_for_build ${EPYTHON} configure.py --bootstrap --verbose || die;
+ *
+ * If you need support, post the output of `emerge --info '=dev-util/ninja-1.11.0::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=dev-util/ninja-1.11.0::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/dev-util/ninja-1.11.0/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/dev-util/ninja-1.11.0/temp/environment'.
+ * Working directory: '/var/tmp/portage/dev-util/ninja-1.11.0/work/ninja-1.11.0'
+ * S: '/var/tmp/portage/dev-util/ninja-1.11.0/work/ninja-1.11.0'
+
+ * Messages for package net-misc/iputils-20211215:
+
+ * ERROR: net-misc/iputils-20211215::gentoo failed (configure phase):
+ *   (no error message)
+ *
+ * Call stack:
+ *     ebuild.sh, line  127:  Called src_configure
+ *   environment, line 4235:  Called meson_src_configure
+ *   environment, line 3465:  Called die
+ * The specific snippet of code:
+ *       "${mesonargs[@]}" ) || die
+ *
+ * If you need support, post the output of `emerge --info '=net-misc/iputils-20211215::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=net-misc/iputils-20211215::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/net-misc/iputils-20211215/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/net-misc/iputils-20211215/temp/environment'.
+ * Working directory: '/var/tmp/portage/net-misc/iputils-20211215/work/iputils-20211215'
+ * S: '/var/tmp/portage/net-misc/iputils-20211215/work/iputils-20211215'
+
+ * Messages for package dev-libs/jsoncpp-1.9.5:
+
+ * ERROR: dev-libs/jsoncpp-1.9.5::gentoo failed (configure phase):
+ *   (no error message)
+ *
+ * Call stack:
+ *     ebuild.sh, line  127:  Called src_configure
+ *   environment, line 3557:  Called meson_src_configure
+ *   environment, line 2885:  Called die
+ * The specific snippet of code:
+ *       "${mesonargs[@]}" ) || die
+ *
+ * If you need support, post the output of `emerge --info '=dev-libs/jsoncpp-1.9.5::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=dev-libs/jsoncpp-1.9.5::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/dev-libs/jsoncpp-1.9.5/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/dev-libs/jsoncpp-1.9.5/temp/environment'.
+ * Working directory: '/var/tmp/portage/dev-libs/jsoncpp-1.9.5/work/jsoncpp-1.9.5'
+ * S: '/var/tmp/portage/dev-libs/jsoncpp-1.9.5/work/jsoncpp-1.9.5'
+
+
+ * Messages for package app-portage/eix-0.36.3:
+
+ * ERROR: app-portage/eix-0.36.3::mv failed (configure phase):
+ *   (no error message)
+ *
+ * Call stack:
+ *     ebuild.sh, line  127:  Called src_configure
+ *   environment, line 3597:  Called meson_src_configure
+ *   environment, line 2957:  Called die
+ * The specific snippet of code:
+ *       "${mesonargs[@]}" ) || die
+ *
+ * If you need support, post the output of `emerge --info '=app-portage/eix-0.36.3::mv'`,
+ * the complete build log and the output of `emerge -pqv '=app-portage/eix-0.36.3::mv'`.
+ * The complete build log is located at '/var/tmp/portage/app-portage/eix-0.36.3/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/app-portage/eix-0.36.3/temp/environment'.
+ * Working directory: '/var/tmp/portage/app-portage/eix-0.36.3/work/eix-0.36.3'
+ * S: '/var/tmp/portage/app-portage/eix-0.36.3/work/eix-0.36.3'
+
+ * Messages for package sys-apps/openrc-0.45.2:
+
+ * ERROR: sys-apps/openrc-0.45.2::gentoo failed (configure phase):
+ *   (no error message)
+ *
+ * Call stack:
+ *     ebuild.sh, line  127:  Called src_configure
+ *   environment, line 4069:  Called meson_src_configure
+ *   environment, line 3268:  Called die
+ * The specific snippet of code:
+ *       "${mesonargs[@]}" ) || die
+ *
+ * If you need support, post the output of `emerge --info '=sys-apps/openrc-0.45.2::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=sys-apps/openrc-0.45.2::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/sys-apps/openrc-0.45.2/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/sys-apps/openrc-0.45.2/temp/environment'.
+ * Working directory: '/var/tmp/portage/sys-apps/openrc-0.45.2/work/openrc-0.45.2'
+ * S: '/var/tmp/portage/sys-apps/openrc-0.45.2/work/openrc-0.45.2'
+
+ * Messages for package app-crypt/libb2-0.98.1-r3:
+
+ * ERROR: app-crypt/libb2-0.98.1-r3::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 3307:  Called multilib-minimal_src_configure
+ *             environment, line 2738:  Called multilib_foreach_abi 'multilib-minimal_abi_src_configure'
+ *             environment, line 2988:  Called multibuild_foreach_variant '_multilib_multibuild_wrapper' 'multilib-minimal_abi_src_configure'
+ *             environment, line 2693:  Called _multibuild_run '_multilib_multibuild_wrapper' 'multilib-minimal_abi_src_configure'
+ *             environment, line 2691:  Called _multilib_multibuild_wrapper 'multilib-minimal_abi_src_configure'
+ *             environment, line 1699:  Called multilib-minimal_abi_src_configure
+ *             environment, line 2732:  Called multilib_src_configure
+ *             environment, line 3204:  Called econf '--disable-static' '--disable-native' '--enable-openmp'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=app-crypt/libb2-0.98.1-r3::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=app-crypt/libb2-0.98.1-r3::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/app-crypt/libb2-0.98.1-r3/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/app-crypt/libb2-0.98.1-r3/temp/environment'.
+ * Working directory: '/var/tmp/portage/app-crypt/libb2-0.98.1-r3/work/libb2-73d41c8255a991ed2adea41c108b388d9d14b449-abi_x86_64.amd64'
+ * S: '/var/tmp/portage/app-crypt/libb2-0.98.1-r3/work/libb2-73d41c8255a991ed2adea41c108b388d9d14b449'
+
+ * Messages for package app-portage/portage-utils-0.94.1:
+
+ * ERROR: app-portage/portage-utils-0.94.1::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 1774:  Called econf '--disable-maintainer-mode' '--with-eprefix=' '--enable-qmanifest' '--enable-qtegrity' '--enable-openmp' '--disable-static'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=app-portage/portage-utils-0.94.1::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=app-portage/portage-utils-0.94.1::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/app-portage/portage-utils-0.94.1/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/app-portage/portage-utils-0.94.1/temp/environment'.
+ * Working directory: '/var/tmp/portage/app-portage/portage-utils-0.94.1/work/portage-utils-0.94.1'
+ * S: '/var/tmp/portage/app-portage/portage-utils-0.94.1/work/portage-utils-0.94.1'
+
+ * Messages for package dev-util/ccache-4.6.1:
+
+ * ERROR: dev-util/ccache-4.6.1::gentoo failed (configure phase):
+ *   cmake failed
+ *
+ * Call stack:
+ *     ebuild.sh, line  127:  Called src_configure
+ *   environment, line 3295:  Called cmake_src_configure
+ *   environment, line 2198:  Called die
+ * The specific snippet of code:
+ *       "${CMAKE_BINARY}" "${cmakeargs[@]}" "${CMAKE_USE_DIR}" || die "cmake failed";
+ *
+ * If you need support, post the output of `emerge --info '=dev-util/ccache-4.6.1::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=dev-util/ccache-4.6.1::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/dev-util/ccache-4.6.1/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/dev-util/ccache-4.6.1/temp/environment'.
+ * Working directory: '/var/tmp/portage/dev-util/ccache-4.6.1/work/ccache-4.6.1_build'
+ * S: '/var/tmp/portage/dev-util/ccache-4.6.1/work/ccache-4.6.1'
+
+ * Messages for package dev-lang/python-3.11.0_beta3_p2:
+
+ * ERROR: dev-lang/python-3.11.0_beta3_p2::gentoo failed (compile phase):
+ *   emake failed
+ *
+ * If you need support, post the output of `emerge --info '=dev-lang/python-3.11.0_beta3_p2::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=dev-lang/python-3.11.0_beta3_p2::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/dev-lang/python-3.11.0_beta3_p2/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/dev-lang/python-3.11.0_beta3_p2/temp/environment'.
+ * Working directory: '/var/tmp/portage/dev-lang/python-3.11.0_beta3_p2/work/Python-3.11.0b3'
+ * S: '/var/tmp/portage/dev-lang/python-3.11.0_beta3_p2/work/Python-3.11.0b3'
+
+ * Messages for package sys-apps/portage-3.0.30-r5:
+
+ * ERROR: sys-apps/portage-3.0.30-r5::gentoo failed (compile phase):
+ *   (no error message)
+ *
+ * Call stack:
+ *     ebuild.sh, line  127:  Called src_compile
+ *   environment, line 5439:  Called distutils-r1_src_compile
+ *   environment, line 3060:  Called _distutils-r1_run_foreach_impl 'distutils-r1_python_compile'
+ *   environment, line 1951:  Called python_foreach_impl 'distutils-r1_run_phase' 'distutils-r1_python_compile'
+ *   environment, line 4988:  Called multibuild_foreach_variant '_python_multibuild_wrapper' 'distutils-r1_run_phase' 'distutils-r1_python_compile'
+ *   environment, line 4470:  Called _multibuild_run '_python_multibuild_wrapper' 'distutils-r1_run_phase' 'distutils-r1_python_compile'
+ *   environment, line 4468:  Called _python_multibuild_wrapper 'distutils-r1_run_phase' 'distutils-r1_python_compile'
+ *   environment, line 2321:  Called distutils-r1_run_phase 'distutils-r1_python_compile'
+ *   environment, line 3042:  Called distutils-r1_python_compile
+ *   environment, line 2849:  Called esetup.py 'build' '-j' '2'
+ *   environment, line 3689:  Called die
+ * The specific snippet of code:
+ *       "${@}" || die -n;
+ *
+ * If you need support, post the output of `emerge --info '=sys-apps/portage-3.0.30-r5::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=sys-apps/portage-3.0.30-r5::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/sys-apps/portage-3.0.30-r5/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/sys-apps/portage-3.0.30-r5/temp/environment'.
+ * Working directory: '/var/tmp/portage/sys-apps/portage-3.0.30-r5/work/portage-3.0.30'
+ * S: '/var/tmp/portage/sys-apps/portage-3.0.30-r5/work/portage-3.0.30'
+
+ * Messages for package sys-config/ltoize-0.9.10:
+
+ * Installing make.conf.lto.defines definitions for optimizations used in this overlay
+ * Installing make.conf.lto default full optimization config for make.conf
+ * Installing package.cflags cmake-makefile.conf override
+ * Installing package.cflags devirtualize-at-ltrans.conf override
+ * Installing package.cflags graphite.conf override
+ * Installing package.cflags ipa-pta.conf override
+ * Installing package.cflags lto.conf override
+ * Installing package.cflags no-common-libtool.conf override
+ * Installing package.cflags no-plt.conf override
+ * Installing package.cflags no-semantic-interposition.conf override
+ * Installing package.cflags optimizations.conf override
+ * Installing package.cflags portage-bashrc-mv.conf override
+ * Installing package.cflags tls-dialect.conf override
+ * Installing package.cflags use-ld.conf override
+ * Installing bashrc.d hook symlink to apply LTO patches directly from lto-overlay
+ * Installing bashrc.d hook symlink to override package libtool lt_cv_sys_global_symbol_pipe and lt_cv_sys_global_symbol_to_cdecl
+ * If you have not done so, you will need to modify your make.conf settings to enable LTO building on your system.
+ * A symlink has been placed in /etc/portage/make.conf.lto that can be used as a basis for these modifications.
+ * See README.md for more details.
+ * lto-overlay and ltoize are part of a project to help find undefined behaviour in C and C++ programs through the use of aggressive compiler optimizations.
+ * One of the aims of this project is also to improve the performance of linux distributions through these mechanisms as well.
+ * Occasionally, you will experience breakage due to LTO problems.  These are documented in the README.md of this repository.
+ * If you add an override for a particular package, please consider sending a pull request upstream so that other users of this
+repository can benefit.
+ * You will require a complete system rebuild in order to gain the benefits of LTO system-wide.
+ * Please consider reading the README.md at the root of this repository before attempting to rebuild your system to familiarize
+yourself with the goals of this project and potential pitfalls you could run into.
+ * This is an experimental project and should not be used on a stable system in its current state.
+
+ * Messages for package app-text/xmlto-0.0.28-r8:
+
+ * ERROR: app-text/xmlto-0.0.28-r8::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 2877:  Called econf
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=app-text/xmlto-0.0.28-r8::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=app-text/xmlto-0.0.28-r8::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/app-text/xmlto-0.0.28-r8/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/app-text/xmlto-0.0.28-r8/temp/environment'.
+ * Working directory: '/var/tmp/portage/app-text/xmlto-0.0.28-r8/work/xmlto-0.0.28'
+ * S: '/var/tmp/portage/app-text/xmlto-0.0.28-r8/work/xmlto-0.0.28'
+
+ * Messages for package dev-vcs/git-2.35.1:
+
+ * ERROR: dev-vcs/git-2.35.1::gentoo failed (compile phase):
+ *   emake failed
+ *
+ * If you need support, post the output of `emerge --info '=dev-vcs/git-2.35.1::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=dev-vcs/git-2.35.1::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/dev-vcs/git-2.35.1/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/dev-vcs/git-2.35.1/temp/environment'.
+ * Working directory: '/var/tmp/portage/dev-vcs/git-2.35.1/work/git-2.35.1'
+ * S: '/var/tmp/portage/dev-vcs/git-2.35.1/work/git-2.35.1'
+
+ * Messages for package sys-auth/elogind-246.10-r2:
+
+ * ERROR: sys-auth/elogind-246.10-r2::gentoo failed (configure phase):
+ *   (no error message)
+ *
+ * Call stack:
+ *     ebuild.sh, line  127:  Called src_configure
+ *   environment, line 4787:  Called meson_src_configure
+ *   environment, line 3925:  Called die
+ * The specific snippet of code:
+ *       "${mesonargs[@]}" ) || die
+ *
+ * If you need support, post the output of `emerge --info '=sys-auth/elogind-246.10-r2::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=sys-auth/elogind-246.10-r2::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/sys-auth/elogind-246.10-r2/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/sys-auth/elogind-246.10-r2/temp/environment'.
+ * Working directory: '/var/tmp/portage/sys-auth/elogind-246.10-r2/work/elogind-246.10'
+ * S: '/var/tmp/portage/sys-auth/elogind-246.10-r2/work/elogind-246.10'
+
+ * Messages for package sys-process/procps-3.3.17-r1:
+
+ * ERROR: sys-process/procps-3.3.17-r1::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 3334:  Called multilib-minimal_src_configure
+ *             environment, line 2663:  Called multilib_foreach_abi 'multilib-minimal_abi_src_configure'
+ *             environment, line 2913:  Called multibuild_foreach_variant '_multilib_multibuild_wrapper' 'multilib-minimal_abi_src_configure'
+ *             environment, line 2618:  Called _multibuild_run '_multilib_multibuild_wrapper' 'multilib-minimal_abi_src_configure'
+ *             environment, line 2616:  Called _multilib_multibuild_wrapper 'multilib-minimal_abi_src_configure'
+ *             environment, line 1669:  Called multilib-minimal_abi_src_configure
+ *             environment, line 2657:  Called multilib_src_configure
+ *             environment, line 3130:  Called econf '--with-elogind' '--enable-kill' '--disable-modern-top' '--with-ncurses' '--disable-nls' '--disable-libselinux' '--disable-static' '--without-systemd' '--enable-watch8bit'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=sys-process/procps-3.3.17-r1::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=sys-process/procps-3.3.17-r1::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/sys-process/procps-3.3.17-r1/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/sys-process/procps-3.3.17-r1/temp/environment'.
+ * Working directory: '/var/tmp/portage/sys-process/procps-3.3.17-r1/work/procps-3.3.17-abi_x86_64.amd64'
+ * S: '/var/tmp/portage/sys-process/procps-3.3.17-r1/work/procps-3.3.17'
+
+ * Messages for package sys-apps/shadow-4.11.1:
+
+ * ERROR: sys-apps/shadow-4.11.1::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 3080:  Called econf '--disable-account-tools-setuid' '--disable-static' '--with-btrfs' '--without-group-name-max-length' '--without-tcb' '--disable-nls' '--with-acl' '--without-audit' '--without-bcrypt' '--without-libcrack' '--without-nscd' '--with-libpam' '--without-selinux' '--without-skey' '--without-su' '--with-attr'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=sys-apps/shadow-4.11.1::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=sys-apps/shadow-4.11.1::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/sys-apps/shadow-4.11.1/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/sys-apps/shadow-4.11.1/temp/environment'.
+ * Working directory: '/var/tmp/portage/sys-apps/shadow-4.11.1/work/shadow-4.11.1'
+ * S: '/var/tmp/portage/sys-apps/shadow-4.11.1/work/shadow-4.11.1'
+
+ * Messages for package sys-apps/dbus-1.14.0-r4:
+
+ * ERROR: sys-apps/dbus-1.14.0-r4::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 5549:  Called multilib-minimal_src_configure
+ *             environment, line 4277:  Called multilib_foreach_abi 'multilib-minimal_abi_src_configure'
+ *             environment, line 4527:  Called multibuild_foreach_variant '_multilib_multibuild_wrapper' 'multilib-minimal_abi_src_configure'
+ *             environment, line 4232:  Called _multibuild_run '_multilib_multibuild_wrapper' 'multilib-minimal_abi_src_configure'
+ *             environment, line 4230:  Called _multilib_multibuild_wrapper 'multilib-minimal_abi_src_configure'
+ *             environment, line 1863:  Called multilib-minimal_abi_src_configure
+ *             environment, line 4271:  Called multilib_src_configure
+ *             environment, line 4773:  Called econf '--localstatedir=/var' '--disable-static' '--disable-verbose-mode' '--disable-asserts' '--disable-checks' '--disable-selinux' '--disable-libaudit' '--disable-apparmor' '--enable-inotify' '--disable-kqueue' '--enable-elogind' '--disable-systemd' '--disable-user-session' '--disable-embedded-tests' '--disable-modular-tests' '--disable-stats' '--with-session-socket-dir=/tmp' '--with-system-pid-file=/run/dbus.pid' '--with-system-socket=/run/dbus/system_bus_socket' '--with-systemdsystemunitdir=/lib/systemd/system' '--with-systemduserunitdir=/usr/lib/systemd/user' '--with-dbus-user=messagebus' '--without-x' '--enable-xml-docs' '--disable-doxygen-docs'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=sys-apps/dbus-1.14.0-r4::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=sys-apps/dbus-1.14.0-r4::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/sys-apps/dbus-1.14.0-r4/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/sys-apps/dbus-1.14.0-r4/temp/environment'.
+ * Working directory: '/var/tmp/portage/sys-apps/dbus-1.14.0-r4/work/dbus-1.14.0-abi_x86_64.amd64'
+ * S: '/var/tmp/portage/sys-apps/dbus-1.14.0-r4/work/dbus-1.14.0'
+
+
+ * Messages for package net-misc/openssh-9.0_p1-r2:
+
+ * ERROR: net-misc/openssh-9.0_p1-r2::gentoo failed (configure phase):
+ *   econf failed
+ *
+ * Call stack:
+ *               ebuild.sh, line  127:  Called src_configure
+ *             environment, line 3808:  Called econf '--with-ldflags=-Wl,-O1 -Wl,--as-needed' '--disable-strip' '--with-pid-dir=/run' '--sysconfdir=/etc/ssh' '--libexecdir=/usr/lib/misc' '--datadir=/usr/share/openssh' '--with-privsep-path=/var/empty' '--with-privsep-user=sshd' '--without-audit' '--without-kerberos5' '--without-ldns' '--without-libedit' '--with-pam' '--with-pie' '--without-selinux' '--without-security-key-builtin' '--with-openssl' '--with-ssl-engine' '--with-hardening' '--disable-utmp' '--disable-wtmp'
+ *        phase-helpers.sh, line  711:  Called __helpers_die 'econf failed'
+ *   isolated-functions.sh, line  112:  Called die
+ * The specific snippet of code:
+ *              die "$@"
+ *
+ * If you need support, post the output of `emerge --info '=net-misc/openssh-9.0_p1-r2::gentoo'`,
+ * the complete build log and the output of `emerge -pqv '=net-misc/openssh-9.0_p1-r2::gentoo'`.
+ * The complete build log is located at '/var/tmp/portage/net-misc/openssh-9.0_p1-r2/temp/build.log'.
+ * The ebuild environment file is located at '/var/tmp/portage/net-misc/openssh-9.0_p1-r2/temp/environment'.
+ * Working directory: '/var/tmp/portage/net-misc/openssh-9.0_p1-r2/work/openssh-9.0p1'
+ * S: '/var/tmp/portage/net-misc/openssh-9.0_p1-r2/work/openssh-9.0p1'
+ *
+ * The following 29 packages have failed to build, install, or execute
+ * postinst:
+
+ *  (sys-devel/bc-1.07.1-r4:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/sys-devel/bc-1.07.1-r4/temp/build.log'
+ *  (dev-python/lxml-4.9.1:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/dev-python/lxml-4.9.1/temp/build.log'
+ *  (sys-apps/iproute2-5.18.0-r1:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/sys-apps/iproute2-5.18.0-r1/temp/build.log'
+ *  (sys-apps/gawk-5.1.1-r2:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/sys-apps/gawk-5.1.1-r2/temp/build.log'
+ *  (dev-libs/libtasn1-4.18.0:0/6::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/dev-libs/libtasn1-4.18.0/temp/build.log'
+ *  (net-libs/gnutls-3.7.6:0/30.30::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/net-libs/gnutls-3.7.6/temp/build.log'
+ *  (app-crypt/pinentry-1.2.0-r1:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/app-crypt/pinentry-1.2.0-r1/temp/build.log'
+ *  (app-crypt/gnupg-2.3.6-r1:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/app-crypt/gnupg-2.3.6-r1/temp/build.log'
+ *  (app-crypt/gpgme-1.17.1-r1:1/11.6.15::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/app-crypt/gpgme-1.17.1-r1/temp/build.log'
+ *  (dev-util/cscope-15.9:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/dev-util/cscope-15.9/temp/build.log'
+ *  (app-editors/vim-8.2.5066-r1:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/app-editors/vim-8.2.5066-r1/temp/build.log'
+ *  (dev-util/ninja-1.11.0:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/dev-util/ninja-1.11.0/temp/build.log'
+ *  (net-misc/iputils-20211215:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/net-misc/iputils-20211215/temp/build.log'
+ *  (dev-libs/jsoncpp-1.9.5:0/25::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/dev-libs/jsoncpp-1.9.5/temp/build.log'
+ *  (app-portage/eix-0.36.3:0/0::mv, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/app-portage/eix-0.36.3/temp/build.log'
+ *  (sys-apps/openrc-0.45.2:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/sys-apps/openrc-0.45.2/temp/build.log'
+ *  (dev-util/cmake-3.23.2:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/dev-util/cmake-3.23.2/temp/build.log'
+ *  (app-crypt/libb2-0.98.1-r3:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/app-crypt/libb2-0.98.1-r3/temp/build.log'
+ *  (app-portage/portage-utils-0.94.1:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/app-portage/portage-utils-0.94.1/temp/build.log'
+ *  (dev-util/ccache-4.6.1:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/dev-util/ccache-4.6.1/temp/build.log'
+ *  (dev-lang/python-3.11.0_beta3_p2:3.11/3.11::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/dev-lang/python-3.11.0_beta3_p2/temp/build.log'
+ *  (sys-apps/portage-3.0.30-r5:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/sys-apps/portage-3.0.30-r5/temp/build.log'
+ *  (app-text/xmlto-0.0.28-r8:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/app-text/xmlto-0.0.28-r8/temp/build.log'
+ *  (dev-vcs/git-2.35.1:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/dev-vcs/git-2.35.1/temp/build.log'
+ *  (sys-auth/elogind-246.10-r2:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/sys-auth/elogind-246.10-r2/temp/build.log'
+ *  (sys-process/procps-3.3.17-r1:0/8::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/sys-process/procps-3.3.17-r1/temp/build.log'
+ *  (sys-apps/shadow-4.11.1:0/4::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/sys-apps/shadow-4.11.1/temp/build.log'
+ *  (sys-apps/dbus-1.14.0-r4:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/sys-apps/dbus-1.14.0-r4/temp/build.log'
+ *  (net-misc/openssh-9.0_p1-r2:0/0::gentoo, ebuild scheduled for merge), Log file:
+ *   '/var/tmp/portage/net-misc/openssh-9.0_p1-r2/temp/build.log'
+ *
+

@@ -15,6 +15,7 @@ fdisk -l
 
 # next we partition the disk for efi, root, and home
 # efi will be EFI system and later formatted vfat (550M)
+#	boot (if using mbr) will be Linux ext4 550M
 # root will be Linux root (x86-64) amd formatted ext4 (128G)
 # home will be Linux home and formatted ext4 (remainder)
 # NOTE you may need to choose gpt as the header thing first
@@ -31,7 +32,8 @@ cfdisk /dev/nvme1n1
 # once partitions are written, they must be formatted
 # efi (dosfstools)
 mkfs.msdos -F32 /dev/nvme1n1p1
-# mbr bios boot (and thats not a zero0)
+
+# mbr bios boot (and thats not a zero 0 )
 #mkfs.ext4 -L boot -O '^64bit' /dev/sda1
 
 # root and home
@@ -61,19 +63,18 @@ cd /mnt
 # x:extract p:preserve v:verbose f:filename(is next)
 # xattrs-include:preserve all attributes
 # numeric-owner:preserve group ids
-
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 # Customize make.conf or copy a premade one
-# comment out layman?
 # specify cpu gpu?
 # ivy to 9th+ : intel i965 iris
-cp wherever/you/have/your/make.conf /mnt/etc/portage
-
+cp wherever/you/have/your/make.conf /mnt/etc/portage/
+cp wherever/you/have/package.use/miscPkgUsef /mnt/etc/portage/package.use/
+cp wherever/you/have/package.license/miscLicense etc/portage/package.license/miscLicense
 
 
 # Repo config
-mkdir --parents etc/portage/repos.conf
+mkdir --parents /mnt/etc/portage/repos.conf
 cp /mnt/usr/share/portage/config/repos.conf /mnt/etc/portage/repos.conf/gentoo.conf
 
 # you may like to change to git instead of rsync
@@ -88,7 +89,6 @@ cp /mnt/usr/share/portage/config/repos.conf /mnt/etc/portage/repos.conf/gentoo.c
 ##priority = 1000
 ##sync-git-verify-commit-signature = yes
 ##sync-openpgp-key-path = /usr/share/openpgp-keys/gentoo-release.asc
-
 
 
 
@@ -112,137 +112,190 @@ mount --rbind /dev /mnt/dev
 
 chroot /mnt /bin/bash
 source /etc/profile
-# the next line is just for show
-export PS1="(chroot) ${PS1}"
 
 emerge-webrsync
 
-# localization
-# write in en_US.UTF-8 UTF-8
-nano /etc/locale.gen
-#generate localization
-locale-gen
-eselect locale list
-eselect local set (whatever number has your entry)
-env-update && source /etc/profile
+
+## Localization
+
+## if using MUSL ######
+echo 'LANG="en_US.utf8"' >> /etc/env.d/02locale
+
+
+## if using GLIBC #####
+## write in en_US.UTF-8 UTF-8
+#nano /etc/locale.gen
+##generate localization
+#locale-gen
+#eselect locale list
+#eselect local set (whatever number has your entry)
+#env-update && source /etc/profile
+
+
 
 
 # make sure our profile is correct
-# hardened openrc etc..
+# hardened openrc musl selinux etc..
 eselect profile list
+#example for musl selinux (note the use of force because musl is exp)
+eselect profile set --force 38
+
+
+
+
 # update everything
+# for some reason I had to change /etc/portage/repos.conf/gentoo.conf
+# sync-uri = rsync://rsync.gentoo.org/gentoo-portage
 emerge --sync
 #emerge --oneshot --nodeps sys-libs/glibc
 emerge --verbose --update --deep --newuse @world
-# NOTE: you may want to add the -collision-protect under FEATURES inside make.conf
+# NOTE: you may want to change the -collision-protect under FEATURES inside make.conf
 #emerge @preserved-rebuild
+
+
+
+
+? emerge app-editors/vim #should already be installed
+
+## set timezone
+echo "America/Denver" > etc/timezone
+emerge sys-libs/timezone-data #note does not work with graphene optimizations
+emerge --config sys-libs/timezone-data
+
+
+
+
+
+##################################################################
+# KERNEL 
+##################################################################
 
 # consider adding to /etc/portage/package.license/miscLicense
 #app-arch/unrar unRAR
 #sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE
 #sys-firmware/intel-microcode intel-ucode
 
-
-
-## set timezone
-echo "America/Denver" > etc/timezone
-emerge --config sys-libs/timezone-data
-
 mkdir /etc/portage/package.license
 vim miscLicense
 #sys-kernel/linux-firmware linux-fw-redistributable no-source-code
 emerge --autounmask-continue sys-kernel/gentoo-sources sys-kernel/linux-firmware
+#NOTE: comment out all lines you dont need:
+vim /etc/portage/savedconfig/sys-kernel/linux-firmware(firmware version here)
+
 emerge sys-apps/pciutils
-emerge app-arch/lzop app-arch/lz4
-emerge app-editors/vim
+? emerge app-arch/lzop app-arch/lz4
 
-
-#### Kernel ###
 cd /usr/src/linux-*
 make menuconfig
 
 ### General setup (kern ver 5+ish) ###
-? set kern compression to lz4
-- disable posix message queues
+? kern compression mode lz4 (gzip is fine)
+(hidog) default hostname
+- disable swap
+? disable posix message queues (unless we want docker)
 - disable process_vm* syscalls
-- disable uselib syscall (we use glibc)
-- disable auditing (unless we want selinux)
+- disable uselib syscall (we use musl)
+? disable auditing (unless we selinux)
 ? Timers system (periodic timer lets us disable old idle and high rez)
- ### CPU/Task time & stats
-  - disable bsd processs acccounting
-  - disable export task/process stats
- ### RCU subsystem ###
-  - disable initramfs/initrd (if we build in drivers to kernel make sure we use * instead of M)
 #(remove UUID from /etc/fstab and replace with root=/dev/sda2 or whatever)
 #(we need to tell grub where to mount /etc/default/grub GRUB_DISABLE_LINUX_UUID=true GRUB_CMDLINE_LINUX="root=/dev/sda2 rootfstype=ext4")
-+ compiler opimize for performance (02)
+# was part of RCU subsystem before?
+- disable initramfs/initrd (if we build in drivers to kernel make sure we use * instead of M)
+
+### CPU/Task time & stats
+	- disable bsd processs acccounting
+	- disable export task/process stats
+	
++ compiler optimize for performance (02)
 + slab allocator (slub)
-### Processer type and features (note I am using intel) ###
+
+### Processer type and features (note I am using old intel) ###
 - disable mps table
 - disable support for extended x86
 + Processor family Core 2 (intel)
 + Max number of CPUs 8 (or however many threads you have)
+? disable cluster scheduler (maybe for threadripper..)
 ? enable Multi-core scheduler (maybe for threadripper..)
 - disable reroute for broken boot irq
 - disable amd mce
 - disable amd performance monitoring
-? enable Dell i8k (m17x)
+	## Hardware monitoring
+	? enable platform specific things (like Dell i8k (m17x))
 - disable amd microcode
 - disable ioperm and iopl emu
 - disable lv5 page
 - disable numa memory allocation (maybe for threadripper..)
 - disable low memory corruption (bios junk)
 + enable mtrr and mttr cleanup (nvidia)
-? disable memory protection kyes (speed over security)
+? disable memory protection kyes (speed over security cpu post 2015)
 ? enable efi runtime (not for mbr)
 - disable kexec system call (for kernel swapping heathens)
 - disable kernel crash dumps
 - disable relocatable kernel
+
 ### Power Management ###
 ? enable suspend to ram
 - disable hybernation
 - disable power management debug
 + enable cpuidle driver intel
 + CPU Freq scal
-  + default freq gov (user) # NOTE: please see below config for cpu_governor control
+  + default freq gov (user) # NOTE: please see below kernel config for cpu_governor control
+  - disable amd sysfs knob
+
 ### Virtualization ###
 + enable host kernel accelerator (virtual machines) (*)
+
 ### Enable Loadable module ###
 - disable forced module unloading
+
 ### Enable block layer ###
 - disable block layer debug
+
 ### Network ###
 - disable am radio
 ? disable bluetooth
+
 ### Device drivers ###
 - disable pccard
 - block devices 
   - set number of loop devices to 0
 ? enable nvme
-(lspci -kk and get block devices to enable)
-### serial ATA ###
-? enable ata acpi Support
-? enable SATA Power optical disk drive
-### Controllers with non-SFF ###
-? enable AHCI SATA
-+ SCSI
-  + enable Asynchronous SCSI (boot junk)
-- disable multiple devices driver (raid)
-- disable macintosh drivers
-- disable microsoft surface
- ### Input device ###
- ? disable ps2 mice and keyboards (touch pad)
- ? disable joysticks/gamepad
- ### Graphics support ###
- - Max gpu 2
- + enable intel graphics
- + enable virt box graph
+#(lspci -kk and get block devices to enable)
+? enable MMC/SD?SDIO card
+
+	### serial ATA ###
+	? enable ata acpi Support
+	? enable SATA Power optical disk drive
+
+	### Controllers with non-SFF ###
+	? enable AHCI SATA
+	+ SCSI
+	  + enable Asynchronous SCSI (boot junk)
+	- disable multiple devices driver (raid)
+	- disable macintosh drivers
+	- enable platform specific device drivers (like dell)
+	- disable microsoft surface
+
+	 ### Input device ###
+	 ? disable ps2 mice and keyboards (touch pad)
+	 ? disable joysticks/gamepad
+	
+	 ### Graphics support ###
+	 /dev/agapart
+		disable amd
+	 + enable intel graphics
+	 + enable virt box graph
+	 - disable Bootup logo (penguins on startup)
+	 - disable legacy fbdev (we use wayland)
+
 ### Filesystem ###
 + enable ext4
 - disable misc filesystems
 ? disable network file systems
+
 ### Kernel Hacking ###
-- set RCU cpu stall timeout to 5
+RCU Debugging
+	- set RCU cpu stall timeout to 5
 - disable remote firewire debug
 ### Gentoo stuff ###
 - Init systems
@@ -250,13 +303,15 @@ make menuconfig
 
 ### THE FOLLOWING ARE SOME EXTRAS I USE OFTEN ###
 ### for WEBCAM ###
+# YOU MAY STILL NEED TO TOGGLE A FUNCTION KEY
+# dont forget media-libs/libv4l
 Device Drivers  --->
-  <M/*> Multimedia support  --->
+  <*> Multimedia support  --->
     Media device types --->
       [*]   Cameras and video grabbers
     Media drivers --->
       [*]   Media USB Adapters  --->
-        <M/*>   USB Video Class (UVC)  
+        <*>   USB Video Class (UVC)  
         [*]     UVC input events device support (NEW)
 ### for AUDIO ###
 # alsamixer not found
@@ -274,7 +329,7 @@ Device Drivers --->
               [*] Build Silicon Labs 3054 HD-modem codec support
               [*] Enable generic HD-audio codec parser
    [*] Pin controllers  --->
-       Select Intel or Whatever
+       Select your Intel generation or whatever
 ### for WIFI ###
 [*] Networking support  --->
     [*] Wireless  --->
@@ -286,12 +341,18 @@ Device Drivers --->
 Device Drivers  --->
     [*] Network device support  --->
         [*] Wireless LAN  --->
- 
             Select the driver for your Wifi network device
-            Try lspci and find network controller (the following are 4 my m17x) 
+            #Try lspci and find network controller (the following are for my m17x) 
             <*> Intel Wireless WiFi Next Gen AGN - Wireless-N/Advanced-N/Ultimate-N (iwlwifi)
-            <*>    Intel Wireless WiFi DVM Firmware support                             
+            <*>    Intel Wireless WiFi DVM Firmware support
             <*>    Intel Wireless WiFi MVM Firmware support
+        <*> USB Network Adapters --->
+            <*> Multi-purpose USB Networking Framework
+                <*>  CDC Ethernet support (smart devices such as cable modems)
+                <*>  CDC EEM support
+        <*>  Host for RNDIS and ActiveSync devices
+                <*>  Simple USB Network Links (CDC Ethernet subset)
+                     [*] Embedded ARM Linux links (iPaq, ...)
 -*- Cryptographic API --->
     -*- AES cipher algorithms
     -*- AES cipher algorithms (x86_64)
@@ -321,16 +382,17 @@ Device Drivers --->
       <*> SCSI generic support
 File systems  --->
    CD-ROM/DVD Filesystems  --->
-      <M> ISO 9660 CDROM file system support
+      <*> ISO 9660 CDROM file system support
       [*] Microsoft Joliet CDROM extensions
       [*] Transparent decompression extension
-      <M> UDF file system support
+      <*> UDF file system support
 ### for NVIDIA ####
 [*] Enable loadable module support --->
 Processor type and features --->
    [*] MTRR (Memory Type Range Register) support
 Device Drivers --->
-   Graphics support --->
+   PCI support --->
+      (2) Max gpu
       [*] VGA Arbitration
 Device Drivers --->
    Character devices --->
@@ -346,6 +408,7 @@ Device drivers --->
    HID support --->
       HID bus support --->
          Special HID drivers --->
+            # you can probably disable most of the other things
             <*> Wacom Intuos/Graphire tablet support (USB)
    Input device support --->
       [*] Tablets --->
@@ -356,16 +419,71 @@ Device drivers --->
 
 ### BUILD IN FIRMWARE ###
 # this is needed since we are not doing modules
-Generic Driver Options --->
-    Firmware loader --->
-        fill in build named firmware, for example
-        (wlwifi-6000-4.ucode i915/skl_dmc_ver1_27.bin) Build named firmware blobs into the kernel binary
-        (/lib/firmware) Firmware blobs root directory
+Device drivers --->
+    Generic Driver Options --->
+        Firmware loader --->
+            fill in build named firmware, for example
+			#comment out all lines you dont need /etc/portage/savedconfig/sys-kernel/linux-firmware
+			#NOTE: you may need to build without wifi very first timee then add here after
+            (wlwifi-6000-4.ucode i915/skl_dmc_ver1_27.bin) #Build named firmware blobs into the kernel binary
+            (/lib/firmware) Firmware blobs root directory
 
 #%%% YOU ARE DONE!! YOU ARE TRUE 1337 hax0r %%%#
 make && make modules_install && make install
 eselect kernel set 1
 # initramfs would happen here if we didnt build in firmware
+
+
+### TO UPDATE KERNEL ########################################
+copy old .config file from /usr/src/linux to new kernel folder
+inside new kernel folder:
+make mrproper
+make olddefconfig
+# you may need to mount the boot partition
+# if you use modules:
+make modules_prepare
+
+# if you use initramfs, be sure to rebuild
+
+# When finished, be sure to do another grub-install 
+#############################################################
+
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#  MISC
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+### MUSL #######
+
+#if using musl: eselect repository enable musl
+#echo GENTOO_MIRRORS=ftp://192.168.3.1/pub/gentoo >> /etc/portage/make.conf 
+#sed -i "/^sync-uri/d" /etc/portage/repos.conf/gentoo.conf 
+#echo "sync-uri = rsync://192.168.3.1/portage" >> /etc/portage/repos.conf/gentoo.conf
+##echo -e "\n[musl]\nsync-uri = rsync://192.168.3.1/portage" >> /etc/portage/repos.conf/gentoo.conf
+#emerge --sync
+#echo nameserver 192.168.3.1 >> /etc/resolv.conf
+emerge app-eselect/eselect-repository dev-vcs/git
+eselect repository enable musl
+
+
+### GENTOO-LTO ########
+
+emerge app-eselect/eselect-repository dev-vcs/git
+eselect repository enable mv lto-overlay
+emerge --sync
+emerge sys-config/ltoize
+# Now update your config files
+#app-portage/cpuid2cpuflags
+cpuid2cpuflags
+emerge -e --keep-going @world
+
+
+#####################
+# to check you set it up right
+eselect repository list -i
+
+
+
 
 vim /etc/local.d/cpu_governor.start
 #!/bin/bash
@@ -384,8 +502,9 @@ blkid -s UUID --o value /dev/sda1
 
 
 
+##################################################################
 # NETWORK STUFF
-################ change these?? ##################
+################ change these?? ################################
 # "ip link" to see network interfaces
 # wireless starts with w, ethernet with enp or etch
 
@@ -412,7 +531,7 @@ wpa_supplicant -B -i wInterfaceName -c /etc/wpa_supplicant/wifiName.conf
 #-D driver - Optionally specify the driver to be used. List drivers via wpa_supplicant -h
 # you may need to run dhcpcd after
 
-# connect via ethernet:
+## connect via ethernet:
 dhcpcd netwrokdevicehere
 # this gets the ip lease and route and whatnot 
 
@@ -424,7 +543,7 @@ set_network mynet ssid "MYSSID"
 set_network mynet psk "passphrase"
 enable_network 0
 
-##############################################
+################################################
 
 
 ### network config
@@ -457,21 +576,25 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 
 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # USER STUFF
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # set root password
 passwd
 
 # add main user (with Group wheel for sudo stuff and /bin/bash shell)
 useradd -m -G users,wheel,video,audio -s /bin/bash joebob
+# pcap is for wireshark
+# tty is for wireshark
 # set the user password (for joebob)
 passwd joebob
 
-#DOAS WAY
+# DOAS WAY #############
 emerge app-admin/doas
 /etc/doas.conf
 permit :wheel
 
-#SUDO WAY
+# SUDO WAY #############
 emerge app-admin/sudo
 # set visudo such that group wheel does sudo stuff
 EDITOR=vim visudo
@@ -498,6 +621,7 @@ x11-drivers/nvidia-drivers
 # this line is depreciated.. emerge x11-drivers/xf86-video-intel
 # sudo nvidia-xconfig --cool-bits=28
 # but even tty1 without xorg may not work correctly
+?x11-apps/mesa-progs
 
 # fan control m17x
 sys-apps/lm-sensors
@@ -506,65 +630,91 @@ echo -e 'dell_smm_hwmon' >> /etc/modules-load.d/fan.conf
 echo -e 'options dell_smm_hwmon ignore_dmi=1' >> /etc/modprobe.d/fan.conf
 app-benchmarks/i7z
 
-# NOTE
+# NOTE: UPDATES AND CLEANUP
 # update repos
 # emaint --auto sync
-# full update : emerge -uD @world
+# simple full update : emerge -uD @world
+# full update : emerge --keep-going --changed-use -uD @world
 # pickup where left: emerge -u
 # to find: emerge --search
 # to install: emerge 
 # to uninstall: emerge --depclean (pkg/here to remove specific pkg)
 # to see where: emerge --info
 # after changing make.conf: emerge --changed-use --deep @world
+# view installed packages: ls -d /var/db/pkg/*/* | cut -f5- -d/
+
+app-portage/gentoolkit #to make packages easier
+# eclean-dist --deep 
 
 # sound
 media-sound/alsa-utils
+# dont forget to download a soundfont
+media-sound/fluidsynth
+?media-libs/portmidi # for orca-c
 
 # text
-#noto-fonts wqy-zenhei
 media-fonts/noto-cjk
 media-fonts/fira-code
 
 # window manager
-x11-base/xorg-drivers x11-apps/xinit
-# you must run in order to launch without /dev/tty0 no permissions junk (x trying to skip the logind)
+#dev-libs/wayland
+gui-libs/wlroots
+
+# NOTE: You can startx without any ConsoleKit or Elogind. Just put your user in the group "tty" and put this in your bashrc: alias startx="startx -- vt1"
+# Giving the tty privilege to users allows them to interfere in each others sessions
+
+# BEST: Use elogind in order to launch without /dev/tty0 no permissions junk (x trying to skip the logind)
 rc-update add elogind boot
+# NOTE: To start logind when opening i3: exec dbus-launch --exit-with-session i3
+
 # You may also need to edit xorg.conf for touch pad and to use modsetting 
 
-
-#get from git
-dev-vcs/git
-#https://github.com/haimeh/st_gruvy
-st-gruvy
-
-x11-apps/xrandr
+gui-apps/wlr-randr
 media-gfx/imagemagick
 ? x11-apps/xwininfo
 
-emerge x11-wm/i3-gaps x11-misc/i3status x11-misc/i3lock x11-misc/dmenu x11-misc/redshift
+gui-wm/sway
+gui-apps/swaylock
+gui-apps/waybar or gui-apps/swfbar
+gui-apps/wofi
+wlsunset
+
+# term emu
+gui-apps/foot
+
 
 # images/background
-media-gfx/feh
+media-gfx/imv
+?media-libs/imlib2
 #webcam
 media-tv/v4l-utils
+sys-apps/usbutils
 
-# you may need touchpad?
-x11-drivers/xf86-input-synaptics 
+# you may need touchpad? (i think these are being phased out in favor of libinput)
+# these get added in based on your INPUT_DEVICE variable in your make.conf
+?x11-drivers/xf86-input-synaptics 
+?x11-drivers/xf86-input-mouse 
+?x11-drivers/xf86-input-keyboard 
 
 # file manager
 app-misc/vifm
 app-text/tree
 
 
-
 # browser
+eselect repository add librewolf git https://gitlab.com/librewolf-community/browser/gentoo.git
+emaint -r librewolf sync
 # create the etc/portage/repos.conf/librewolf.conf and tell it the git lab addr etc
 # stuff goes here? /var/cache/edb/dep/home/usernamehere/Builds/
 www-client/librewolf 
-net-vpn/tor
 
 # network
-net-tools nmap gnu-netcat ipcalc iw
+net-vpn/tor
+net-analyzer/netcat
+net-analyzer/nmap
+net-analyzer/wireshark
+net-wireless/aircrack-ng
+#net-tools ipcalc iw
 
 # pdf
 app-text/zathura app-text/zathura-pdf-poppler
@@ -573,12 +723,25 @@ app-text/zathura app-text/zathura-pdf-poppler
 #https://github.com/andmarti1424/sc-im
 sc-im
 
+
+# DONT FORGET TO RUN fish_update_completions AFTER INSTALLING EVERYTHING
+app-shells/fish
 # programming things
 dev-python/pip #(python and gcc are already default because of portage)
 dev-lang/R
+# dotnet
+#dotnet-sdk mono
+pip3 install reple
 
-ctags dev-util/cscope
-ctags dev-util/ctags
+dev-lisp/sbcl
+#run script like:
+#sbcl --core /usr/lib64/sbcl/sbcl.core --script test.lisp
+
+dev-util/android-tools
+sys-apps/msr-tools
+
+dev-util/cscope
+dev-util/ctags
 
 sci-libs/clblast
 #gdb radare nodejs npm
@@ -598,22 +761,25 @@ dev-util/spirv-tools
 dev-util/spirv-headers
 dev-util/spirv-llvm-translator
 dev-util/glslang
+media-libs/shaderc
 
-
-
-# dotnet
-dotnet-sdk mono
 
 # read things like ram
 dmidecode
 
-# NICE EXTRAS MISC
-# eclean to make packages easier
-app-portage/gentoolkit
 
 media-gfx/mypaint
 media-gfx/blender
+#__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia blender-3.1
+#WAYLAND_DEBUG=1 blender
 
+# To get appimages working
+File systems  --->
+    <*> FUSE (Filesystem in Userspace) support
+sys-fs/fuse:0
+
+app-arch/unrar
+dev-libs/stb
 
 # note that the gentoo openblas installs strange..
 # you may want to install it by hand
@@ -622,111 +788,53 @@ sci-libs/openblas
 #make USE_THREAD=1 USE_OPENMP=1
 #make install PREFIX=/usr/local/opt/openblas
 
-doas emerge eselect-repository
-eselect repository enable mv lto-overlay
-#app-portage/cpuid2cpuflags
-cpuid2cpuflags
 
-# Add librewolf work around to the same places as firefox
-# tls-dialect.conf
-# ipa-pta.conf
-# you may want to omit librewolf in optimizations.conf
-# as well as under package.use and turn off lto graphite and pgo as librewolf is big
+
+
 
 
 ### DOCKER ##########################################
 # if you want containers to be stored in userland instead of root:
-ln -s /home/username/docker /var/lib/docker
-# do the kernel config before install
-app-emulation/docker
+mv /var/lib/docker /home/
+ln -s /home/docker/ /var/lib/docker
 
-General setup  --->
-    [*] POSIX Message Queues
-    -*- Control Group support  --->
-        [*]   Memory controller 
-        [*]     Swap controller
-        [*]       Swap controller enabled by default
-        [*]   IO controller
-        [ ]     IO controller debugging
-        [*]   CPU controller  --->
-              [*]   Group scheduling for SCHED_OTHER
-              [*]     CPU bandwidth provisioning for FAIR_GROUP_SCHED
-              [*]   Group scheduling for SCHED_RR/FIFO
-        [*]   PIDs controller
-        [*]   Freezer controller
-        [*]   HugeTLB controller
-        [*]   Cpuset controller
-        [*]     Include legacy /proc/<pid>/cpuset file
-        [*]   Device controller
-        [*]   Simple CPU accounting controller
-        [*]   Perf controller
-        [ ]   Example controller 
-    -*- Namespaces support
-        [*]   UTS namespace
-        -*-   IPC namespace
-        [*]   User namespace
-        [*]   PID Namespaces
-        -*-   Network namespace
--*- Enable the block layer  --->
-    [*]   Block layer bio throttling support
--*- IO Schedulers  --->
-    [*]   CFQ IO scheduler
-        [*]   CFQ Group Scheduling support   
-[*] Networking support  --->
-      Networking options  --->
-        [*] Network packet filtering framework (Netfilter)  --->
-            [*] Advanced netfilter configuration
-            [*]  Bridged IP/ARP packets filtering
-                Core Netfilter Configuration  --->
-                  <*> Netfilter connection tracking support 
-                  *** Xtables matches ***
-                  <*>   "addrtype" address type match support
-                  <*>   "conntrack" connection tracking match support
-                  <M>   "ipvs" match support
-            <M> IP virtual server support  --->
-                  *** IPVS transport protocol load balancing support ***
-                  [*]   TCP load balancing support
-                  [*]   UDP load balancing support
-                  *** IPVS scheduler ***
-                  <M>   round-robin scheduling
-                  [*]   Netfilter connection tracking
-                IP: Netfilter Configuration  --->
-                  <*> IPv4 connection tracking support (required for NAT)
-                  <*> IP tables support (required for filtering/masq/NAT)
-                  <*>   Packet filtering
-                  <*>   IPv4 NAT
-                  <*>     MASQUERADE target support
-                  <*>   iptables NAT support  
-                  <*>     MASQUERADE target support
-                  <*>     NETMAP target support
-                  <*>     REDIRECT target support
-        <*> 802.1d Ethernet Bridging
-        [*] QoS and/or fair queueing  ---> 
-            <*>   Control Group Classifier
-        [*] L3 Master device support
-        [*] Network priority cgroup
-        -*- Network classid cgroup
-Device Drivers  --->
-    [*] Multiple devices driver support (RAID and LVM)  --->
-        <*>   Device mapper support
-        <*>     Thin provisioning target
-    [*] Network device support  --->
-        [*]   Network core driver support
-        <M>     Dummy net driver support
-        <M>     MAC-VLAN support
-        <M>     IP-VLAN support
-        <M>     Virtual eXtensible Local Area Network (VXLAN)
-        <*>     Virtual ethernet pair device
-    Character devices  --->
-        -*- Enable TTY
-        -*-   Unix98 PTY support
-        [*]     Support multiple instances of devpts (option appears if you are using systemd)
-File systems  --->
-    <*> Overlay filesystem support 
-    Pseudo filesystems  --->
-        [*] HugeTLB file system support
-Security options  --->
-    [*] Enable access key retention support
-    [*]   Enable register of persistent per-UID keyrings
-    <M>   ENCRYPTED KEYS
-    [*]   Diffie-Hellman operations on retained keys
+app-containers/docker
+app-containers/docker-cli
+
+#checking the kernel configuration compatibility:
+#/usr/share/docker/contrib/check-config.sh
+
+?rc-update add docker default
+rc-service docker start 
+
+#Start or restart the docker service in order to for the changes to take effect and then validate the changes:
+docker info
+
+Generally Necessary:
+- cgroup hierarchy: properly mounted [/sys/fs/cgroup]
+- CONFIG_NAMESPACES:
+- CONFIG_NET_NS:
+- CONFIG_PID_NS:
+- CONFIG_IPC_NS:
+- CONFIG_UTS_NS:
+- CONFIG_CGROUPS:
+- CONFIG_CGROUP_CPUACCT:
+- CONFIG_CGROUP_DEVICE: (missing)
+- CONFIG_CGROUP_FREEZER:
+- CONFIG_CGROUP_SCHED:
+- CONFIG_CPUSETS:
+- CONFIG_MEMCG: (missing)
+- CONFIG_KEYS:
+- CONFIG_VETH: (missing)
+- CONFIG_BRIDGE: (missing)
+- CONFIG_BRIDGE_NETFILTER: (missing)
+- CONFIG_IP_NF_FILTER:
+- CONFIG_IP_NF_TARGET_MASQUERADE: (as module)
+- CONFIG_NETFILTER_XT_MATCH_ADDRTYPE: (as module)
+- CONFIG_NETFILTER_XT_MATCH_CONNTRACK:
+- CONFIG_NETFILTER_XT_MATCH_IPVS: (missing)
+- CONFIG_NETFILTER_XT_MARK: (as module)
+- CONFIG_IP_NF_NAT: (as module)
+- CONFIG_NF_NAT:
+- CONFIG_POSIX_MQUEUE: (missing)
+

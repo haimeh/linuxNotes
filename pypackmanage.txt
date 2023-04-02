@@ -1,0 +1,2 @@
+pip list --user --format=freeze | awk -F "=="  '{ print $1 }' > ~/Documents/pypack.txt
+pip install -r requirements.txt --upgrade

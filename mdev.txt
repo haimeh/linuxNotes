@@ -1,0 +1,50 @@
+Setting up the kernel for devtmpfs
+
+Set up the kernel to support and automount a devtmpfs filesystem at /dev:
+KERNEL Enabling devtmpfs
+
+Device Drivers --->
+    Generic Driver Options --->
+        [*] Maintain a devtmpfs filesystem to mount at /dev
+        [*] Automount devtmpfs at /dev, after the kernel mounted the rootfs
+
+Once the changes have been made, rebuild the kernel. Do NOT reboot yet.
+Emerging busybox
+
+Make sure that the mdev USE flag is set for sys-apps/busybox. The static USE flag is probably also a good idea. In the /etc/portage/package.use or /etc/portage/package.use/mdev file, add the follwoing line:
+FILE /etc/portage/package.use/mdev
+
+sys-apps/busybox static mdev
+
+Now, (re)install busybox:
+root #emerge --ask --oneshot busybox
+Mounting devpts
+
+The devpts filesystem exhibits non-standard behavior. It does not automount, at bootup, or with mount -a. An explicit mount devpts command is required. The standard solution for udev-based systems is to run rc-update add udev-mount sysinit as root, and have the udev-mount script do the mounting at startup. An mdev-based system will probably not have udev installed. An alternative way to do this at bootup is to include the command mount devpts in a shell script in /etc/local.d/. In this example, the file will be named /etc/local.d/000.start.
+
+Another side-effect of not using udev-mount is that /dev/shm is only writable by root. The command chmod 1777 /dev/shm is required to restore the standard behavior. This command will also be run from the script at startup.
+FILE /etc/local.d/000.start Mount of devpts at bootup and change /dev/shm permissions
+
+#!/bin/bash
+mount devpts
+chmod 1777 /dev/shm
+
+Note
+Scripts used in /etc/local.d/
+
+    must be executable
+    must have the extension ".start" in order to run at startup
+    must have the extension ".stop" in order to run at shutdown
+
+Replace the udev service
+
+Remove udev from the services list and replace it with mdev:
+root #rc-update del udev sysinit
+root #rc-update add mdev sysinit
+Reboot
+
+Reboot to the new kernel. The system should now be running using mdev.
+Cleanup
+
+Remove udev from the system:
+root #emerge --ask --depclean --verbose sys-fs/udev sys-fs/eudev

@@ -1,0 +1,13 @@
+[user]
+	email = haimehs@gmail.com
+	name = haimeh
+	token = 
+[credential]
+	helper = cache
+[diff]
+	tool=vimdiff
+[merge]
+	tool=vimdiff
+	conflictstyle=diff3
+[mergetool]
+	prompt=false

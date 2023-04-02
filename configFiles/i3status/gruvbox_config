@@ -10,11 +10,13 @@
 # If the above line is not correctly displayed, fix your editor first!
 
 general {
-        colors = true
-        color_good = "#cef818"
-        color_bad = "#cc241d"
-        color_degraded = "#fabd2f"
-        interval = 2
+	colors = true
+	color_good = "#cef818"
+	#color_good = "#b8bb26"
+	color_bad = "#cc241d"
+	color_degraded = "#fabd2f"
+	interval = 2
+	separator = ""
 }
 
 order += "wireless wlp8s0"
@@ -23,67 +25,71 @@ order += "battery 1"
 order += "volume master"
 order += "load"
 order += "cpu_usage"
+#order += "cpu_temperature 0"
 order += "memory"
 order += "disk /"
 order += "disk /home/"
 order += "tztime local"
 
 volume master {
-        #format = "♪%volume" 
-        device = "default"
-        mixer = "Master"
-        mixer_idx = 0
-        # termsyn font
-        format = "🔊 %volume"
+	#format = "♪%volume" 
+	device = "default"
+	mixer = "Master"
+	mixer_idx = 0
+	# termsyn font
+	format = " VOL: %volume "
 }
 
 load {
-#       format = " Δ: %1min "
-        # termsyn font
-        format = "%1min"
+	format = " Δ: %1min "
+	# termsyn font
+	# format = "%1min"
 }
-
 cpu_usage {
-        format = "%usage CPU"
+	format = " CPU: %usage "
 }
+#cpu_temperature 0 {
+#	format ="%degrees °C"
+#	path = "/sys/devices/platform/coretemp.0/temp1_input"
+#}
 
 memory {
-        format = "%used RAM"
-        threshold_degraded = "10%"
-        format_degraded = "MEMORY: %free"
+	format = " RAM: %used "
+	threshold_degraded = "10%"
+	format_degraded = " RAM WARNING: %free "
 }
 
 disk "/" {
-        format = "%avail :/"
+	format = " /: %avail "
 }
 
 disk "/home/" {
-        format = "%avail :/home/"
+	format = " /home/: %avail "
 }
 
 wireless wlp8s0 {
-        format_up = "W: (%quality at %essid, %bitrate) %ip"
-        format_down = "W "
+	format_up = " (%quality @ %essid, %bitrate) %ip "
+	format_down = " w0 "
 }
 
 ethernet enp7s0 {
-        # termsyn font
-        format_up =  "%ip"
-        format_down = "eth0 "
+	# termsyn font
+	format_up =  " (%bitrate) %ip "
+	format_down = " eth0 "
 }
 
 tztime local {
-        # termsyn font
-        format = "%h-%d %H:%M"
+	# termsyn font
+	format = " %h-%d %H:%M"
 }
 
 battery 1 {
-        format = "%status %percentage %remaining %emptytime"
-        status_chr = "CHR"
-        status_bat = "BAT"
-        status_unk = "UNK"
-        status_full = "FULL"
-        path = "/sys/class/power_supply/BAT%d/uevent"
-        low_threshold = 10
+	format = " %status %percentage %remaining %emptytime "
+	status_chr = "CHR"
+	status_bat = "BAT"
+	status_unk = "UNK"
+	status_full = "FULL"
+	path = "/sys/class/power_supply/BAT%d/uevent"
+	low_threshold = 25
 }
 

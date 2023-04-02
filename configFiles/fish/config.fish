@@ -71,7 +71,7 @@ See set_color --help for more on available colors.'
            '$o'\V)     \_) '$m'\\\\'$i'\\\\JJ\\'$m'J\)
                        '$o'/'$m'J'$i'\\'$m'J'$o'T\\'$m'JJJ'$o'J)
                        (J'$m'JJ'$o'| \UUU)
-                        (UU)'(set_color normal)
+                        (UU)'(set_color normal)\n 
 end
 
 #function fish_mode_prompt
@@ -121,10 +121,15 @@ function fish_mode_prompt
   set_color normal
 end
 
+#function fish_user_key_bindings
+#  bind yy fish_clipboard_copy
+#  bind Y fish_clipboard_copy
+#  bind p fish_clipboard_paste
+#end
 
 function fish_prompt
     # for some reason (fish_git_prompt "\0") doesnt work when called from echo
-    echo -sn (af 6) (tput bold)'━━[ '(af 4) (prompt_pwd) (af 6)' ]━━[ ' (fish_git_prompt | cut -c3- | rev | cut -c3- | rev) (tput bold) (af 6)' ]'\n'┗━━━━━ '(tput sgr0)
+    echo -sn (af 6) (tput bold)'━━[ '(af 4) (prompt_pwd) (af 6)' ]━━[ ' (fish_git_prompt | cut -c3- | rev | cut -c3- | rev) (tput bold) (af 6)' ]'\n'┗━━━━ '(tput sgr0)
 end
 
 #function fish_mode_prompt

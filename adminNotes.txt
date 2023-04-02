@@ -21,3 +21,7 @@ top
 ps aux | grep processName
 
 ## MORE ##
+# find file containing string
+grep -rwn 'path/goes/here' -e 'desiredString.*'
+# find file with name
+find /path/goes/here -iname filename
